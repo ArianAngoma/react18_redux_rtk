@@ -6,7 +6,7 @@ import { FirstApp } from './FirstApp'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    {/* <App value={0}/> */}
-    <FirstApp title="Hola, soy Arian"/>
+    <App value={0}/>
+    {/* <FirstApp title="Hola, soy Arian"/> */}
   </React.StrictMode>
 )
