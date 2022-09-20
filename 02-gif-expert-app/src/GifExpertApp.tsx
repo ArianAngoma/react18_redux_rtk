@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 const GifExpertApp = () => {
   const [categories, setCategories] = useState<string[]>(['One Punch'])
 
-  const handleAddCategory = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    event.preventDefault()
+  const handleAddCategory = (/* event: React.MouseEvent<HTMLElement, MouseEvent> */) => {
+    /* event.preventDefault() */
 
     setCategories(prev => ['HunterXHunter', ...prev])
   }
@@ -15,7 +15,6 @@ const GifExpertApp = () => {
 
       <button
         onClick={handleAddCategory}
-        type="submit"
       >
         Agregar
       </button>
