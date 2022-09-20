@@ -6,7 +6,7 @@ const GifExpertApp = () => {
   const handleAddCategory = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault()
 
-    setCategories(prev => [...prev, 'HunterXHunter'])
+    setCategories(prev => ['HunterXHunter', ...prev])
   }
 
   return (
