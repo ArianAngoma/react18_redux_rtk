@@ -1,16 +1,28 @@
-import React,
-{ useState } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 
-const AddCategory = () => {
+interface AddCategoryProps {
+  handleAddCategory: Dispatch<SetStateAction<string[]>>
+}
+
+const AddCategory = ({ handleAddCategory }: AddCategoryProps) => {
+
   const [inputValue, setInputValue] = useState<string>('')
 
   const handleChangeInputValue = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+
     setInputValue(target.value)
+
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
     event.preventDefault()
-    console.log({ inputValue })
+
+    if (inputValue.trim().length > 2) {
+      handleAddCategory(prev => [inputValue, ...prev])
+      setInputValue('')
+    }
+
   }
 
   return (
@@ -23,6 +35,7 @@ const AddCategory = () => {
       />
     </form>
   )
+
 }
 
-export default AddCategory
+export default React.memo(AddCategory)
