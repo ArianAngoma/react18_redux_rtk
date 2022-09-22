@@ -5,8 +5,11 @@ const GifExpertApp = () => {
   const [categories, setCategories] = useState<string[]>(['One Punch'])
 
   const handleAddCategory = useCallback((category: string) => {
+
+    if (categories.includes(category)) return
+
     setCategories(prev => [category, ...prev])
-  }, [])
+  }, [categories])
 
   return (
     <>
@@ -20,8 +23,8 @@ const GifExpertApp = () => {
       <ol>
 
         {
-          categories.map((category, index) => (
-            <li key={index}>{category}</li>
+          categories.map((category) => (
+            <li key={category}>{category}</li>
           ))
         }
 
