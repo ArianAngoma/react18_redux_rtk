@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState, memo } from 'react'
 
 interface AddCategoryProps {
   handleAddCategory: (category: string) => void
@@ -42,4 +42,4 @@ const AddCategory = ({ handleAddCategory }: AddCategoryProps) => {
 
 }
 
-export default React.memo(AddCategory)
+export default memo(AddCategory)

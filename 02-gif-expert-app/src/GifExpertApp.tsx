@@ -1,5 +1,7 @@
 import React, { useCallback, useState } from 'react'
+
 import AddCategory from './components/AddCategory'
+import GifGrid from './components/GifGrid'
 
 const GifExpertApp = () => {
   const [categories, setCategories] = useState<string[]>(['One Punch'])
@@ -20,15 +22,13 @@ const GifExpertApp = () => {
         handleAddCategory={handleAddCategory}
       />
 
-      <ol>
 
-        {
-          categories.map((category) => (
-            <li key={category}>{category}</li>
-          ))
-        }
+      {
+        categories.map((category) => (
+          <GifGrid category={category} key={category}/>
+        ))
+      }
 
-      </ol>
     </>
   )
 }
