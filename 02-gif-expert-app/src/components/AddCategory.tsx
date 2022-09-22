@@ -1,7 +1,7 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { useState } from 'react'
 
 interface AddCategoryProps {
-  handleAddCategory: Dispatch<SetStateAction<string[]>>
+  handleAddCategory: (category: string) => void
 }
 
 const AddCategory = ({ handleAddCategory }: AddCategoryProps) => {
@@ -18,8 +18,10 @@ const AddCategory = ({ handleAddCategory }: AddCategoryProps) => {
 
     event.preventDefault()
 
-    if (inputValue.trim().length > 2) {
-      handleAddCategory(prev => [inputValue, ...prev])
+    const valueWithoutSpaces = inputValue.trim()
+
+    if (valueWithoutSpaces.length > 2) {
+      handleAddCategory(valueWithoutSpaces)
       setInputValue('')
     }
 
@@ -27,12 +29,14 @@ const AddCategory = ({ handleAddCategory }: AddCategoryProps) => {
 
   return (
     <form onSubmit={handleSubmit}>
+
       <input
         type="text"
         placeholder="Search a gif"
         value={inputValue}
         onChange={handleChangeInputValue}
       />
+
     </form>
   )
 
