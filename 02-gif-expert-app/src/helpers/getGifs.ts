@@ -4,9 +4,15 @@ interface GetGifsParams {
   category: string
 }
 
+export interface GetGigsReturn {
+  id: string
+  title: string
+  url: string
+}
+
 export const getGifs = async ({
   category = ''
-}: GetGifsParams) => {
+}: GetGifsParams): Promise<GetGigsReturn[]> => {
   const url = `https://api.giphy.com/v1/gifs/search?api_key=eM4xovA1aGdRPROUlunCmRg8ez2CgSmF&q=${category}&limit=20`
 
   const response = await fetch(url)
