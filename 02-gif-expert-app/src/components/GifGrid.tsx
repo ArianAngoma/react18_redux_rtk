@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 
 import { getGifs } from '../helpers/getGifs'
 
@@ -8,7 +8,11 @@ interface GifGridProps {
 
 const GifGrid = ({ category }: GifGridProps) => {
 
-  getGifs({ category })
+  useEffect(() => {
+
+    getGifs({ category })
+
+  }, [])
 
   return (
     <>
