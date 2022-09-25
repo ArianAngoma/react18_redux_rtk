@@ -1,7 +1,8 @@
-import { memo, useCallback, useEffect, useState } from 'react'
+import { memo } from 'react'
 
-import { getGifs, GetGigsReturn } from '../helpers/getGifs'
+import { GetGigsReturn } from '../helpers/getGifs'
 import GifItem from './GifItem'
+import useFetchGifs from '../hooks/useFetchGifs'
 
 interface GifGridProps {
   category: string
@@ -9,20 +10,10 @@ interface GifGridProps {
 
 const GifGrid = ({ category }: GifGridProps) => {
 
-  const [gifs, setGifs] = useState<GetGigsReturn[]>([])
-
-  const getGifsFromCategory = useCallback(async () => {
-
-    const gifs = await getGifs({ category })
-    setGifs(gifs)
-
-  }, [])
-
-  useEffect(() => {
-
-    getGifsFromCategory()
-
-  }, [])
+  const {
+    gifs,
+    isLoading
+  } = useFetchGifs({ category })
 
   return (
     <>
