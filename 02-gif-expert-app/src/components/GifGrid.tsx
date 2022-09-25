@@ -1,6 +1,7 @@
 import { memo, useCallback, useEffect, useState } from 'react'
 
 import { getGifs, GetGigsReturn } from '../helpers/getGifs'
+import GifItem from './GifItem'
 
 interface GifGridProps {
   category: string
@@ -27,17 +28,20 @@ const GifGrid = ({ category }: GifGridProps) => {
     <>
       <h3>{category}</h3>
 
-      <ol>
+      <div className="card-grid">
         {
 
-          gifs.map(gif => (
-            <li key={gif.id}>
-              <img src={gif.url} alt={gif.title}/>
-            </li>
+          gifs.map((gif: GetGigsReturn) => (
+
+            <GifItem
+              key={gif.id}
+              {...gif}
+            />
+
           ))
 
         }
-      </ol>
+      </div>
     </>
   )
 }
