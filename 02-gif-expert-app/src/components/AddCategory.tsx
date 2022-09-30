@@ -1,10 +1,10 @@
-import React, { useState, memo } from 'react'
+import React, { useState, memo, FC } from 'react'
 
 interface AddCategoryProps {
   handleAddCategory: (category: string) => void
 }
 
-const AddCategory = ({ handleAddCategory }: AddCategoryProps) => {
+const AddCategory: FC<AddCategoryProps> = ({ handleAddCategory }) => {
 
   const [inputValue, setInputValue] = useState<string>('')
 
