@@ -28,7 +28,10 @@ const AddCategory: FC<AddCategoryProps> = ({ handleAddCategory }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      aria-label="Formulario para agregar una categoría"
+    >
 
       <input
         type="text"
