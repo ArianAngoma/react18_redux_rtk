@@ -22,8 +22,9 @@ describe('Pruebas en <AddCategory />', () => {
 
     const inputValue = 'Hola mundo'
 
-    render(<AddCategory handleAddCategory={() => {
-    }}/>)
+    const handleAddCategory = jest.fn()
+
+    render(<AddCategory handleAddCategory={handleAddCategory}/>)
 
     const input = screen.getByRole('textbox') as HTMLInputElement
     const form = screen.getByRole('form')
@@ -33,6 +34,26 @@ describe('Pruebas en <AddCategory />', () => {
     fireEvent.submit(form)
 
     expect(input.value).toBe('')
+
+    expect(handleAddCategory).toHaveBeenCalled()
+
+    expect(handleAddCategory).toHaveBeenCalledTimes(1)
+
+    expect(handleAddCategory).toHaveBeenCalledWith(inputValue)
+
+  })
+
+  test('No debe de llamar el handleAddCategory si el input está vacío', () => {
+
+    const handleAddCategory = jest.fn()
+
+    render(<AddCategory handleAddCategory={handleAddCategory}/>)
+
+    const form = screen.getByRole('form')
+
+    fireEvent.submit(form)
+
+    expect(handleAddCategory).not.toHaveBeenCalled()
 
   })
 
