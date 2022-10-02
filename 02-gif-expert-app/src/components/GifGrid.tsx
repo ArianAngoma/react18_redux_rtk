@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { FC, memo } from 'react'
 
 import { GetGigsReturn } from '../helpers/getGifs'
 import GifItem from './GifItem'
@@ -8,7 +8,7 @@ interface GifGridProps {
   category: string
 }
 
-const GifGrid = ({ category }: GifGridProps) => {
+const GifGrid: FC<GifGridProps> = ({ category }) => {
 
   const {
     gifs,
