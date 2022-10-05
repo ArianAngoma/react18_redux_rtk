@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { AddCategory, GifGrid } from './components'
 
-const GifExpertApp = () => {
+function GifExpertApp () {
   const [categories, setCategories] = useState<string[]>(['One Punch'])
 
   const handleAddCategory = useCallback((category: string) => {
