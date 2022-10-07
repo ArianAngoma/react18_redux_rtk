@@ -8,8 +8,6 @@ function CounterWithCustomHook () {
     handleDecrement,
     handleReset
   } = useCounter()
-
-
   return (
     <>
 
@@ -19,7 +17,7 @@ function CounterWithCustomHook () {
 
       <button
         className="btn btn-primary"
-        onClick={() => handleIncrement({value: 2})}
+        onClick={() => handleIncrement({ value: 2 })}
       >
         +1
       </button>
@@ -33,7 +31,7 @@ function CounterWithCustomHook () {
 
       <button
         className="btn btn-primary"
-        onClick={() => handleDecrement({value: 10})}
+        onClick={() => handleDecrement({ value: 10 })}
       >
         -1
       </button>
