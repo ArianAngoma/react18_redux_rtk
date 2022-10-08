@@ -25,8 +25,22 @@ const SimpleForm: FC = () => {
   }
 
   useEffect(() => {
+
     console.log('hey')
-  })
+
+  }, [])
+
+  useEffect(() => {
+
+    console.log('username changed')
+
+  }, [username])
+
+  useEffect(() => {
+
+    console.log('email changed')
+
+  }, [email])
 
   return (
     <>
