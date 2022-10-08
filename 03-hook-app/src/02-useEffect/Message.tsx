@@ -1,18 +1,47 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+
+interface CoordsState {
+  x: number
+  y: number
+}
 
 const Message = () => {
 
+  const [coords, setCoords] = useState<CoordsState>({
+    x: 0,
+    y: 0
+  })
+
   useEffect(() => {
 
-    console.log('component mounted')
+    const handleMouseMove = ({
+      x,
+      y
+    }: MouseEvent) => {
 
-    return () => console.log('component unmounted')
+      setCoords({
+        x,
+        y
+      })
+
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+
+    return () => window.removeEventListener('mousemove', handleMouseMove)
 
   }, [])
 
   return (
     <div>
       <h3>Usuario ya existe</h3>
+
+      {
+
+        JSON.stringify(coords, null, 2)
+
+      }
+
     </div>
   )
 
