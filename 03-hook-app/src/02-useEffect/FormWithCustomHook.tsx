@@ -13,7 +13,8 @@ const FormWithCustomHook = () => {
     username,
     email,
     password,
-    handleInputChange
+    onInputChange,
+    onResetForm,
   } = useForm<FormState>({
     username: '',
     email: '',
@@ -50,7 +51,7 @@ const FormWithCustomHook = () => {
         placeholder="Username"
         name="username"
         value={username}
-        onChange={handleInputChange}
+        onChange={onInputChange}
       />
 
       <input
@@ -59,7 +60,7 @@ const FormWithCustomHook = () => {
         placeholder="arian.angoma.js@gmail.com"
         name="email"
         value={email}
-        onChange={handleInputChange}
+        onChange={onInputChange}
       />
 
       <input
@@ -68,8 +69,15 @@ const FormWithCustomHook = () => {
         placeholder="contraseña"
         name="password"
         value={password}
-        onChange={handleInputChange}
+        onChange={onInputChange}
       />
+
+      <button
+        className="btn btn-primary mt-2"
+        onClick={onResetForm}
+      >
+        Borrar
+      </button>
 
     </>
   )

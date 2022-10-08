@@ -7,7 +7,8 @@ import React, { useState } from 'react'
 type FormState<T> = T
 
 type UseFormResponse<T> = FormState<T> & {
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onResetForm: () => void;
 }
 
 /* interface UseFormResponse<T> {
@@ -19,7 +20,7 @@ const useForm = <T> (initialForm: T): UseFormResponse<T> => {
 
   const [formState, setFormState] = useState<T>(initialForm)
 
-  const handleInputChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
 
     setFormState(prevState => ({
       ...prevState,
@@ -28,9 +29,14 @@ const useForm = <T> (initialForm: T): UseFormResponse<T> => {
 
   }
 
+  const onResetForm = () => {
+    setFormState(initialForm)
+  }
+
   return {
     ...formState,
-    handleInputChange
+    onInputChange,
+    onResetForm
   }
 
 }
