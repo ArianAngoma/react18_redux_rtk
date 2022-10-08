@@ -1,5 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 
+import Message from './Message'
+
 interface FormState {
   username: string
   email: string
@@ -26,19 +28,19 @@ const SimpleForm: FC = () => {
 
   useEffect(() => {
 
-    console.log('hey')
+    // console.log('hey')
 
   }, [])
 
   useEffect(() => {
 
-    console.log('username changed')
+    // console.log('username changed')
 
   }, [username])
 
   useEffect(() => {
 
-    console.log('email changed')
+    // console.log('email changed')
 
   }, [email])
 
@@ -65,6 +67,12 @@ const SimpleForm: FC = () => {
         value={email}
         onChange={handleInputChange}
       />
+
+      {
+
+        (username === 'arian') && <Message/>
+
+      }
 
     </>
   )
