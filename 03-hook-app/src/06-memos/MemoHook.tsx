@@ -47,7 +47,7 @@ const MemoHook = () => {
 
       <button
         className="btn btn-outline-primary ml-3"
-        onClick={() => setShow(!show)}
+        onClick={() => setShow(prevState => !prevState)}
       >
         Show/Hide {JSON.stringify(show)}
       </button>
