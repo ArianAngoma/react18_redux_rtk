@@ -27,7 +27,7 @@ const MultipleCustomHooks = () => {
     data,
     error,
     isLoading
-  } = useFetchInternet<ResponseApi[]>({ url: 'https://www.breakingbadapi.com/api/quotes/1' }) */
+  } = useFetchInternet<ResponseApi[]>({ url: `https://www.breakingbadapi.com/api/quotes/${counter}` }) */
 
   const {
     quote,
