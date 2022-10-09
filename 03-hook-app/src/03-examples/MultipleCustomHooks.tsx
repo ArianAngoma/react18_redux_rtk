@@ -1,5 +1,6 @@
 import useFetch from '../hooks/useFetch'
 import useFetchInternet from '../hooks/useFetchInternet'
+import useCounter from '../hooks/useCounter'
 
 interface ResponseApi {
   quote_id: number;
@@ -11,10 +12,17 @@ interface ResponseApi {
 const MultipleCustomHooks = () => {
 
   const {
+    counter,
+    handleIncrement
+  } = useCounter({
+    initialState: 1,
+  })
+
+  const {
     data,
     error,
     isLoading
-  } = useFetch<ResponseApi[]>({ url: 'https://www.breakingbadapi.com/api/quotes/1' })
+  } = useFetch<ResponseApi[]>({ url: `https://www.breakingbadapi.com/api/quotes/${counter}` })
 
   /* const {
     data,
@@ -46,7 +54,11 @@ const MultipleCustomHooks = () => {
 
       }
 
-      <button className="btn btn-primary">
+      <button
+        className="btn btn-primary"
+        disabled={isLoading}
+        onClick={() => handleIncrement()}
+      >
         Next quote
       </button>
 

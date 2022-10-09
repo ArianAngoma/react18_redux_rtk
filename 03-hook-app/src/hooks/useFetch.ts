@@ -38,7 +38,7 @@ const useFetch = <T = unknown> ({ url }: UseFetchProps): UseFetchResponse<T> => 
       isLoading: false
     }))
 
-  }, [])
+  }, [url])
 
   useEffect(() => {
 
