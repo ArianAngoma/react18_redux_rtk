@@ -29,14 +29,26 @@ const useFetch = <T = unknown> ({ url }: UseFetchProps): UseFetchResponse<T> => 
       isLoading: true
     }))
 
-    const response = await fetch(url)
-    const data = await response.json()
+    try {
 
-    setState(prevState => ({
-      ...prevState,
-      data,
-      isLoading: false
-    }))
+      const response = await fetch(url)
+      const data = await response.json()
+
+      setState(prevState => ({
+        ...prevState,
+        data,
+        isLoading: false
+      }))
+
+    } catch (error) {
+
+      setState(prevState => ({
+        ...prevState,
+        error: error as Error,
+        isLoading: false
+      }))
+
+    }
 
   }, [url])
 
