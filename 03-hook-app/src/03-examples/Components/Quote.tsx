@@ -1,4 +1,4 @@
-import { FC, memo } from 'react'
+import { FC, memo, useLayoutEffect, useRef, useState } from 'react'
 
 interface QuoteProps {
   quote: string;
@@ -10,14 +10,42 @@ const Quote: FC<QuoteProps> = ({
   author
 }) => {
 
+  const paragraphRef = useRef<HTMLParagraphElement>(null)
+
+  const [boxSize, setBoxSize] = useState<DOMRect>()
+
+  useLayoutEffect(() => {
+
+    // console.log(paragraphRef.current?.getBoundingClientRect())
+
+    setBoxSize(paragraphRef.current?.getBoundingClientRect())
+
+  }, [])
+
   return (
-    <blockquote className="blockquote text-end">
+    <>
+      <blockquote
+        className="blockquote text-end"
+        style={{
+          display: 'flex',
+        }}
+      >
 
-      <p className="mb-1">{quote}</p>
+        <p
+          className="mb-1"
+          ref={paragraphRef}
+        >
+          {quote}
+        </p>
 
-      <footer className="blockquote-footer">{author}</footer>
+        <footer className="blockquote-footer">{author}</footer>
 
-    </blockquote>
+      </blockquote>
+
+      <code>
+        {JSON.stringify(boxSize, null, 2)}
+      </code>
+    </>
   )
 }
 
