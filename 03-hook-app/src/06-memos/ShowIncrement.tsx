@@ -1,18 +1,16 @@
 import { FC, memo } from 'react'
 
 interface ShowIncrementProps {
-  increment: () => void
+  increment: (value: number) => void
 }
 
 const ShowIncrement: FC<ShowIncrementProps> = ({ increment }) => {
-
-  console.log('ShowIncrement: rendered')
 
   return (
     <button
       className={'btn btn-primary'}
       onClick={() => {
-        increment()
+        increment(5)
       }}
     >
       Incrementar

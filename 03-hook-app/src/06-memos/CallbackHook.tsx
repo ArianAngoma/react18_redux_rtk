@@ -15,8 +15,8 @@ const CallbackHook: FC = () => {
     handleIncrement({ value: 1 })
   }
 
-  const callbackIncrement = useCallback(() => {
-    handleIncrement({ value: 1 })
+  const callbackIncrement = useCallback((value: number) => {
+    handleIncrement({ value })
   }, [])
 
   return (
