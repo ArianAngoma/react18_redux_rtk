@@ -5,22 +5,25 @@ import TodoItem from './TodoItem'
 interface TodoListProps {
   todos: Todo[]
   onRemoveTodo: (todoId: number) => void
+  onToggleTodo: (todoId: number) => void
 }
 
 const TodoList: FC<TodoListProps> = ({
   todos,
-  onRemoveTodo
+  onRemoveTodo,
+  onToggleTodo
 }) => {
   return (
     <ul className="list-group">
 
       {
 
-        todos.map((todo: Todo, index: number) => (
+        todos.map((todo: Todo) => (
           <TodoItem
             key={todo.id}
             todo={todo}
             onRemoveTodo={onRemoveTodo}
+            onToggleTodo={onToggleTodo}
           />
         ))
 

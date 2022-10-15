@@ -20,17 +20,30 @@ const TodoApp = () => {
   }, [todos])
 
   const onAddTodo = useCallback((newTodo: Todo) => {
+
     dispatchTodo({
       type: '[TODO] Add Todo',
       payload: newTodo
     })
+
   }, [])
 
   const onRemoveTodo = useCallback((todoId: number) => {
+
     dispatchTodo({
       type: '[TODO] Remove Todo',
       payload: todoId
     })
+
+  }, [])
+
+  const onToggleTodo = useCallback((todoId: number) => {
+
+    dispatchTodo({
+      type: '[TODO] Toggle Todo',
+      payload: todoId
+    })
+
   }, [])
 
   return (
@@ -47,6 +60,7 @@ const TodoApp = () => {
           <TodoList
             todos={todos}
             onRemoveTodo={onRemoveTodo}
+            onToggleTodo={onToggleTodo}
           />
 
         </div>

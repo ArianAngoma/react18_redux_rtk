@@ -4,11 +4,13 @@ import { Todo } from './todoReducer'
 interface TodoItemProps {
   todo: Todo
   onRemoveTodo: (todoId: number) => void
+  onToggleTodo: (todoId: number) => void
 }
 
 const TodoItem: FC<TodoItemProps> = ({
   todo,
-  onRemoveTodo
+  onRemoveTodo,
+  onToggleTodo
 }) => {
 
   return (
@@ -16,7 +18,10 @@ const TodoItem: FC<TodoItemProps> = ({
       className="list-group-item d-flex justify-content-between"
     >
 
-      <span className="align-self-center">
+      <span
+        className={`align-self-center ${todo.done ? 'text-decoration-line-through' : ''}`}
+        onClick={() => onToggleTodo(todo.id)}
+      >
         {todo.description}
       </span>
 
