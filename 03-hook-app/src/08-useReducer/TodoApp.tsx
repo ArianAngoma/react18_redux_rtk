@@ -1,24 +1,23 @@
-import { useCallback, useReducer } from 'react'
+import { useCallback, useEffect, useReducer } from 'react'
 import todoReducer, { Todo } from './todoReducer'
 import TodoList from './TodoList'
 import TodoAdd from './TodoAdd'
 
-const initialState: Todo[] = [
-  {
-    id: new Date().getTime(),
-    description: 'Aprender React',
-    done: false
-  },
-  {
-    id: new Date().getTime() * 2,
-    description: 'Aprender Mongo',
-    done: false
-  }
-]
+const initialState: Todo[] = []
+
+const init = (initialTodos: Todo[]) => {
+  return JSON.parse(localStorage.getItem('todos')!) || initialTodos
+}
 
 const TodoApp = () => {
 
-  const [todos, dispatchTodo] = useReducer(todoReducer, initialState)
+  const [todos, dispatchTodo] = useReducer(todoReducer, initialState, init)
+
+  useEffect(() => {
+
+    localStorage.setItem('todos', JSON.stringify(todos))
+
+  }, [todos])
 
   const onAddTodo = useCallback((newTodo: Todo) => {
     dispatchTodo({
