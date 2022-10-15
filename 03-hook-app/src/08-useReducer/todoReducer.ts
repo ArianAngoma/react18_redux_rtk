@@ -6,8 +6,7 @@ export interface Todo {
 
 type Action =
   | { type: '[TODO] Add Todo'; payload: Todo }
-  | { type: 'toggle'; payload: number }
-  | { type: 'delete'; payload: number }
+  | { type: '[TODO] Remove Todo'; payload: number }
 
 const todoReducer = (initialState: Todo[], action: Action) => {
 
@@ -17,6 +16,8 @@ const todoReducer = (initialState: Todo[], action: Action) => {
         ...initialState,
         action.payload
       ]
+    case '[TODO] Remove Todo':
+      return initialState.filter(todo => todo.id !== action.payload)
     default:
       return initialState
   }

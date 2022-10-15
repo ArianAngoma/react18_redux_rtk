@@ -26,6 +26,13 @@ const TodoApp = () => {
     })
   }, [])
 
+  const onRemoveTodo = useCallback((todoId: number) => {
+    dispatchTodo({
+      type: '[TODO] Remove Todo',
+      payload: todoId
+    })
+  }, [])
+
   return (
     <>
       <h1>
@@ -39,6 +46,7 @@ const TodoApp = () => {
 
           <TodoList
             todos={todos}
+            onRemoveTodo={onRemoveTodo}
           />
 
         </div>

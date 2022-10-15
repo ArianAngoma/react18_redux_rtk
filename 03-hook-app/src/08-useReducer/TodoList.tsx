@@ -4,9 +4,13 @@ import TodoItem from './TodoItem'
 
 interface TodoListProps {
   todos: Todo[]
+  onRemoveTodo: (todoId: number) => void
 }
 
-const TodoList: FC<TodoListProps> = ({ todos }) => {
+const TodoList: FC<TodoListProps> = ({
+  todos,
+  onRemoveTodo
+}) => {
   return (
     <ul className="list-group">
 
@@ -16,6 +20,7 @@ const TodoList: FC<TodoListProps> = ({ todos }) => {
           <TodoItem
             key={todo.id}
             todo={todo}
+            onRemoveTodo={onRemoveTodo}
           />
         ))
 
