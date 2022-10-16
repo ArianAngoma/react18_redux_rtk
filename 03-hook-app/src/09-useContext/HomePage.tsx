@@ -1,7 +1,7 @@
 const HomePage = () => {
   return (
     <>
-      <h1>Main App</h1>
+      <h1>Home App</h1>
       <hr/>
     </>
   )

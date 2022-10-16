@@ -1,7 +1,7 @@
 const AboutPage = () => {
   return (
     <>
-      <h1>Main App</h1>
+      <h1>About App</h1>
       <hr/>
     </>
   )
