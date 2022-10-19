@@ -1,9 +1,15 @@
 import { createContext } from 'react'
 
-interface UserContext {
-  [key: string]: any
+export interface UserContextProps {
+  name: string
+  email: string
 }
 
-const UserContext = createContext<UserContext | null>(null)
+export interface UserContextType {
+  user: UserContextProps | null
+  handleLogin: (user: UserContextProps) => void
+}
+
+const UserContext = createContext<UserContextType | null>(null)
 
 export default UserContext
