@@ -1,7 +1,7 @@
 import { useFetch, useFetchInternet, useCounter } from '../hooks'
 import { LoadingQuote, Quote } from './Components'
 
-interface ResponseApi {
+export interface ResponseApi {
   quote_id: number;
   quote: string;
   author: string;
