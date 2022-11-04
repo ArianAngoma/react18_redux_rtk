@@ -4,7 +4,7 @@ export interface Todo {
   done: boolean
 }
 
-type Action =
+export type Action =
   | { type: '[TODO] Add Todo'; payload: Todo }
   | { type: '[TODO] Remove Todo'; payload: number }
   | { type: '[TODO] Toggle Todo'; payload: number }
