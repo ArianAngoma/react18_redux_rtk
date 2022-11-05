@@ -31,7 +31,7 @@ describe('Pruebas en <TodoApp />', () => {
 
     render(<TodoApp/>)
 
-    screen.debug()
+    // screen.debug()
 
     expect(screen.getByText('Aprender React')).toBeTruthy()
     expect(screen.getByText('Aprender Mongo')).toBeTruthy()
