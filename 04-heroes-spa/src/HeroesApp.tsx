@@ -1,8 +1,9 @@
 import { FC } from 'react'
+import AppRouter from './router/AppRouter'
 
 const HeroesApp: FC = () => {
   return (
-    <h1>Heroes</h1>
+    <AppRouter/>
   )
 }
 
