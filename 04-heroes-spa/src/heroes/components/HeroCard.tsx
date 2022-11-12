@@ -24,7 +24,7 @@ const HeroCard: FC<Hero> = ({
   /* const charactersByHero = <p className="card-text">{characters}</p> */
 
   return (
-    <div className="col">
+    <div className="col animate__animated animate__fadeIn">
 
       <div className="card">
 
