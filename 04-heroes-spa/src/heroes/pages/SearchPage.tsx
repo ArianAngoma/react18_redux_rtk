@@ -1,7 +1,35 @@
-import { FC } from 'react'
+import { FC, FormEvent } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { HeroCard } from '../components'
+import useForm from '../../hooks/useForm'
+
+interface FormValues {
+  searchText: string
+}
 
 const SearchPage: FC = () => {
+
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const query = searchParams.get('q') || ''
+
+  const {
+    searchText,
+    onInputChange,
+  } = useForm<FormValues>({
+    searchText: ''
+  })
+
+  const onSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
+
+    event.preventDefault()
+
+    if (searchText.trim().length <= 1) return
+
+    setSearchParams({ q: searchText })
+
+  }
+
   return (
     <>
 
@@ -15,13 +43,15 @@ const SearchPage: FC = () => {
           <h4>Searching</h4>
           <hr/>
 
-          <form>
+          <form onSubmit={onSearchSubmit}>
 
             <input
               type="text"
               placeholder="Search your hero"
               className="form-control"
               name="searchText"
+              value={searchText}
+              onChange={onInputChange}
               autoComplete="off"
             />
 
@@ -43,7 +73,7 @@ const SearchPage: FC = () => {
           </div>
 
           <div className="alert alert-danger">
-            There is no a hero with <b>ABC</b>
+            There is no a hero with <b>{query}</b>
           </div>
 
           {/* <HeroCard
