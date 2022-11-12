@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom'
 
 import MainApp from '../../src/09-useContext/MainApp'
 
-describe('Pruebas en <MainApp/>', () => {
+describe('Pruebas en <MainRouter/>', () => {
 
   test('Debe de mostrar el Home', () => {
 
