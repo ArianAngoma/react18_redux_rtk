@@ -1,5 +1,6 @@
 import { FC, FormEvent, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
+
 import { HeroCard } from '../components'
 import useForm from '../../hooks/useForm'
 import { getHeroesByName } from '../helpers'
@@ -16,6 +17,9 @@ const SearchPage: FC = () => {
 
   const heroes = useMemo(() => getHeroesByName(query), [query])
 
+  const showSearch = useMemo(() => !Boolean(query.length), [query])
+  const showError = useMemo(() => Boolean(query.length && !heroes.length), [query, heroes])
+
   const {
     searchText,
     onInputChange,
@@ -26,8 +30,6 @@ const SearchPage: FC = () => {
   const onSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
 
     event.preventDefault()
-
-    if (searchText.trim().length <= 1) return
 
     setSearchParams({ q: searchText })
 
@@ -71,13 +73,22 @@ const SearchPage: FC = () => {
           <h4>Results</h4>
           <hr/>
 
-          <div className="alert alert-primary">
-            Search a hero
-          </div>
+          {
+            (showSearch) && (
+              <div className="alert alert-primary" style={{}}>
+                Search a hero
+              </div>
+            )
+          }
 
-          <div className="alert alert-danger">
-            There is no a hero with <b>{query}</b>
-          </div>
+          {
+            (showError) && (
+              <div className="alert alert-danger">
+                There is no a hero with <b>{query}</b>
+              </div>
+            )
+          }
+
 
           {
 
