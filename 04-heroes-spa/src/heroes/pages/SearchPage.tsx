@@ -1,7 +1,8 @@
-import { FC, FormEvent } from 'react'
+import { FC, FormEvent, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { HeroCard } from '../components'
 import useForm from '../../hooks/useForm'
+import { getHeroesByName } from '../helpers'
 
 interface FormValues {
   searchText: string
@@ -13,11 +14,13 @@ const SearchPage: FC = () => {
 
   const query = searchParams.get('q') || ''
 
+  const heroes = useMemo(() => getHeroesByName(query), [query])
+
   const {
     searchText,
     onInputChange,
   } = useForm<FormValues>({
-    searchText: ''
+    searchText: query
   })
 
   const onSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -76,14 +79,21 @@ const SearchPage: FC = () => {
             There is no a hero with <b>{query}</b>
           </div>
 
-          {/* <HeroCard
-            id={}
-            superhero={}
-            publisher={}
-            alter_ego={}
-            first_appearance={}
-            characters={}
-          /> */}
+          {
+
+            heroes.map(hero => (
+              <HeroCard
+                key={hero.id}
+                id={hero.id}
+                superhero={hero.superhero}
+                publisher={hero.publisher}
+                alter_ego={hero.alter_ego}
+                first_appearance={hero.first_appearance}
+                characters={hero.characters}
+              />
+            ))
+
+          }
 
         </div>
 
