@@ -39,10 +39,22 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
   }, [])
 
+  const onLogout = useCallback(() => {
+
+    dispatch({
+      type: '[AUTH] Logout'
+    })
+
+    localStorage.removeItem('user')
+
+
+  }, [])
+
   return (
     <AuthContext.Provider value={{
       authState,
-      onLogin
+      onLogin,
+      onLogout
     }}>
       {children}
     </AuthContext.Provider>

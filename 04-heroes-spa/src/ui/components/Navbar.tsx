@@ -5,11 +5,20 @@ import { AuthContext, AuthContextProps } from '../../auth'
 
 const Navbar: FC = () => {
 
-  const { authState } = useContext(AuthContext) as AuthContextProps
+  const {
+    authState,
+    onLogout: onLogoutContext
+  } = useContext(AuthContext) as AuthContextProps
 
   const navigate = useNavigate()
 
-  const onLogout = () => navigate('/login', { replace: true })
+  const onLogout = () => {
+
+    onLogoutContext()
+
+    navigate('/login', { replace: true })
+
+  }
 
   return (
 
