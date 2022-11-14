@@ -1,9 +1,12 @@
 import { FC } from 'react'
 import AppRouter from './router/AppRouter'
+import { AuthProvider } from './auth'
 
 const HeroesApp: FC = () => {
   return (
-    <AppRouter/>
+    <AuthProvider>
+      <AppRouter/>
+    </AuthProvider>
   )
 }
 
