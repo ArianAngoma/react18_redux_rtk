@@ -1,11 +1,21 @@
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { AuthContext, AuthContextProps } from '../context'
 
 const LoginPage: FC = () => {
 
+  const { onLogin: onLoginContext } = useContext(AuthContext) as AuthContextProps
+
   const navigation = useNavigate()
 
-  const onLogin = () => navigation('/', { replace: true })
+  const onLogin = () => {
+
+    onLoginContext('Arian Angoma')
+
+    navigation('/', { replace: true })
+
+  }
 
   return (
 

@@ -1,7 +1,11 @@
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 
+import { AuthContext, AuthContextProps } from '../../auth'
+
 const Navbar: FC = () => {
+
+  const { authState } = useContext(AuthContext) as AuthContextProps
 
   const navigate = useNavigate()
 
@@ -60,7 +64,7 @@ const Navbar: FC = () => {
           <ul className="navbar-nav ml-auto">
 
           <span className="nav-item nav-link text-info">
-            Arian
+            {authState.user}
           </span>
 
             <button

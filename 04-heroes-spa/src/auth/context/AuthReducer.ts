@@ -1,13 +1,13 @@
 export interface AuthState {
   isLoggedIn: boolean
-  name?: string
+  user?: string
 }
 
 type Action =
-  | { type: '[AUTH] Login'; payload: Pick<AuthState, 'name'> }
+  | { type: '[AUTH] Login'; payload: Pick<AuthState, 'user'> }
   | { type: '[AUTH] Logout' }
 
-const authReducer = (state: AuthState, action: Action) => {
+const authReducer = (state: AuthState, action: Action): AuthState => {
 
   switch (action.type) {
 
@@ -15,7 +15,7 @@ const authReducer = (state: AuthState, action: Action) => {
       return {
         ...state,
         isLoggedIn: true,
-        name: action.payload.name
+        user: action.payload.user
       }
 
     case '[AUTH] Logout':

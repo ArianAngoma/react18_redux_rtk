@@ -1,5 +1,12 @@
 import { createContext } from 'react'
 
-const AuthContext = createContext<null>(null)
+import { AuthState } from './AuthReducer'
+
+export interface AuthContextProps {
+  authState: AuthState
+  onLogin: (name: string) => void
+}
+
+const AuthContext = createContext<AuthContextProps | null>(null)
 
 export default AuthContext
