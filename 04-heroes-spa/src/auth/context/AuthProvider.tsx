@@ -7,15 +7,26 @@ interface AuthProviderProps {
   children: JSX.Element | JSX.Element[]
 }
 
-const initialState: AuthState = {
+/* const initialState: AuthState = {
   isLoggedIn: false,
+} */
+
+const init = (): AuthState => {
+
+  const user = JSON.parse(localStorage.getItem('user')!)
+
+  return {
+    isLoggedIn: Boolean(user),
+    user
+  }
+
 }
 
 const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
-  const [authState, dispatch] = useReducer(authReducer, initialState)
+  const [authState, dispatch] = useReducer(authReducer, null, init)
 
-  const onLogin = useCallback((name: string = '') => {
+  const onLogin = useCallback((name: string) => {
 
     dispatch({
       type: '[AUTH] Login',
@@ -23,6 +34,8 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         user: name
       }
     })
+
+    localStorage.setItem('user', JSON.stringify(name))
 
   }, [])
 
