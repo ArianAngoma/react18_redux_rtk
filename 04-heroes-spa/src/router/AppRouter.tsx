@@ -3,36 +3,47 @@ import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { LoginPage } from '../auth'
 import { Navbar } from '../ui'
 import { DcPage, HeroPage, MarvelPage, SearchPage } from '../heroes'
+import PrivateRoute from './PrivateRoute'
+import PublicRoute from './PublicRoute'
 
 const rootRoutes = createBrowserRouter([
   {
-    path: 'login',
-    element: <LoginPage/>,
-    index: true,
-  },
-  {
-    path: '/',
-    element: <Navbar/>,
+    element: <PublicRoute/>,
     children: [
       {
-        path: '',
-        element: <Navigate to="/marvel"/>,
-      },
+        path: 'login',
+        element: <LoginPage/>,
+      }
+    ]
+  },
+  {
+    element: <PrivateRoute/>,
+    children: [
       {
-        path: 'marvel',
-        element: <MarvelPage/>
-      },
-      {
-        path: 'dc',
-        element: <DcPage/>
-      },
-      {
-        path: 'search',
-        element: <SearchPage/>
-      },
-      {
-        path: 'hero/:heroId',
-        element: <HeroPage/>
+        path: '/',
+        element: <Navbar/>,
+        children: [
+          {
+            path: '',
+            element: <Navigate to="/marvel"/>,
+          },
+          {
+            path: 'marvel',
+            element: <MarvelPage/>
+          },
+          {
+            path: 'dc',
+            element: <DcPage/>
+          },
+          {
+            path: 'search',
+            element: <SearchPage/>
+          },
+          {
+            path: 'hero/:heroId',
+            element: <HeroPage/>
+          }
+        ]
       }
     ]
   }
