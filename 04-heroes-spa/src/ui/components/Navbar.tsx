@@ -5,8 +5,6 @@ import { AuthContext, AuthContextProps } from '../../auth'
 
 const Navbar: FC = () => {
 
-  console.log('Navbar')
-
   const {
     authState,
     onLogout: onLogoutContext
