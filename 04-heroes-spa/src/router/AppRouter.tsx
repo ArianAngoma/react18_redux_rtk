@@ -1,8 +1,7 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 
 import { LoginPage } from '../auth'
-import { Navbar } from '../ui'
-import { DcPage, HeroPage, MarvelPage, SearchPage } from '../heroes'
+import { DcPage, HeroPage, HeroesRouter, MarvelPage, SearchPage } from '../heroes'
 import PrivateRoute from './PrivateRoute'
 import PublicRoute from './PublicRoute'
 
@@ -21,7 +20,7 @@ const rootRoutes = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Navbar/>,
+        element: <HeroesRouter/>,
         children: [
           {
             path: '',

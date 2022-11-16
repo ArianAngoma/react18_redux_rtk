@@ -1,5 +1,5 @@
 import { FC, useContext } from 'react'
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 
 import { AuthContext, AuthContextProps } from '../../auth'
 
@@ -22,80 +22,70 @@ const Navbar: FC = () => {
 
   return (
 
-    <>
+    <nav className="navbar navbar-expand-sm navbar-dark bg-dark p-2">
 
-      <nav className="navbar navbar-expand-sm navbar-dark bg-dark p-2">
+      <Link
+        className="navbar-brand"
+        to="/"
+      >
+        Asociaciones
+      </Link>
 
-        <Link
-          className="navbar-brand"
-          to="/"
-        >
-          Asociaciones
-        </Link>
+      <div className="navbar-collapse">
 
-        <div className="navbar-collapse">
+        <div className="navbar-nav">
 
-          <div className="navbar-nav">
+          <NavLink
+            className={
+              ({ isActive }) => `nav-item nav-link ${isActive ? 'active' : ''}`
+            }
+            to="/marvel"
+          >
+            Marvel
+          </NavLink>
 
-            <NavLink
-              className={
-                ({ isActive }) => `nav-item nav-link ${isActive ? 'active' : ''}`
-              }
-              to="/marvel"
-            >
-              Marvel
-            </NavLink>
+          <NavLink
+            className={
+              ({ isActive }) => `nav-item nav-link ${isActive ? 'active' : ''}`
+            }
+            to="/dc"
+          >
+            DC
+          </NavLink>
 
-            <NavLink
-              className={
-                ({ isActive }) => `nav-item nav-link ${isActive ? 'active' : ''}`
-              }
-              to="/dc"
-            >
-              DC
-            </NavLink>
-
-            <NavLink
-              className={
-                ({ isActive }) => `nav-item nav-link ${isActive ? 'active' : ''}`
-              }
-              to="/search"
-            >
-              Search
-            </NavLink>
-
-          </div>
+          <NavLink
+            className={
+              ({ isActive }) => `nav-item nav-link ${isActive ? 'active' : ''}`
+            }
+            to="/search"
+          >
+            Search
+          </NavLink>
 
         </div>
 
-        <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
+      </div>
 
-          <ul className="navbar-nav ml-auto">
+      <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
+
+        <ul className="navbar-nav ml-auto">
 
           <span className="nav-item nav-link text-info">
             {authState.user}
           </span>
 
-            <button
-              className="nav-item nav-link btn"
-              onClick={onLogout}
-            >
-              Logout
-            </button>
+          <button
+            className="nav-item nav-link btn"
+            onClick={onLogout}
+          >
+            Logout
+          </button>
 
-          </ul>
-
-        </div>
-
-      </nav>
-
-      <div className="container">
-
-        <Outlet/>
+        </ul>
 
       </div>
 
-    </>
+    </nav>
 
   )
 }
