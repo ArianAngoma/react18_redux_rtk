@@ -3,7 +3,7 @@ export interface AuthState {
   user?: string
 }
 
-type Action =
+export type Action =
   | { type: '[AUTH] Login'; payload: Pick<AuthState, 'user'> }
   | { type: '[AUTH] Logout' }
 
