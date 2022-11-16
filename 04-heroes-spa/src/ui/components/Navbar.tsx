@@ -1,5 +1,5 @@
 import { FC, useContext } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 
 import { AuthContext, AuthContextProps } from '../../auth'
 
@@ -11,12 +11,21 @@ const Navbar: FC = () => {
   } = useContext(AuthContext) as AuthContextProps
 
   const navigate = useNavigate()
+  const {
+    pathname,
+    search
+  } = useLocation()
 
   const onLogout = () => {
 
     onLogoutContext()
 
-    navigate('/login', { replace: true })
+    navigate('/login', {
+      replace: true,
+      state: {
+        from: pathname + search
+      }
+    })
 
   }
 
