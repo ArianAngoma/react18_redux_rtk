@@ -23,7 +23,7 @@ const rootRoutes = createBrowserRouter([
         element: <HeroesRouter/>,
         children: [
           {
-            path: '',
+            index: true,
             element: <Navigate to="/marvel"/>,
           },
           {
