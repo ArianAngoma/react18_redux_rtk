@@ -96,7 +96,7 @@ describe('Pruebas en <PublicRoute />', () => {
       </AuthContext.Provider>
     )
 
-    screen.debug()
+    // screen.debug()
 
     expect(screen.getByRole('link', { name: 'Marvel' })).toBeTruthy()
 
