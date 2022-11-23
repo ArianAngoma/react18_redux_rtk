@@ -1,11 +1,11 @@
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouteObject, RouterProvider } from 'react-router-dom'
 
 import { LoginPage } from '../auth'
 import { DcPage, HeroPage, HeroesRouter, MarvelPage, SearchPage } from '../heroes'
 import PrivateRoute from './PrivateRoute'
 import PublicRoute from './PublicRoute'
 
-const rootRoutes = createBrowserRouter([
+export const routeObject: RouteObject[] = [
   {
     element: <PublicRoute/>,
     children: [
@@ -46,7 +46,9 @@ const rootRoutes = createBrowserRouter([
       }
     ]
   }
-])
+]
+
+const rootRoutes = createBrowserRouter(routeObject)
 
 const AppRouter = () => {
   return (
