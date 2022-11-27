@@ -15,6 +15,10 @@ jest.mock('react-router-dom', () => ({
 
 describe('Pruebas en <SearchPage />', () => {
 
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   test('Debe de mostrarse correctamente con valores por defecto', () => {
 
     const router = createMemoryRouter(
