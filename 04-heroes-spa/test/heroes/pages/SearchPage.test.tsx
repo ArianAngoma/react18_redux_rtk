@@ -1,5 +1,5 @@
-import { render, screen } from '@testing-library/react'
 import { createMemoryRouter, RouterProvider } from 'react-router-dom'
+import { fireEvent, render, screen } from '@testing-library/react'
 
 import { SearchPage } from '../../../src/heroes'
 
@@ -79,5 +79,46 @@ describe('Pruebas en <SearchPage />', () => {
     expect(alert?.textContent).toBe('There is no a hero with error-hero')
 
   })
+
+  // ToDo: Test pendiende
+  /* test('Debe de llamar el setSearchParams con el valor del input', () => {
+
+    const mockSearchParamsGet = jest.fn()
+
+    const mockSetSearchParams = jest.fn()
+
+    jest.mock('react-router-dom', () => ({
+      ...jest.requireActual('react-router-dom'),
+      useSearchParams: () => [{ get: mockSearchParamsGet }, mockSetSearchParams]
+    }))
+
+    const router = createMemoryRouter(
+      [
+        {
+          path: '/search',
+          element: <SearchPage/>,
+        }
+      ],
+      {
+        initialEntries: ['/search'],
+      }
+    )
+
+    const { container } = render(<RouterProvider router={router}/>)
+
+    const input = screen.getByRole('textbox') as HTMLInputElement
+    fireEvent.change(input, {
+      target: {
+        name: 'searchText',
+        value: 'batman'
+      }
+    })
+
+    const form = container.querySelector('form')
+    fireEvent.submit(form)
+
+    expect(mockSetSearchParams).toHaveBeenCalled()
+
+  }) */
 
 })
