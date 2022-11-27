@@ -3,6 +3,16 @@ import { fireEvent, render, screen } from '@testing-library/react'
 
 import { SearchPage } from '../../../src/heroes'
 
+const mockSetSearchParams = jest.fn()
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useSearchParams: () => [
+    jest.requireActual('react-router-dom').useSearchParams()[0],
+    mockSetSearchParams,
+  ],
+}))
+
 describe('Pruebas en <SearchPage />', () => {
 
   test('Debe de mostrarse correctamente con valores por defecto', () => {
@@ -80,17 +90,7 @@ describe('Pruebas en <SearchPage />', () => {
 
   })
 
-  // ToDo: Test pendiende
-  /* test('Debe de llamar el setSearchParams con el valor del input', () => {
-
-    const mockSearchParamsGet = jest.fn()
-
-    const mockSetSearchParams = jest.fn()
-
-    jest.mock('react-router-dom', () => ({
-      ...jest.requireActual('react-router-dom'),
-      useSearchParams: () => [{ get: mockSearchParamsGet }, mockSetSearchParams]
-    }))
+  test('Debe de llamar el setSearchParams con el valor del input', () => {
 
     const router = createMemoryRouter(
       [
@@ -118,7 +118,10 @@ describe('Pruebas en <SearchPage />', () => {
     fireEvent.submit(form)
 
     expect(mockSetSearchParams).toHaveBeenCalled()
+    expect(mockSetSearchParams).toHaveBeenCalledWith({
+      q: 'batman'
+    })
 
-  }) */
+  })
 
 })
