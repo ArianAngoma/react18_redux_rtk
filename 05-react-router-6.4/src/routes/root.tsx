@@ -1,8 +1,10 @@
-import { Link, Outlet, useLoaderData, Form } from 'react-router-dom'
+import { Link, Outlet, useLoaderData, Form, redirect } from 'react-router-dom'
+
 import { createContact, getContacts } from '../contact'
 
-export async function action() {
-  await createContact();
+export async function action () {
+  const contact = await createContact()
+  return redirect(`/contacts/${contact.id}/edit`)
 }
 
 export async function loader () {
