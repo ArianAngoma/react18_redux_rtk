@@ -1,5 +1,9 @@
-import { Link, Outlet, useLoaderData } from 'react-router-dom'
-import { getContacts } from '../contact'
+import { Link, Outlet, useLoaderData, Form } from 'react-router-dom'
+import { createContact, getContacts } from '../contact'
+
+export async function action() {
+  await createContact();
+}
 
 export async function loader () {
   const contacts = await getContacts()
@@ -33,9 +37,9 @@ export default function Root () {
               aria-live="polite"
             ></div>
           </form>
-          <form method="post">
+          <Form method="post">
             <button type="submit">New</button>
-          </form>
+          </Form>
         </div>
 
         <nav>
