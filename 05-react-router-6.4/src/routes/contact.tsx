@@ -1,13 +1,13 @@
 import { Form, useLoaderData } from 'react-router-dom'
 import { getContact } from '../contact'
 
-export async function loader({ params }: any) {
-  return getContact(params.contactId);
+export async function loader ({ params }: any) {
+  return getContact(params.contactId)
 }
 
-export default function Contact() {
+export default function Contact () {
 
-  const contact = useLoaderData() as any;
+  const contact = useLoaderData() as any
 
   return (
     <div id="contact">
@@ -26,8 +26,8 @@ export default function Contact() {
             </>
           ) : (
             <i>No Name</i>
-          )}{" "}
-          <Favorite contact={contact} />
+          )}{' '}
+          <Favorite contact={contact}/>
         </h1>
 
         {contact.twitter && (
@@ -44,6 +44,7 @@ export default function Contact() {
         {contact.notes && <p>{contact.notes}</p>}
 
         <div>
+          {/* <Link to={`edit`}>Edit</Link> */}
           <Form action="edit">
             <button type="submit">Edit</button>
           </Form>
@@ -53,10 +54,10 @@ export default function Contact() {
             onSubmit={(event) => {
               if (
                 !confirm(
-                  "Please confirm you want to delete this record."
+                  'Please confirm you want to delete this record.'
                 )
               ) {
-                event.preventDefault();
+                event.preventDefault()
               }
             }}
           >
@@ -65,25 +66,25 @@ export default function Contact() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-function Favorite({ contact }: { contact: any }) {
+function Favorite ({ contact }: { contact: any }) {
   // yes, this is a `let` for later
-  let favorite = contact.favorite;
+  let favorite = contact.favorite
   return (
     <Form method="post">
       <button
         name="favorite"
-        value={favorite ? "false" : "true"}
+        value={favorite ? 'false' : 'true'}
         aria-label={
           favorite
-            ? "Remove from favorites"
-            : "Add to favorites"
+            ? 'Remove from favorites'
+            : 'Add to favorites'
         }
       >
-        {favorite ? "★" : "☆"}
+        {favorite ? '★' : '☆'}
       </button>
     </Form>
-  );
+  )
 }
