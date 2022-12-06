@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Outlet, useLoaderData, Form, redirect, NavLink, useNavigation } from 'react-router-dom'
+import { Outlet, useLoaderData, Form, redirect, NavLink, useNavigation, useSubmit } from 'react-router-dom'
 
 import { createContact, getContacts } from '../contact'
 
@@ -29,24 +29,28 @@ export default function Root () {
     q
   } = useLoaderData() as any
 
-  const [query, setQuery] = useState(q || '')
+  // const [query, setQuery] = useState(q || '')
 
   const navigation = useNavigation()
 
+  const submit = useSubmit()
+
   // This is the easy way to do it
-  /* useEffect(() => {
+  useEffect(() => {
 
     const getQ = document.getElementById('q') as HTMLInputElement
 
     getQ.value = q
 
-  }, [q]) */
+  }, [q])
 
-  useEffect(() => {
+  const searching = navigation.location && new URLSearchParams(navigation.location.search).has('q')
+
+  /* useEffect(() => {
 
     setQuery(q || '')
 
-  }, [q])
+  }, [q]) */
 
   return (
     <>
@@ -56,20 +60,28 @@ export default function Root () {
           <Form id="search-form" role="search">
             <input
               id="q"
+              className={searching ? 'loading' : ''}
               aria-label="Search contacts"
               placeholder="Search"
               type="search"
               name="q"
-              // defaultValue={q}
-              value={query}
-              onChange={(e) => {
+
+              defaultValue={q}
+
+              // value={q}
+
+              /* onChange={(e) => {
                 setQuery(e.target.value)
+              }} */
+
+              onChange={(e) => {
+                submit(e.currentTarget.form)
               }}
             />
             <div
               id="search-spinner"
               aria-hidden
-              hidden={true}
+              hidden={!searching}
             />
             <div
               className="sr-only"
