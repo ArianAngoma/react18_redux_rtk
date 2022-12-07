@@ -75,7 +75,9 @@ export default function Root () {
               }} */
 
               onChange={(e) => {
-                submit(e.currentTarget.form)
+                submit(e.currentTarget.form, {
+                  replace: true
+                })
               }}
             />
             <div
