@@ -1,9 +1,12 @@
 import { FC } from 'react'
+import Typography from '@mui/material/Typography'
 
 const JournalPage: FC = () => {
 
   return (
-    <div>JournalPage</div>
+    <Typography variant="h1">
+      JournalPage
+    </Typography>
   )
 
 }
