@@ -1,11 +1,11 @@
 import { FC } from 'react'
 
+import AppRouter from './router/AppRouter'
+
 const JournalApp: FC = () => {
 
   return (
-    <>
-      <h1>Hola mundo</h1>
-    </>
+    <AppRouter/>
   )
 
 }
