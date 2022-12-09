@@ -1,9 +1,16 @@
-import { useState } from 'react'
 import reactLogo from './assets/react.svg'
+import { useDispatch, useSelector } from 'react-redux'
+
 import './App.css'
 
+import { RootState } from './store'
+import { increment } from './store/slices/counter'
+
 function App () {
-  const [count, setCount] = useState(0)
+
+  const { value } = useSelector((state: RootState) => state.counter)
+
+  const dispatch = useDispatch()
 
   return (
     <div className="App">
@@ -17,8 +24,8 @@ function App () {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button onClick={() => dispatch(increment())}>
+          count is {value}
         </button>
       </div>
 
