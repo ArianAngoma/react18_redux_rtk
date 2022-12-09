@@ -1,14 +1,16 @@
 import { FC } from 'react'
 
 import { JournalLayout } from '../layout'
-import { NothingSelectedView } from '../../views'
+import { NoteView, NothingSelectedView } from '../../views'
 
 const JournalPage: FC = () => {
 
   return (
     <JournalLayout>
 
-      <NothingSelectedView/>
+      {/* <NothingSelectedView/> */}
+
+      <NoteView/>
 
     </JournalLayout>
   )
