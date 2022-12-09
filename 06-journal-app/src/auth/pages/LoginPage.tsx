@@ -1,149 +1,117 @@
 import { FC } from 'react'
 
-import { Link as RouterLink } from 'react-router-dom'
 import { TextField, Typography, Grid, Button, Link } from '@mui/material'
 import { Google } from '@mui/icons-material'
+
+import { Link as RouterLink } from 'react-router-dom'
+
+import { AuthLayout } from '../layout'
 
 const LoginPage: FC = () => {
 
   return (
-    <Grid
-      container
-      spacing={0}
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      sx={{
-        minHeight: '100vh',
-        backgroundColor: 'primary.main',
-        padding: 4
-      }}
-    >
+    <AuthLayout title="Login">
+      <form>
 
-      <Grid
-        item
-        className="box-shadow"
-        xs={3}
-        sx={{
-          backgroundColor: 'white',
-          padding: 3,
-          borderRadius: 2
-        }}
-      >
+        <Grid container>
 
-        <Typography
-          variant="h5"
-          sx={{
-            mb: 1
-          }}
-        >
-          Login
-        </Typography>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              mt: 2
+            }}
+          >
+            <TextField
+              label="Email"
+              type="email"
+              placeholder="Email"
+              fullWidth
+            />
+          </Grid>
 
-        <form>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              mt: 2
+            }}
+          >
+            <TextField
+              label="Password"
+              type="password"
+              placeholder="Password"
+              fullWidth
+            />
+          </Grid>
 
-          <Grid container>
-
-            <Grid
-              item
-              xs={12}
-              sx={{
-                mt: 2
-              }}
-            >
-              <TextField
-                label="Email"
-                type="email"
-                placeholder="Email"
-                fullWidth
-              />
-            </Grid>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              mb: 2,
+              mt: 1
+            }}
+          >
 
             <Grid
               item
               xs={12}
-              sx={{
-                mt: 2
-              }}
+              sm={6}
             >
-              <TextField
-                label="Password"
-                type="password"
-                placeholder="Password"
+              <Button
+                variant="contained"
                 fullWidth
-              />
+              >
+                Login
+              </Button>
             </Grid>
 
             <Grid
-              container
-              spacing={2}
-              sx={{
-                mb: 2,
-                mt: 1
-              }}
+              item
+              xs={12}
+              sm={6}
             >
-
-              <Grid
-                item
-                xs={12}
-                sm={6}
+              <Button
+                variant="contained"
+                fullWidth
               >
-                <Button
-                  variant="contained"
-                  fullWidth
+
+                <Google/>
+
+                <Typography
+                  sx={{
+                    ml: 1
+                  }}
                 >
-                  Login
-                </Button>
-              </Grid>
+                  Google
+                </Typography>
 
-              <Grid
-                item
-                xs={12}
-                sm={6}
-              >
-                <Button
-                  variant="contained"
-                  fullWidth
-                >
-
-                  <Google/>
-
-                  <Typography
-                    sx={{
-                      ml: 1
-                    }}
-                  >
-                    Google
-                  </Typography>
-
-                </Button>
-              </Grid>
-
-            </Grid>
-
-            <Grid
-              container
-              direction="row"
-              justifyContent="end"
-            >
-
-              <Link
-                color="inherit"
-                component={RouterLink}
-                to="/auth/register"
-              >
-                Create new account
-              </Link>
-
+              </Button>
             </Grid>
 
           </Grid>
 
-        </form>
+          <Grid
+            container
+            direction="row"
+            justifyContent="end"
+          >
 
-      </Grid>
+            <Link
+              color="inherit"
+              component={RouterLink}
+              to="/auth/register"
+            >
+              Create new account
+            </Link>
 
-    </Grid>
+          </Grid>
+
+        </Grid>
+
+      </form>
+    </AuthLayout>
   )
 
 }
