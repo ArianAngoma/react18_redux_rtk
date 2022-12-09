@@ -2,6 +2,8 @@ import { FC } from 'react'
 
 import { Box } from '@mui/material'
 
+import { Navbar } from '../components'
+
 interface JournalLayoutProps {
   children: JSX.Element | JSX.Element[]
 }
@@ -15,7 +17,7 @@ const JournalLayout: FC<JournalLayoutProps> = ({ children }) => {
       display: 'flex',
     }}>
 
-      {/* Navbar drawerWidth */}
+      <Navbar drawerWidth={drawerWidth}/>
 
       {/* Sidebar drawerWidth */}
 
