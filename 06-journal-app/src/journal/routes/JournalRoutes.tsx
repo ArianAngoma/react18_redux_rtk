@@ -4,11 +4,7 @@ import { Outlet } from 'react-router-dom'
 const JournalRoutes: FC = () => {
 
   return (
-    <>
-
-      <Outlet/>
-
-    </>
+    <Outlet/>
   )
 
 }

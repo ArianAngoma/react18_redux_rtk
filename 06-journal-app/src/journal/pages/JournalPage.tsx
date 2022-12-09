@@ -1,18 +1,14 @@
 import { FC } from 'react'
 
-import { Typography } from '@mui/material'
-
 import { JournalLayout } from '../layout'
+import { NothingSelectedView } from '../../views'
 
 const JournalPage: FC = () => {
 
   return (
     <JournalLayout>
 
-      <Typography>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos et laboriosam magni! Aut debitis dolor est fugit
-        incidunt, iusto praesentium quaerat qui quisquam recusandae repudiandae sit vero voluptatem? Expedita, illo!
-      </Typography>
+      <NothingSelectedView/>
 
     </JournalLayout>
   )
