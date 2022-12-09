@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import './App.css'
 
 import { RootState } from './store'
-import { increment } from './store/slices/counter'
+import { decrement, increment, incrementByAmount } from './store/slices/counter'
 
 function App () {
 
@@ -22,11 +22,25 @@ function App () {
           <img src={reactLogo} className="logo react" alt="React logo"/>
         </a>
       </div>
+
       <h1>Vite + React</h1>
+
+      <p>count is {value}</p>
+
       <div className="card">
+
         <button onClick={() => dispatch(increment())}>
-          count is {value}
+          Increment
         </button>
+
+        <button onClick={() => dispatch(decrement())}>
+          Decrement
+        </button>
+
+        <button onClick={() => dispatch(incrementByAmount(5))}>
+          Increment by 5
+        </button>
+
       </div>
 
     </div>
