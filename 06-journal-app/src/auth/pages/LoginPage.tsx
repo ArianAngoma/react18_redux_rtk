@@ -1,9 +1,9 @@
 import { FC } from 'react'
 
+import { Link as RouterLink } from 'react-router-dom'
+
 import { TextField, Typography, Grid, Button, Link } from '@mui/material'
 import { Google } from '@mui/icons-material'
-
-import { Link as RouterLink } from 'react-router-dom'
 
 import { AuthLayout } from '../layout'
 

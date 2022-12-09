@@ -4,11 +4,7 @@ import { Outlet } from 'react-router-dom'
 const AuthRoutes: FC = () => {
 
   return (
-    <>
-
-      <Outlet/>
-
-    </>
+    <Outlet/>
   )
 
 }
