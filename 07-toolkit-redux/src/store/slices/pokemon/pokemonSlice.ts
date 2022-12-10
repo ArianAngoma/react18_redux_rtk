@@ -1,9 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
+export interface Result {
+  name: string;
+  url: string;
+}
+
+export interface ResponsePokemon {
+  count: number;
+  next: string;
+  previous: string | null;
+  results: Result[];
+}
+
 export interface PokemonState {
   page: number
-  pokemons: any[]
+  pokemons: Result[]
   isLoading: boolean
 
 }
@@ -21,8 +33,10 @@ export const pokemonSlice = createSlice({
     startLoadingPokemons: (state) => {
       state.isLoading = true
     },
-    setPokemons: (state, action: PayloadAction<any[]>) => {
-      console.log(action)
+    setPokemons: (state, action: PayloadAction<Pick<PokemonState, 'page' | 'pokemons'>>) => {
+      state.isLoading = false
+      state.page = action.payload.page
+      state.pokemons = action.payload.pokemons
     }
   },
 })
