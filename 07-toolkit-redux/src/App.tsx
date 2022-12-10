@@ -1,16 +1,13 @@
 import reactLogo from './assets/react.svg'
-import { useDispatch, useSelector } from 'react-redux'
-
 import './App.css'
 
-import { RootState } from './store'
-import { decrement, increment, incrementByAmount } from './store/slices/counter'
+import { useAppDispatch, useAppSelector, increment, decrement, incrementByAmount } from './store'
 
 function App () {
 
-  const { value } = useSelector((state: RootState) => state.counter)
+  const { value } = useAppSelector(state => state.counter)
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   return (
     <div className="App">
