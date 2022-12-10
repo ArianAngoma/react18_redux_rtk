@@ -1,6 +1,15 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
+import { getPokemons, useAppDispatch } from './store'
 
 const PokemonApp: FC = () => {
+
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+
+    dispatch(getPokemons({ page: 0 }))
+
+  }, [])
 
   return (
     <>
