@@ -1,5 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+interface Todo {
+  completed: boolean
+  id: number
+  title: string
+  userId: number
+}
+
+type TodoResponse = Todo[]
+
 export const todosApi = createApi({
   reducerPath: 'todos',
 
@@ -9,7 +18,7 @@ export const todosApi = createApi({
 
   endpoints: (builder) => ({
 
-    getTodos: builder.query<any, number>({
+    getTodos: builder.query<TodoResponse, void>({
       query: () => '/todos',
     })
 
