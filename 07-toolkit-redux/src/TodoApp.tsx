@@ -1,12 +1,29 @@
-import { FC } from 'react'
-import { useGetTodosQuery } from './store/apis'
+import { FC, useState } from 'react'
+import { useGetTodoByIdQuery, useGetTodosQuery } from './store/apis'
 
 const TodoApp: FC = () => {
 
-  const {
+  const [todoId, setTodoId] = useState<number>(1)
+
+  /* const {
     data: todos,
     isLoading
-  } = useGetTodosQuery()
+  } = useGetTodosQuery() */
+
+  const {
+    data: todo,
+    isLoading
+  } = useGetTodoByIdQuery(todoId)
+
+  const onNextTodo = () => {
+    setTodoId(prevState => prevState + 1)
+  }
+
+  const onPrevTodo = () => {
+    if (todoId > 1) {
+      setTodoId(prevState => prevState - 1)
+    }
+  }
 
   return (
     <>
@@ -15,9 +32,23 @@ const TodoApp: FC = () => {
 
       <h4>isLoading: {isLoading ? 'True' : 'False'}</h4>
 
-      <pre>...</pre>
+      <pre>
+        {
+          JSON.stringify(todo, null, 2)
+        }
+      </pre>
 
-      <ul>
+      <button onClick={onPrevTodo}>
+        Previous Todo
+      </button>
+
+      <button
+        onClick={onNextTodo}
+      >
+        Next Todo
+      </button>
+
+      {/* <ul>
 
         {
           todos?.map((todo) => (
@@ -28,11 +59,9 @@ const TodoApp: FC = () => {
           ))
         }
 
-      </ul>
+      </ul> */}
 
-      <button>
-        Next Todo
-      </button>
+
     </>
   )
 

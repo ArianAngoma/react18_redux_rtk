@@ -7,7 +7,7 @@ interface Todo {
   userId: number
 }
 
-type TodoResponse = Todo[]
+type TodosResponse = Todo[]
 
 export const todosApi = createApi({
   reducerPath: 'todos',
@@ -18,13 +18,20 @@ export const todosApi = createApi({
 
   endpoints: (builder) => ({
 
-    getTodos: builder.query<TodoResponse, void>({
+    getTodos: builder.query<TodosResponse, void>({
       query: () => '/todos',
+    }),
+
+    getTodoById: builder.query<Todo, number>({
+      query: (id) => `/todos/${id}`,
     })
 
   })
 })
 
-export const { useGetTodosQuery } = todosApi
+export const {
+  useGetTodosQuery,
+  useGetTodoByIdQuery
+} = todosApi
 
 
