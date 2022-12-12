@@ -1,15 +1,6 @@
-import { AnyAction, ThunkAction } from '@reduxjs/toolkit'
-
-import { RootState } from '../../config'
 import { ResponsePokemon, setPokemons, startLoadingPokemons } from './pokemonSlice'
 import { pokemonApi } from '../../../api'
-
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  AnyAction
->
+import { AppThunk } from '../../config'
 
 interface GetPokemonsArgs {
   page: number;
