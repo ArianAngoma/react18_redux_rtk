@@ -2,6 +2,7 @@ import { FC, useState } from 'react'
 import { useAppSelector } from '../hooks/useAppSelector'
 import { useAppDispatch } from '../hooks/useAppDispatch'
 import { decrement, increment, incrementByAmount, reset } from './counterSlice'
+import './index.css'
 
 const Counter: FC = () => {
 
