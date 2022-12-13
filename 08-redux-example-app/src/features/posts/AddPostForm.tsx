@@ -1,5 +1,4 @@
 import { FC, useState, ChangeEvent } from 'react'
-import { nanoid } from '@reduxjs/toolkit'
 
 import { useAppDispatch } from '../hooks/useAppDispatch'
 import { postAdded } from './postSlice'
@@ -20,7 +19,6 @@ const AddPostForm: FC = () => {
 
       dispatch(
         postAdded({
-          id: nanoid(),
           title,
           content
         })

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit'
 
 interface PostState {
   id: string
@@ -8,12 +8,12 @@ interface PostState {
 
 const initialState: PostState[] = [
   {
-    id: 1,
+    id: '1',
     title: 'First Post!',
     content: 'Hello!',
   },
   {
-    id: 2,
+    id: '2',
     title: 'Second Post',
     content: 'More text',
   }
@@ -23,8 +23,22 @@ const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    postAdded (state, action: PayloadAction<PostState>) {
-      state.push(action.payload)
+    postAdded: {
+      reducer (state, action: PayloadAction<PostState>) {
+        state.push(action.payload)
+      },
+      prepare ({
+        title,
+        content
+      }: Omit<PostState, 'id'>) {
+        return {
+          payload: {
+            id: nanoid(),
+            title,
+            content
+          }
+        }
+      }
     }
   }
 })
