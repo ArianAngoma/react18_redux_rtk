@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface PostState {
-  id: number
+  id: string
   title: string
   content: string
 }
