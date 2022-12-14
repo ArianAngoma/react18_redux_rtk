@@ -2,16 +2,20 @@ import { FC, useState, ChangeEvent } from 'react'
 
 import { useAppDispatch } from '../hooks/useAppDispatch'
 import { postAdded } from './postSlice'
+import { useAppSelector } from '../hooks/useAppSelector'
 
 const AddPostForm: FC = () => {
 
   const [title, setTitle] = useState<string>('')
   const [content, setContent] = useState<string>('')
+  const [userId, setUserId] = useState<string>('')
 
   const dispatch = useAppDispatch()
+  const users = useAppSelector(state => state.users)
 
   const onTitleChanged = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)
   const onContentChanged = (e: ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)
+  const onAuthorChanged = (e: ChangeEvent<HTMLSelectElement>) => setUserId(e.target.value)
 
   const onSavePostClicked = () => {
 
@@ -20,7 +24,8 @@ const AddPostForm: FC = () => {
       dispatch(
         postAdded({
           title,
-          content
+          content,
+          userId
         })
       )
 
@@ -29,6 +34,17 @@ const AddPostForm: FC = () => {
     }
 
   }
+
+  const canSave = Boolean(title) && Boolean(content) && Boolean(userId)
+
+  const usersOptions = users.map(user => (
+    <option
+      key={user.id}
+      value={user.id}
+    >
+      {user.name}
+    </option>
+  ))
 
   return (
     <section>
@@ -46,6 +62,16 @@ const AddPostForm: FC = () => {
           onChange={onTitleChanged}
         />
 
+        <label htmlFor="postAuthor">Author:</label>
+        <select
+          id="postAuthor"
+          value={userId}
+          onChange={onAuthorChanged}
+        >
+          <option value=""></option>
+          {usersOptions}
+        </select>
+
         <label htmlFor="postContent">Content:</label>
         <textarea
           id="postContent"
@@ -57,6 +83,7 @@ const AddPostForm: FC = () => {
         <button
           type="button"
           onClick={onSavePostClicked}
+          disabled={!canSave}
         >
           Save Post
         </button>

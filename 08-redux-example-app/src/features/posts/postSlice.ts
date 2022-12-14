@@ -4,6 +4,7 @@ interface PostState {
   id: string
   title: string
   content: string
+  userId?: string
 }
 
 const initialState: PostState[] = [
@@ -29,13 +30,15 @@ const postsSlice = createSlice({
       },
       prepare ({
         title,
-        content
+        content,
+        userId
       }: Omit<PostState, 'id'>) {
         return {
           payload: {
             id: nanoid(),
             title,
-            content
+            content,
+            userId
           }
         }
       }
