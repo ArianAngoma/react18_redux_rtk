@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit'
-import { sub } from 'date-fns'
 
 export interface Reaction {
   thumbUp: number
@@ -9,7 +8,7 @@ export interface Reaction {
   coffee: number
 }
 
-export interface PostState {
+export interface Post {
   id: string
   title: string
   content: string
@@ -18,48 +17,32 @@ export interface PostState {
   reactions: Reaction
 }
 
-const initialState: PostState[] = [
-  {
-    id: '1',
-    title: 'First Post!',
-    content: 'Hello!',
-    date: sub(new Date(), { minutes: 10 }).toISOString(),
-    reactions: {
-      thumbUp: 0,
-      wow: 0,
-      heart: 0,
-      rocket: 0,
-      coffee: 0
-    }
-  },
-  {
-    id: '2',
-    title: 'Second Post',
-    content: 'More text',
-    date: sub(new Date(), { minutes: 5 }).toISOString(),
-    reactions: {
-      thumbUp: 0,
-      wow: 0,
-      heart: 0,
-      rocket: 0,
-      coffee: 0
-    }
-  }
-]
+export interface PostState {
+  posts: Post[]
+  status: 'idle' | 'loading' | 'succeeded' | 'failed'
+  error: string | null
+
+}
+
+const initialState: PostState = {
+  posts: [],
+  status: 'idle',
+  error: null
+}
 
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
     postAdded: {
-      reducer (state, action: PayloadAction<PostState>) {
-        state.push(action.payload)
+      reducer (state, action: PayloadAction<Post>) {
+        state.posts.push(action.payload)
       },
       prepare ({
         title,
         content,
         userId
-      }: Omit<PostState, 'id' | 'date'>) {
+      }: Omit<Post, 'id' | 'date' | 'reactions'>) {
         return {
           payload: {
             id: nanoid(),
@@ -85,7 +68,7 @@ const postsSlice = createSlice({
         reaction
       } = action.payload
 
-      const existingPost = state.find(post => post.id === postId)
+      const existingPost = state.posts.find(post => post.id === postId)
 
       if (existingPost) {
         existingPost.reactions[reaction]++

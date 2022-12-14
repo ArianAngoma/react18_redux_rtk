@@ -6,7 +6,7 @@ import ReactionButtons from './ReactionButtons'
 
 const PostList: FC = () => {
 
-  const posts = useAppSelector(state => state.posts)
+  const { posts } = useAppSelector(state => state.posts)
 
   const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
 

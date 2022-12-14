@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { PostState as Post, reactionAdded } from './postSlice'
+import { Post, reactionAdded } from './postSlice'
 import { useAppDispatch } from '../hooks/useAppDispatch'
 
 const reactionEmoji = {

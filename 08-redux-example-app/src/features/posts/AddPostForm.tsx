@@ -25,7 +25,7 @@ const AddPostForm: FC = () => {
         postAdded({
           title,
           content,
-          userId
+          userId,
         })
       )
 
