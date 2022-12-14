@@ -7,7 +7,9 @@ const PostList: FC = () => {
 
   const posts = useAppSelector(state => state.posts)
 
-  const renderedPosts = posts.map(post => (
+  const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
+
+  const renderedPosts = orderedPosts.map(post => (
     <article key={post.id}>
 
       <h3>{post.title}</h3>
