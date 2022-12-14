@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit'
 import { sub } from 'date-fns'
 
-interface Reaction {
+export interface Reaction {
   thumbUp: number
   wow: number
   heart: number
@@ -9,7 +9,7 @@ interface Reaction {
   coffee: number
 }
 
-interface PostState {
+export interface PostState {
   id: string
   title: string
   content: string
