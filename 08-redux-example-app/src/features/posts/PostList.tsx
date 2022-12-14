@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { useAppSelector } from '../hooks/useAppSelector'
 import PostAuthor from './PostAuthor'
+import TimeAgo from './TimeAgo'
 
 const PostList: FC = () => {
 
@@ -13,7 +14,8 @@ const PostList: FC = () => {
       <p>{post.content.substring(0, 100)}</p>
 
       <p className="postCredit">
-        <PostAuthor userId={post.userId} />
+        <PostAuthor userId={post.userId}/>
+        <TimeAgo timestamp={post.date}/>
       </p>
 
     </article>
