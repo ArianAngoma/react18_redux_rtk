@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 
 import { useAppSelector } from '../hooks/useAppSelector'
 import { useAppDispatch } from '../hooks/useAppDispatch'
@@ -22,19 +22,34 @@ const PostList: FC = () => {
 
   }, [status])
 
-  const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
+  const content = useMemo(() => {
 
-  const renderedPosts = orderedPosts.map(post => (
-    <PostExcerpt
-      key={post.id}
-      post={post}
-    />
-  ))
+    if (status === 'loading') {
+
+      return <p>Loading...</p>
+
+    } else if (status === 'succeeded') {
+
+      const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
+      return orderedPosts.map(post => (
+        <PostExcerpt
+          key={post.id}
+          post={post}
+        />
+      ))
+
+    } else if (status === 'failed') {
+
+      return <p>{error}</p>
+
+    }
+
+  }, [status, posts, error])
 
   return (
     <section>
       <h2>Posts</h2>
-      {renderedPosts}
+      {content}
     </section>
   )
 

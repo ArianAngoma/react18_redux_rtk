@@ -31,6 +31,7 @@ const AddPostForm: FC = () => {
 
       setTitle('')
       setBody('')
+      setUserId('')
     }
 
   }

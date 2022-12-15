@@ -39,7 +39,7 @@ const initialState: PostState = {
 export const fetchPosts = createAsyncThunk<
   Post[],
   void,
-  { rejectValue: AxiosError }
+  { rejectValue: string }
 >('posts/fetchPosts', async (_, { rejectWithValue }) => {
     try {
 
@@ -48,7 +48,7 @@ export const fetchPosts = createAsyncThunk<
 
     } catch (err) {
       if (err instanceof AxiosError) {
-        return rejectWithValue(err)
+        return rejectWithValue(err.message)
       }
     }
   },
@@ -113,6 +113,7 @@ const postsSlice = createSlice({
   },
 
   extraReducers: builder => {
+    // The payload is what the async thunk returns
     builder.addCase(fetchPosts.pending, (state, action) => {
       state.status = 'loading'
     })
@@ -136,8 +137,9 @@ const postsSlice = createSlice({
       state.posts = state.posts.concat(loadedPosts)
     })
     builder.addCase(fetchPosts.rejected, (state, action) => {
+      // In this case, we want to display an error message if the fetch fails (e.g. due to a network error) with a `try/catch` block
       state.status = 'failed'
-      state.error = action.error.message
+      state.error = action.payload
     })
   }
 
