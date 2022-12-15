@@ -2,6 +2,8 @@ import { createSlice, PayloadAction, nanoid, createAsyncThunk } from '@reduxjs/t
 import axios, { AxiosError } from 'axios'
 import { sub } from 'date-fns'
 
+import { RootState } from '../../app/store'
+
 const POSTS_URL = 'https://jsonplaceholder.typicode.com/posts'
 
 export interface Reaction {
@@ -13,9 +15,9 @@ export interface Reaction {
 }
 
 export interface Post {
-  id: string
+  id: number | string
   title: string
-  content: string
+  body: string
   userId?: string
   date: string
   reactions: Reaction
@@ -49,6 +51,14 @@ export const fetchPosts = createAsyncThunk<
         return rejectWithValue(err)
       }
     }
+  },
+  {
+    condition: (_, { getState }) => {
+      const { posts } = getState() as RootState
+      if (posts.status === 'succeeded' || posts.status === 'loading') {
+        return false
+      }
+    }
   }
 )
 
@@ -65,14 +75,14 @@ const postsSlice = createSlice({
       },
       prepare ({
         title,
-        content,
+        body,
         userId
       }: Omit<Post, 'id' | 'date' | 'reactions'>) {
         return {
           payload: {
             id: nanoid(),
             title,
-            content,
+            body,
             userId,
             date: new Date().toISOString(),
             reactions: {
@@ -86,7 +96,7 @@ const postsSlice = createSlice({
         }
       }
     },
-    reactionAdded (state, action: PayloadAction<{ postId: string; reaction: keyof Reaction }>) {
+    reactionAdded (state, action: PayloadAction<{ postId: string | number; reaction: keyof Reaction }>) {
 
       const {
         postId,

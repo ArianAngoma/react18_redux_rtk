@@ -7,35 +7,35 @@ import { useAppSelector } from '../hooks/useAppSelector'
 const AddPostForm: FC = () => {
 
   const [title, setTitle] = useState<string>('')
-  const [content, setContent] = useState<string>('')
+  const [body, setBody] = useState<string>('')
   const [userId, setUserId] = useState<string>('')
 
   const dispatch = useAppDispatch()
   const users = useAppSelector(state => state.users)
 
   const onTitleChanged = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)
-  const onContentChanged = (e: ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)
+  const onBodyChanged = (e: ChangeEvent<HTMLTextAreaElement>) => setBody(e.target.value)
   const onAuthorChanged = (e: ChangeEvent<HTMLSelectElement>) => setUserId(e.target.value)
 
   const onSavePostClicked = () => {
 
-    if (title && content) {
+    if (title && body) {
 
       dispatch(
         postAdded({
           title,
-          content,
+          body,
           userId,
         })
       )
 
       setTitle('')
-      setContent('')
+      setBody('')
     }
 
   }
 
-  const canSave = Boolean(title) && Boolean(content) && Boolean(userId)
+  const canSave = Boolean(title) && Boolean(body) && Boolean(userId)
 
   const usersOptions = users.map(user => (
     <option
@@ -72,12 +72,12 @@ const AddPostForm: FC = () => {
           {usersOptions}
         </select>
 
-        <label htmlFor="postContent">Content:</label>
+        <label htmlFor="postBody">Content:</label>
         <textarea
-          id="postContent"
-          name="postContent"
-          value={content}
-          onChange={onContentChanged}
+          id="postBody"
+          name="postBody"
+          value={body}
+          onChange={onBodyChanged}
         />
 
         <button
