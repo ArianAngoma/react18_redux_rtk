@@ -9,7 +9,7 @@ const PostAuthor: FC<PostAuthorProps> = ({ userId }) => {
 
   const users = useAppSelector(state => state.users)
 
-  const author = users.find(user => user.id === userId)
+  const author = users.find(user => user.id == userId)
 
   return (
     <span>by {author ? author.name : 'Unknown author'}</span>
