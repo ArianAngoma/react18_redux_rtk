@@ -15,10 +15,10 @@ export interface Reaction {
 }
 
 export interface Post {
-  id: number | string
+  id: number
   title: string
   body: string
-  userId?: string | number
+  userId: number
   date: string
   reactions: Reaction
 }
@@ -85,7 +85,7 @@ const postsSlice = createSlice({
   initialState,
 
   reducers: {
-    postAdded: {
+    /* postAdded: {
       reducer (state, action: PayloadAction<Post>) {
         state.posts.push(action.payload)
       },
@@ -111,7 +111,7 @@ const postsSlice = createSlice({
           }
         }
       }
-    },
+    }, */
     reactionAdded (state, action: PayloadAction<{ postId: string | number; reaction: keyof Reaction }>) {
 
       const {
@@ -158,7 +158,6 @@ const postsSlice = createSlice({
       state.error = action.payload
     })
     builder.addCase(addNewPost.fulfilled, (state, action) => {
-      action.payload.userId = Number(action.payload.userId)
       action.payload.date = new Date().toISOString()
       action.payload.reactions = {
         thumbUp: 0,
@@ -174,7 +173,7 @@ const postsSlice = createSlice({
 })
 
 export const {
-  postAdded,
+  // postAdded,
   reactionAdded
 } = postsSlice.actions
 

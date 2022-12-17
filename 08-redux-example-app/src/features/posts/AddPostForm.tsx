@@ -1,7 +1,7 @@
 import { FC, useState, ChangeEvent } from 'react'
 
 import { useAppDispatch } from '../hooks/useAppDispatch'
-import { addNewPost, postAdded } from './postSlice'
+import { addNewPost } from './postSlice'
 import { useAppSelector } from '../hooks/useAppSelector'
 
 const AddPostForm: FC = () => {
@@ -29,7 +29,7 @@ const AddPostForm: FC = () => {
         setAddRequestStatus('pending')
         dispatch(
           addNewPost({
-            userId,
+            userId: Number(userId),
             title,
             body
           })
