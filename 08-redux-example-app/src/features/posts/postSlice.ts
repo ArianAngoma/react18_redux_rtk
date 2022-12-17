@@ -18,7 +18,7 @@ export interface Post {
   id: number | string
   title: string
   body: string
-  userId?: string
+  userId?: string | number
   date: string
   reactions: Reaction
 }
@@ -57,6 +57,22 @@ export const fetchPosts = createAsyncThunk<
       const { posts } = getState() as RootState
       if (posts.status === 'succeeded' || posts.status === 'loading') {
         return false
+      }
+    }
+  }
+)
+
+export const addNewPost = createAsyncThunk<
+  Post,
+  Omit<Post, 'id' | 'date' | 'reactions'>,
+  { rejectValue: string }
+>('posts/addNewPost', async (initialPost, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(POSTS_URL, { ...initialPost })
+      return response.data
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return rejectWithValue(err.message)
       }
     }
   }
@@ -140,6 +156,18 @@ const postsSlice = createSlice({
       // In this case, we want to display an error message if the fetch fails (e.g. due to a network error) with a `try/catch` block
       state.status = 'failed'
       state.error = action.payload
+    })
+    builder.addCase(addNewPost.fulfilled, (state, action) => {
+      action.payload.userId = Number(action.payload.userId)
+      action.payload.date = new Date().toISOString()
+      action.payload.reactions = {
+        thumbUp: 0,
+        wow: 0,
+        heart: 0,
+        rocket: 0,
+        coffee: 0
+      }
+      state.posts.push(action.payload)
     })
   }
 
