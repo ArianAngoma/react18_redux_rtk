@@ -1,3 +1,6 @@
+
+import { Outlet } from 'react-router-dom'
+
 import Counter from './features/counter/Counter'
 import PostList from './features/posts/PostList'
 import AddPostForm from './features/posts/AddPostForm'
@@ -13,9 +16,11 @@ function App () {
 
       {/* <Counter/> */}
 
-      <AddPostForm/>
+      {/* <AddPostForm/> */}
 
-      <PostList/>
+      {/* <PostList/> */}
+
+      <Outlet/>
 
     </main>
   )

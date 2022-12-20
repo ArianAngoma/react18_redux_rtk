@@ -1,15 +1,31 @@
 import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router-dom'
+
 import App from '../../App'
-import Layout from '../../components/Layout'
+import PostList from '../posts/PostList'
+import AddPostForm from '../posts/AddPostForm'
+import SinglePostPage from '../posts/SinglePostPage'
 
 export const routerObject: RouteObject[] = [
   {
     path: '/',
-    element: <Layout/>,
+    element: <App/>,
     children: [
       {
         index: true,
-        element: <App/>
+        element: <PostList/>
+      },
+      {
+        path: 'posts',
+        children: [
+          {
+            index: true,
+            element: <AddPostForm/>,
+          },
+          {
+            path: ':postId',
+            element: <SinglePostPage/>,
+          }
+        ]
       }
     ]
   }
