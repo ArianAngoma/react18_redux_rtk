@@ -9,10 +9,18 @@ const SinglePostPage: FC = () => {
 
   const post = useAppSelector(state => state.posts.posts.find(post => post.id === post.id))
 
+  if (!post) {
+    return (
+      <section>
+        <h2>Post not found!</h2>
+      </section>
+    )
+  }
+
   return (
     <article>
 
-      <h3>{post.title}</h3>
+      <h2>{post.title}</h2>
 
       <p>{post.body.substring(0, 100)}</p>
 

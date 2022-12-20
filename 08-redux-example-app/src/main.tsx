@@ -6,12 +6,13 @@ import App from './App'
 import { store } from './app/store'
 
 import './index.css'
+import AppRouter from './features/router/AppRouter'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   // ToDo: A condition had to be added in the asyncThunk fetchPosts because if the reducer is not added it is executed twice and added twice to the status and shows a duplicate key warning in the list of posts. Another solution is to remove the StrictMode
   <React.StrictMode>
     <Provider store={store}>
-      <App/>
+      <AppRouter/>
     </Provider>
   </React.StrictMode>,
 )
