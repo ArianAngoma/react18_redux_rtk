@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { useParams } from 'react-router-dom'
 
 import { useAppSelector } from '../hooks/useAppSelector'
 import PostAuthor from './PostAuthor'
@@ -7,7 +8,9 @@ import ReactionButtons from './ReactionButtons'
 
 const SinglePostPage: FC = () => {
 
-  const post = useAppSelector(state => state.posts.posts.find(post => post.id === post.id))
+  const { postId } = useParams()
+
+  const post = useAppSelector(state => state.posts.posts.find(post => post.id === Number(postId)))
 
   if (!post) {
     return (
