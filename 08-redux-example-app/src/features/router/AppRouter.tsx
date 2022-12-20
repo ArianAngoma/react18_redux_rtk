@@ -1,10 +1,17 @@
 import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router-dom'
 import App from '../../App'
+import Layout from '../../components/Layout'
 
 export const routerObject: RouteObject[] = [
   {
-    index: true,
-    element: <App/>
+    path: '/',
+    element: <Layout/>,
+    children: [
+      {
+        index: true,
+        element: <App/>
+      }
+    ]
   }
 ]
 
