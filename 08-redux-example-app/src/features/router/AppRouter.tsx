@@ -15,7 +15,7 @@ export const routerObject: RouteObject[] = [
         element: <PostList/>
       },
       {
-        path: 'posts',
+        path: 'post',
         children: [
           {
             index: true,
