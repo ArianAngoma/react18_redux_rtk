@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import { useAppSelector } from '../hooks/useAppSelector'
 import { useAppDispatch } from '../hooks/useAppDispatch'
+import { updatePost } from './postSlice'
 
 const EditPostForm: FC = () => {
 
@@ -13,7 +14,7 @@ const EditPostForm: FC = () => {
   const users = useAppSelector(state => state.users)
 
   const [title, setTitle] = useState<string | undefined>(post?.title)
-  const [content, setContent] = useState<string | undefined>(post?.body)
+  const [body, setBody] = useState<string | undefined>(post?.body)
   const [userId, setUserId] = useState<number | undefined>(post?.userId)
   const [requestStatus, setRequestStatus] = useState<'idle' | 'pending'>('idle')
 
@@ -28,10 +29,10 @@ const EditPostForm: FC = () => {
   }
 
   const onTitleChanged = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)
-  const onContentChanged = (e: ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)
+  const onBodyChanged = (e: ChangeEvent<HTMLTextAreaElement>) => setBody(e.target.value)
   const onAuthorChanged = (e: ChangeEvent<HTMLSelectElement>) => setUserId(Number(e.target.value))
 
-  const canSave = [title, content, userId].every(Boolean) && requestStatus === 'idle'
+  const canSave = [title, body, userId].every(Boolean) && requestStatus === 'idle'
 
   const onSavePostClicked = async () => {
 
@@ -40,10 +41,18 @@ const EditPostForm: FC = () => {
       try {
 
         setRequestStatus('pending')
-        dispatch().unwrap()
+        dispatch(
+          updatePost({
+            id: post.id,
+            title,
+            body,
+            userId,
+            reactions: post.reactions,
+          })
+        ).unwrap()
 
         setTitle('')
-        setContent('')
+        setBody('')
         setUserId(undefined)
         navigate(`/post/${postId}`)
 
@@ -93,12 +102,12 @@ const EditPostForm: FC = () => {
           {usersOptions}
         </select>
 
-        <label htmlFor="postContent">Content:</label>
+        <label htmlFor="postBody">Content:</label>
         <textarea
-          id="postContent"
-          name="postContent"
-          value={content}
-          onChange={onContentChanged}
+          id="postBody"
+          name="postBody"
+          value={body}
+          onChange={onBodyChanged}
         />
 
         <button
