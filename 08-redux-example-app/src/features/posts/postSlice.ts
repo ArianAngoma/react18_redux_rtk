@@ -79,9 +79,9 @@ export const addNewPost = createAsyncThunk<
 )
 
 export const updatePost = createAsyncThunk<
-    Post,
-    Partial<Post>,
-    { rejectValue: string }
+  Post,
+  Partial<Post>,
+  { rejectValue: string }
 >('posts/updatePost', async (updatedPost, { rejectWithValue }) => {
     try {
       const response = await axios.put(`${POSTS_URL}/${updatedPost.id}`, updatedPost)
@@ -183,6 +183,19 @@ const postsSlice = createSlice({
         coffee: 0
       }
       state.posts.push(action.payload)
+    })
+    builder.addCase(updatePost.fulfilled, (state, action) => {
+
+      if (!action.payload.id) return
+
+      const { id } = action.payload
+
+      action.payload.date = new Date().toISOString()
+
+      const posts = state.posts.filter(post => post.id !== id)
+
+      state.posts = [...posts, action.payload]
+
     })
   }
 
