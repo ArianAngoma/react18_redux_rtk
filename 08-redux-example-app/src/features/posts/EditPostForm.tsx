@@ -48,7 +48,6 @@ const EditPostForm: FC = () => {
             title,
             body,
             userId,
-            reactions: post.reactions,
           })
         ).unwrap()
 

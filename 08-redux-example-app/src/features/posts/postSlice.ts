@@ -23,6 +23,8 @@ export interface Post {
   reactions: Reaction
 }
 
+type PostResponse = Omit<Post, 'reactions' | 'date'>
+
 export interface PostState {
   posts: Post[]
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -37,19 +39,20 @@ const initialState: PostState = {
 }
 
 export const fetchPosts = createAsyncThunk<
-  Post[],
+  PostResponse[],
   void,
   { rejectValue: string }
 >('posts/fetchPosts', async (_, { rejectWithValue }) => {
     try {
 
-      const response = await axios.get(POSTS_URL)
+      const response = await axios.get<PostResponse[]>(POSTS_URL)
       return response.data
 
     } catch (err) {
       if (err instanceof AxiosError) {
         return rejectWithValue(err.message)
       }
+      return rejectWithValue('Something went wrong')
     }
   },
   {
@@ -63,33 +66,52 @@ export const fetchPosts = createAsyncThunk<
 )
 
 export const addNewPost = createAsyncThunk<
-  Post,
+  PostResponse,
   Omit<Post, 'id' | 'date' | 'reactions'>,
   { rejectValue: string }
 >('posts/addNewPost', async (initialPost, { rejectWithValue }) => {
     try {
-      const response = await axios.post(POSTS_URL, { ...initialPost })
+      const response = await axios.post<PostResponse>(POSTS_URL, { ...initialPost })
       return response.data
     } catch (err) {
       if (err instanceof AxiosError) {
         return rejectWithValue(err.message)
       }
+      return rejectWithValue('Something went wrong')
     }
   }
 )
 
 export const updatePost = createAsyncThunk<
-  Post,
-  Partial<Post>,
+  PostResponse,
+  Partial<PostResponse>,
   { rejectValue: string }
 >('posts/updatePost', async (updatedPost, { rejectWithValue }) => {
     try {
-      const response = await axios.put(`${POSTS_URL}/${updatedPost.id}`, updatedPost)
+      const response = await axios.put<PostResponse>(`${POSTS_URL}/${updatedPost.id}`, updatedPost)
       return response.data
     } catch (err) {
       if (err instanceof AxiosError) {
         return rejectWithValue(err.message)
       }
+      return rejectWithValue('Something went wrong')
+    }
+  }
+)
+
+export const deletePost = createAsyncThunk<
+  number,
+  Pick<Post, 'id'>,
+  { rejectValue: string }
+>('posts/deletePost', async ({ id }, { rejectWithValue }) => {
+    try {
+      await axios.delete(`${POSTS_URL}/${id}`)
+      return id
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return rejectWithValue(err.message)
+      }
+      return rejectWithValue('Something went wrong')
     }
   }
 )
@@ -154,16 +176,18 @@ const postsSlice = createSlice({
 
       let min = 1
 
-      const loadedPosts = action.payload.map(post => {
-        post.date = sub(new Date(), { minutes: min++ }).toISOString()
-        post.reactions = {
-          thumbUp: 0,
-          wow: 0,
-          heart: 0,
-          rocket: 0,
-          coffee: 0
+      const loadedPosts: Post[] = action.payload.map(post => {
+        return {
+          ...post,
+          date: sub(new Date(), { minutes: min++ }).toISOString(),
+          reactions: {
+            thumbUp: 0,
+            wow: 0,
+            heart: 0,
+            rocket: 0,
+            coffee: 0
+          }
         }
-        return post
       })
 
       state.posts = state.posts.concat(loadedPosts)
@@ -174,15 +198,17 @@ const postsSlice = createSlice({
       state.error = action.payload
     })
     builder.addCase(addNewPost.fulfilled, (state, action) => {
-      action.payload.date = new Date().toISOString()
-      action.payload.reactions = {
-        thumbUp: 0,
-        wow: 0,
-        heart: 0,
-        rocket: 0,
-        coffee: 0
-      }
-      state.posts.push(action.payload)
+      state.posts.push({
+        ...action.payload,
+        date: new Date().toISOString(),
+        reactions: {
+          thumbUp: 0,
+          wow: 0,
+          heart: 0,
+          rocket: 0,
+          coffee: 0
+        }
+      })
     })
     builder.addCase(updatePost.fulfilled, (state, action) => {
 
@@ -190,11 +216,13 @@ const postsSlice = createSlice({
 
       const { id } = action.payload
 
-      action.payload.date = new Date().toISOString()
+      const existingPost = state.posts.find(post => post.id === id)
 
-      const posts = state.posts.filter(post => post.id !== id)
-
-      state.posts = [...posts, action.payload]
+      if (existingPost) {
+        existingPost.title = action.payload.title
+        existingPost.body = action.payload.body
+        existingPost.date = new Date().toISOString()
+      }
 
     })
   }

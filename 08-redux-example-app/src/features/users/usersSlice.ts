@@ -42,13 +42,14 @@ export const fetchUsers = createAsyncThunk<
 >('users/fetchUsers', async (_, { rejectWithValue }) => {
   try {
 
-    const response = await axios.get(USERS_URL)
+    const response = await axios.get<User[]>(USERS_URL)
     return response.data
 
   } catch (err) {
     if (err instanceof AxiosError) {
       return rejectWithValue(err.message)
     }
+    return rejectWithValue('Something went wrong')
   }
 })
 
