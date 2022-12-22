@@ -4,6 +4,7 @@ import App from '../../App'
 import PostList from '../posts/PostList'
 import AddPostForm from '../posts/AddPostForm'
 import SinglePostPage from '../posts/SinglePostPage'
+import EditPostForm from '../posts/EditPostForm'
 
 export const routerObject: RouteObject[] = [
   {
@@ -24,6 +25,10 @@ export const routerObject: RouteObject[] = [
           {
             path: ':postId',
             element: <SinglePostPage/>,
+          },
+          {
+            path: 'edit/:postId',
+            element: <EditPostForm/>,
           }
         ]
       }

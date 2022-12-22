@@ -124,3 +124,5 @@ const EditPostForm: FC = () => {
   )
 
 }
+
+export default EditPostForm
