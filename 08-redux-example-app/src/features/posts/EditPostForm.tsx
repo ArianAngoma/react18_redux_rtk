@@ -41,7 +41,7 @@ const EditPostForm: FC = () => {
       try {
 
         setRequestStatus('pending')
-        dispatch(
+        await dispatch(
           updatePost({
             id: post.id,
             title,
