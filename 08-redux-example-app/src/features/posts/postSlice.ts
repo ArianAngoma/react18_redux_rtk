@@ -78,6 +78,22 @@ export const addNewPost = createAsyncThunk<
   }
 )
 
+export const updatePost = createAsyncThunk<
+    Post,
+    Partial<Post>,
+    { rejectValue: string }
+>('posts/updatePost', async (updatedPost, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(`${POSTS_URL}/${updatedPost.id}`, updatedPost)
+      return response.data
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return rejectWithValue(err.message)
+      }
+    }
+  }
+)
+
 const postsSlice = createSlice({
 
   name: 'posts',
