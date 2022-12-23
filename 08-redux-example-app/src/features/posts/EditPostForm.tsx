@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import { useAppSelector } from '../hooks/useAppSelector'
 import { useAppDispatch } from '../hooks/useAppDispatch'
-import { updatePost } from './postSlice'
+import { deletePost, updatePost } from './postSlice'
 
 const EditPostForm: FC = () => {
 
@@ -75,6 +75,32 @@ const EditPostForm: FC = () => {
     </option>
   ))
 
+  const onDeletePicClicked = () => {
+
+    try {
+
+      setRequestStatus('pending')
+
+      dispatch(
+        deletePost({
+          id: post.id,
+        })
+      ).unwrap()
+
+      setTitle('')
+      setBody('')
+      setUserId(undefined)
+
+      navigate('/')
+
+    } catch (err) {
+      console.error('Failed to delete the post: ', err)
+    } finally {
+      setRequestStatus('idle')
+    }
+
+  }
+
   return (
     <section>
 
@@ -116,6 +142,14 @@ const EditPostForm: FC = () => {
           disabled={!canSave}
         >
           Save Post
+        </button>
+
+        <button
+          className="deleteButton"
+          type="button"
+          onClick={onDeletePicClicked}
+        >
+          Delete Post
         </button>
 
       </form>
