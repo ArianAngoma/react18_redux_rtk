@@ -75,13 +75,13 @@ const EditPostForm: FC = () => {
     </option>
   ))
 
-  const onDeletePicClicked = () => {
+  const onDeletePicClicked = async () => {
 
     try {
 
       setRequestStatus('pending')
 
-      dispatch(
+      await dispatch(
         deletePost({
           id: post.id,
         })

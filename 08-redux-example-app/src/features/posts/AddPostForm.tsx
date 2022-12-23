@@ -1,4 +1,5 @@
 import { FC, useState, ChangeEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch } from '../hooks/useAppDispatch'
 import { addNewPost } from './postSlice'
@@ -14,6 +15,8 @@ const AddPostForm: FC = () => {
   const dispatch = useAppDispatch()
   const users = useAppSelector(state => state.users)
 
+  const navigate = useNavigate()
+
   const onTitleChanged = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)
   const onBodyChanged = (e: ChangeEvent<HTMLTextAreaElement>) => setBody(e.target.value)
   const onAuthorChanged = (e: ChangeEvent<HTMLSelectElement>) => setUserId(e.target.value)
@@ -27,6 +30,8 @@ const AddPostForm: FC = () => {
       try {
 
         setAddRequestStatus('pending')
+
+        // If we want we can set await
         dispatch(
           addNewPost({
             userId: Number(userId),
@@ -38,6 +43,8 @@ const AddPostForm: FC = () => {
         setTitle('')
         setBody('')
         setUserId('')
+
+        navigate('/')
 
       } catch (err) {
         console.error('Failed to save the post: ', err)
