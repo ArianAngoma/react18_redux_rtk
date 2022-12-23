@@ -12,15 +12,15 @@ const PostList: FC = () => {
     status,
     error
   } = useAppSelector(state => state.posts)
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
-  useEffect(() => {
+  /* useEffect(() => {
 
     if (status === 'idle') {
       dispatch(fetchPosts())
     }
 
-  }, [status])
+  }, [status]) */
 
   const content = useMemo(() => {
 
