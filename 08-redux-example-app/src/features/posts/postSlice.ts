@@ -225,6 +225,14 @@ const postsSlice = createSlice({
       }
 
     })
+    builder.addCase(deletePost.fulfilled, (state, action) => {
+
+      if (!action.payload) return
+
+      state.posts = state.posts.filter(post => post.id !== action.payload)
+
+    })
+
   }
 
 })
