@@ -250,7 +250,14 @@ const postsSlice = createSlice({
 
 })
 
+/*
+* This is the best way to obtain some state since we only get the specific state we want, and we don't worry if another state changes and will render the component.
+*  */
 export const selectAllPosts = (state: RootState) => state.posts.posts
+
+export const getPostsStatus = (state: RootState) => state.posts.status
+
+export const getPostsError = (state: RootState) => state.posts.error
 
 export const selectPostsByUser = createDraftSafeSelector(
   [

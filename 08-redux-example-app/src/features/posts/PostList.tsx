@@ -2,19 +2,26 @@ import { FC, useEffect, useMemo } from 'react'
 
 import { useAppSelector } from '../hooks/useAppSelector'
 import { useAppDispatch } from '../hooks/useAppDispatch'
-import { fetchPosts } from './postSlice'
+import { fetchPosts, getPostsError, getPostsStatus, selectAllPosts } from './postSlice'
 import PostExcerpt from './PostExcerpt'
 
 const PostList: FC = () => {
 
-  const {
+  /*
+  * This is the best way to obtain some state since we only get the specific state we want, and we don't worry if another state changes and will render the component.
+  *  */
+  const posts = useAppSelector(selectAllPosts)
+  const status = useAppSelector(getPostsStatus)
+  const error = useAppSelector(getPostsError)
+
+  /* const {
     posts,
     status,
     error
   } = useAppSelector(state => state.posts)
-  // const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
 
-  /* useEffect(() => {
+  useEffect(() => {
 
     if (status === 'idle') {
       dispatch(fetchPosts())
