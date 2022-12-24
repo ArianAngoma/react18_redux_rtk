@@ -3,14 +3,18 @@ import { Link, useParams } from 'react-router-dom'
 
 import { useAppSelector } from '../hooks/useAppSelector'
 import { selectUserById } from './usersSlice'
+import { selectPostsByUser } from '../posts/postSlice'
 
 const UserPage: FC = () => {
 
   const { userId } = useParams()
   const user = useAppSelector(state => selectUserById(state, Number(userId)))
-  const postsForUser = useAppSelector(state => {
+
+  /* const postsForUser = useAppSelector(state => {
     return state.posts.posts.filter(post => post.userId === user?.id)
-  })
+  }) */
+
+  const postsForUser = useAppSelector(state => selectPostsByUser(state, Number(userId)))
 
   const postTitles = postsForUser.map(post => (
     <li key={post.id}>
