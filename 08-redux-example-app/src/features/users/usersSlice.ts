@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios, { AxiosError } from 'axios'
+import { RootState } from '../../app/store'
 
 const USERS_URL = 'https://jsonplaceholder.typicode.com/users'
 
@@ -67,7 +68,7 @@ const usersSlice = createSlice({
   }
 })
 
-export const selectUserById = (state: User[], userId: number) => state.find(user => user.id === userId)
+export const selectUserById = (state: RootState, userId: number) => state.users.find(user => user.id === userId)
 
 export const {} = usersSlice.actions
 
