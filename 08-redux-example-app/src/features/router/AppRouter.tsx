@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouteObject, RouterProvider } from 'react-router-dom'
 
 import App from '../../App'
 import PostList from '../posts/PostList'
@@ -46,6 +46,10 @@ export const routerObject: RouteObject[] = [
             element: <UserPage/>,
           }
         ]
+      },
+      {
+        path: '*',
+        element: <Navigate to={'/'} replace/>
       }
     ]
   }
