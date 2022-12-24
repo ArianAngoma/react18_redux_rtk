@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, nanoid, createAsyncThunk, createSelector } from '@reduxjs/toolkit'
 import axios, { AxiosError } from 'axios'
 import { sub } from 'date-fns'
 
@@ -242,6 +242,16 @@ const postsSlice = createSlice({
   }
 
 })
+
+export const selectAllPosts = (state: RootState) => state.posts.posts
+
+export const selectPostsByUser = createSelector(
+  [
+    selectAllPosts,
+    (state: RootState, userId: number) => userId
+  ],
+  (posts, userId) => posts.filter(post => post.userId === userId),
+)
 
 export const {
   // postAdded,
