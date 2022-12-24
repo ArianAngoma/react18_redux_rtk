@@ -29,13 +29,15 @@ export interface PostState {
   posts: Post[]
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | undefined
+  count: number
 
 }
 
 const initialState: PostState = {
   posts: [],
   status: 'idle',
-  error: undefined
+  error: undefined,
+  count: 0
 }
 
 export const fetchPosts = createAsyncThunk<
@@ -163,6 +165,10 @@ const postsSlice = createSlice({
         existingPost.reactions[reaction]++
       }
 
+    },
+
+    increaseCount (state) {
+      state.count++
     }
   },
 
@@ -239,7 +245,8 @@ const postsSlice = createSlice({
 
 export const {
   // postAdded,
-  reactionAdded
+  reactionAdded,
+  increaseCount
 } = postsSlice.actions
 
 export default postsSlice.reducer
