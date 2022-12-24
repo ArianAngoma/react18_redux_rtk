@@ -10,12 +10,19 @@ const Header: FC = () => {
       <nav>
 
         <ul>
+
           <li>
             <Link to="/">Home</Link>
           </li>
+
           <li>
-            <Link to="/post">Post</Link>
+            <Link to="post">Post</Link>
           </li>
+
+          <li>
+            <Link to="user">User</Link>
+          </li>
+
         </ul>
 
       </nav>
