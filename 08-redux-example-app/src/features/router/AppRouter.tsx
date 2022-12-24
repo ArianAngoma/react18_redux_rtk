@@ -49,6 +49,7 @@ export const routerObject: RouteObject[] = [
       },
       {
         path: '*',
+        // Catch all route - replace with 404 page if you want
         element: <Navigate to={'/'} replace/>
       }
     ]
