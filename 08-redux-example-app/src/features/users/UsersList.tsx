@@ -1,6 +1,7 @@
 import { FC } from 'react'
-import { useAppSelector } from '../hooks/useAppSelector'
 import { Link } from 'react-router-dom'
+
+import { useAppSelector } from '../hooks/useAppSelector'
 
 const UsersList: FC = () => {
 

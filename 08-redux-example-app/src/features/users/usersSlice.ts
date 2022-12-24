@@ -67,6 +67,8 @@ const usersSlice = createSlice({
   }
 })
 
+export const selectUserById = (state: User[], userId: number) => state.find(user => user.id === userId)
+
 export const {} = usersSlice.actions
 
 export default usersSlice.reducer
