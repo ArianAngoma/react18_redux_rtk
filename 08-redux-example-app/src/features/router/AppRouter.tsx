@@ -5,6 +5,8 @@ import PostList from '../posts/PostList'
 import AddPostForm from '../posts/AddPostForm'
 import SinglePostPage from '../posts/SinglePostPage'
 import EditPostForm from '../posts/EditPostForm'
+import UsersList from '../users/UsersList'
+import UserPage from '../users/UserPage'
 
 export const routerObject: RouteObject[] = [
   {
@@ -29,6 +31,19 @@ export const routerObject: RouteObject[] = [
           {
             path: 'edit/:postId',
             element: <EditPostForm/>,
+          }
+        ]
+      },
+      {
+        path: 'user',
+        children: [
+          {
+            index: true,
+            element: <UsersList/>,
+          },
+          {
+            path: ':userId',
+            element: <UserPage/>,
           }
         ]
       }
