@@ -3,14 +3,14 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import { useAppSelector } from '../hooks/useAppSelector'
 import { useAppDispatch } from '../hooks/useAppDispatch'
-import { deletePost, updatePost } from './postSlice'
+import { deletePost, selectPostById, updatePost } from './postSlice'
 
 const EditPostForm: FC = () => {
 
   const { postId } = useParams()
   const navigate = useNavigate()
 
-  const post = useAppSelector(state => state.posts.posts.find(post => post.id === Number(postId)))
+  const post = useAppSelector(state => selectPostById(state, Number(postId)))
   const users = useAppSelector(state => state.users)
 
   const [title, setTitle] = useState<string | undefined>(post?.title)
