@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Post } from './postSlice'
@@ -36,4 +36,4 @@ const PostExcerpt: FC<PostExcerptProps> = ({ post }) => {
 
 }
 
-export default PostExcerpt
+export default memo(PostExcerpt)
