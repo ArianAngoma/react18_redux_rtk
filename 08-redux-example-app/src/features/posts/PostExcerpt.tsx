@@ -10,7 +10,7 @@ interface PostExcerptProps {
   post: Post
 }
 
-const PostExcerpt: FC<PostExcerptProps> = ({ post }) => {
+let PostExcerpt: FC<PostExcerptProps> = ({ post }) => {
 
   return (
     <article>
@@ -36,4 +36,6 @@ const PostExcerpt: FC<PostExcerptProps> = ({ post }) => {
 
 }
 
-export default memo(PostExcerpt)
+PostExcerpt = memo(PostExcerpt)
+
+export default PostExcerpt

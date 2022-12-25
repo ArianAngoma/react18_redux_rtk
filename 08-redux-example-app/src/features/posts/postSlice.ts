@@ -4,7 +4,8 @@ import {
   nanoid,
   createAsyncThunk,
   createSelector,
-  createDraftSafeSelector
+  createDraftSafeSelector,
+  createEntityAdapter
 } from '@reduxjs/toolkit'
 import axios, { AxiosError } from 'axios'
 import { sub } from 'date-fns'
@@ -33,19 +34,23 @@ export interface Post {
 type PostResponse = Omit<Post, 'reactions' | 'date'>
 
 export interface PostState {
-  posts: Post[]
+  // posts: Post[]
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | undefined
   count: number
 
 }
 
-const initialState: PostState = {
-  posts: [],
+const postsAdapter = createEntityAdapter<Post>({
+  sortComparer: (a, b) => b.date.localeCompare(a.date)
+})
+
+const initialState: PostState = postsAdapter.getInitialState({
+  // posts: [],
   status: 'idle',
   error: undefined,
   count: 0
-}
+})
 
 export const fetchPosts = createAsyncThunk<
   PostResponse[],
