@@ -5,7 +5,7 @@ import {
   createAsyncThunk,
   createSelector,
   createDraftSafeSelector,
-  createEntityAdapter
+  createEntityAdapter, EntityState
 } from '@reduxjs/toolkit'
 import axios, { AxiosError } from 'axios'
 import { sub } from 'date-fns'
@@ -45,7 +45,7 @@ const postsAdapter = createEntityAdapter<Post>({
   sortComparer: (a, b) => b.date.localeCompare(a.date)
 })
 
-const initialState: PostState = postsAdapter.getInitialState({
+const initialState: EntityState<Post> & PostState = postsAdapter.getInitialState({
   // posts: [],
   status: 'idle',
   error: undefined,
@@ -171,7 +171,9 @@ const postsSlice = createSlice({
         reaction
       } = action.payload
 
-      const existingPost = state.posts.find(post => post.id === postId)
+      // const existingPost = state.posts.find(post => post.id === postId)
+
+      const existingPost = state.entities[postId]
 
       if (existingPost) {
         existingPost.reactions[reaction]++
@@ -208,7 +210,8 @@ const postsSlice = createSlice({
         }
       })
 
-      state.posts = state.posts.concat(loadedPosts)
+      // state.posts = state.posts.concat(loadedPosts)
+      postsAdapter.upsertMany(state, loadedPosts)
     })
     builder.addCase(fetchPosts.rejected, (state, action) => {
       // In this case, we want to display an error message if the fetch fails (e.g. due to a network error) with a `try/catch` block
@@ -216,7 +219,20 @@ const postsSlice = createSlice({
       state.error = action.payload
     })
     builder.addCase(addNewPost.fulfilled, (state, action) => {
-      state.posts.push({
+
+      /* state.posts.push({
+        ...action.payload,
+        date: new Date().toISOString(),
+        reactions: {
+          thumbUp: 0,
+          wow: 0,
+          heart: 0,
+          rocket: 0,
+          coffee: 0
+        }
+      }) */
+
+      postsAdapter.addOne(state, {
         ...action.payload,
         date: new Date().toISOString(),
         reactions: {
@@ -227,6 +243,7 @@ const postsSlice = createSlice({
           coffee: 0
         }
       })
+
     })
     builder.addCase(updatePost.fulfilled, (state, action) => {
 
@@ -234,20 +251,30 @@ const postsSlice = createSlice({
 
       const { id } = action.payload
 
-      const existingPost = state.posts.find(post => post.id === id)
+      /* const existingPost = state.posts.find(post => post.id === id)
 
       if (existingPost) {
         existingPost.title = action.payload.title
         existingPost.body = action.payload.body
         existingPost.date = new Date().toISOString()
-      }
+      } */
+
+      postsAdapter.updateOne(state, {
+        id,
+        changes: {
+          ...action.payload,
+          date: new Date().toISOString()
+        }
+      })
 
     })
     builder.addCase(deletePost.fulfilled, (state, action) => {
 
       if (!action.payload) return
 
-      state.posts = state.posts.filter(post => post.id !== action.payload)
+      // state.posts = state.posts.filter(post => post.id !== action.payload)
+
+      postsAdapter.removeOne(state, action.payload)
 
     })
 
