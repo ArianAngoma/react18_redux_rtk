@@ -1,16 +1,28 @@
 import { FC, memo } from 'react'
 import { Link } from 'react-router-dom'
 
-import { Post } from './postSlice'
+import { Post, selectPostById } from './postSlice'
 import PostAuthor from './PostAuthor'
 import TimeAgo from './TimeAgo'
 import ReactionButtons from './ReactionButtons'
+import { useAppSelector } from '../hooks/useAppSelector'
 
 interface PostExcerptProps {
-  post: Post
+  // post: Post
+  postId: number
 }
 
-let PostExcerpt: FC<PostExcerptProps> = ({ post }) => {
+let PostExcerpt: FC<PostExcerptProps> = ({ postId }) => {
+
+  const post = useAppSelector(state => selectPostById(state, postId))
+
+  if (!post) {
+    return (
+      <section>
+        <h2>Post not found!</h2>
+      </section>
+    )
+  }
 
   return (
     <article>

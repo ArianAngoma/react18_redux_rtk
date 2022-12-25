@@ -2,16 +2,20 @@ import { FC, useEffect, useMemo } from 'react'
 
 import { useAppSelector } from '../hooks/useAppSelector'
 import { useAppDispatch } from '../hooks/useAppDispatch'
-import { fetchPosts, getPostsError, getPostsStatus, selectAllPosts } from './postSlice'
+import { fetchPosts, getPostsError, getPostsStatus, selectAllPosts, selectPostIds } from './postSlice'
 import PostExcerpt from './PostExcerpt'
+import { useSelector } from 'react-redux'
 
 const PostList: FC = () => {
 
   /*
   * This is the best way to obtain some state since we only get the specific state we want, and we don't worry if another state changes and will render the component.
   *  */
-  const posts = useAppSelector(selectAllPosts)
+  // const posts = useAppSelector(selectAllPosts)
+  const orderedPostsIds = useSelector(selectPostIds)
+
   const status = useAppSelector(getPostsStatus)
+
   const error = useAppSelector(getPostsError)
 
   /* const {
@@ -37,11 +41,11 @@ const PostList: FC = () => {
 
     } else if (status === 'succeeded') {
 
-      const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
-      return orderedPosts.map(post => (
+      return orderedPostsIds.map(postId => (
         <PostExcerpt
-          key={post.id}
-          post={post}
+          key={postId}
+          // post={post}
+          postId={Number(postId)}
         />
       ))
 
@@ -51,7 +55,7 @@ const PostList: FC = () => {
 
     }
 
-  }, [status, posts, error])
+  }, [status, orderedPostsIds, error])
 
   return (
     <section>
