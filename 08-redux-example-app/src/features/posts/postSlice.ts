@@ -285,11 +285,19 @@ const postsSlice = createSlice({
 /*
 * This is the best way to obtain some state since we only get the specific state we want, and we don't worry if another state changes and will render the component.
 *  */
-export const selectAllPosts = (state: RootState) => state.posts.posts
+// export const selectAllPosts = (state: RootState) => state.posts.posts
+
+export const {
+  selectAll: selectAllPosts,
+  selectById: selectPostById,
+  selectIds: selectPostIds,
+} = postsAdapter.getSelectors((state: RootState) => state.posts)
 
 export const getPostsStatus = (state: RootState) => state.posts.status
 
 export const getPostsError = (state: RootState) => state.posts.error
+
+// export const selectPostById = (state: RootState, postId: number) => state.posts.posts.find(post => post.id === postId)
 
 export const selectPostsByUser = createDraftSafeSelector(
   [

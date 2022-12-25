@@ -5,12 +5,13 @@ import { useAppSelector } from '../hooks/useAppSelector'
 import PostAuthor from './PostAuthor'
 import TimeAgo from './TimeAgo'
 import ReactionButtons from './ReactionButtons'
+import { selectPostById } from './postSlice'
 
 const SinglePostPage: FC = () => {
 
   const { postId } = useParams()
 
-  const post = useAppSelector(state => state.posts.posts.find(post => post.id === Number(postId)))
+  const post = useAppSelector(state => selectPostById(state, Number(postId)))
 
   if (!post) {
     return (
