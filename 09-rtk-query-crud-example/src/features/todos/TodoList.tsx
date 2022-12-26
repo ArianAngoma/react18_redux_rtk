@@ -1,9 +1,19 @@
 import { FC, FormEvent, useState } from 'react'
+import { useGetTodosQuery } from '../api/apiSlice'
 
 const TodoList: FC = () => {
 
   const [newTodo, setNewTodo] = useState<string>('')
 
+  const {
+    data: todos,
+    isLoading,
+    isSuccess,
+    isError,
+    error
+  } = useGetTodosQuery()
+
+  console.log(error)
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setNewTodo('')
@@ -28,6 +38,13 @@ const TodoList: FC = () => {
   )
 
   let content
+  if (isLoading) {
+    content = <p>Loading...</p>
+  } else if (isSuccess) {
+    content = JSON.stringify(todos)
+  } else if (isError) {
+    content = <p>{error}</p>
+  }
 
   return (
     <main>
