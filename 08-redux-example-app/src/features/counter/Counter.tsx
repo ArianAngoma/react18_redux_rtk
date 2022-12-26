@@ -7,6 +7,8 @@ import './index.css'
 const Counter: FC = () => {
 
   const { count } = useAppSelector((state) => state.counter)
+  const state = useAppSelector((state) => state)
+  console.log('state', state)
   const dispatch = useAppDispatch()
 
   const [incrementAmount, setIncrementAmount] = useState<number>(0)

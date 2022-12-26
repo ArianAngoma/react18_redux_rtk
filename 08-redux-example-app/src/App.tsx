@@ -15,19 +15,22 @@ function App () {
 
   return (
     <>
-      <Header/>
+
+      <Counter/>
+
+     {/*  <Header/>
 
       <main className="App">
 
-        {/* <Counter/> */}
+        <Counter/>
 
-        {/* <AddPostForm/> */}
+        <AddPostForm/>
 
-        {/* <PostList/> */}
+        <PostList/>
 
         <Outlet/>
 
-      </main>
+      </main> */}
     </>
   )
 }
