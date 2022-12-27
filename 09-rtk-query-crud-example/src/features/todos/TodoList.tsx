@@ -13,7 +13,6 @@ const TodoList: FC = () => {
     error
   } = useGetTodosQuery()
 
-  console.log(error)
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setNewTodo('')
@@ -43,7 +42,12 @@ const TodoList: FC = () => {
   } else if (isSuccess) {
     content = JSON.stringify(todos)
   } else if (isError) {
-    content = <p>{error}</p>
+    if ('status' in error) {
+      const errMessage = 'error' in error ? error.error : JSON.stringify(error)
+      content = <p>{errMessage}</p>
+    } else {
+      content = <p>{error.message}</p>
+    }
   }
 
   return (
