@@ -15,10 +15,13 @@ export const apiSlice = createApi({
     baseUrl: `http://localhost:3001`,
   }),
 
+  tagTypes: ['Todos'],
+
   endpoints: (builder) => ({
 
     getTodos: builder.query<Todo[], void>({
       query: () => `/todos`,
+      providesTags: ['Todos'],
     }),
 
     addTodo: builder.mutation<Todo, Omit<Todo, 'id'>>({
@@ -26,7 +29,8 @@ export const apiSlice = createApi({
         url: `/todos`,
         method: 'POST',
         body,
-      })
+      }),
+      invalidatesTags: ['Todos'],
     }),
 
     updateTodo: builder.mutation<Todo, Todo>({
@@ -34,14 +38,16 @@ export const apiSlice = createApi({
         url: `/todos/${body.id}`,
         method: 'PATCH',
         body,
-      })
+      }),
+      invalidatesTags: ['Todos'],
     }),
 
     deleteTodo: builder.mutation<Todo, Pick<Todo, 'id'>>({
       query: (body) => ({
         url: `/todos/${body.id}`,
         method: 'DELETE',
-      })
+      }),
+      invalidatesTags: ['Todos'],
     })
 
   })

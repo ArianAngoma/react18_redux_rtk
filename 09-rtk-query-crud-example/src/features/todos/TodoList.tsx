@@ -45,7 +45,9 @@ const TodoList: FC = () => {
         />
       </div>
 
-      <button type="submit">Add Todo</button>
+      <button type="submit">
+        <FontAwesomeIcon icon={faUpload}/>
+      </button>
 
     </form>
   )
