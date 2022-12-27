@@ -5,7 +5,6 @@ interface Todo {
   userId: number
   id: number
   title: string
-  description: string
   completed: boolean
 }
 
@@ -22,7 +21,7 @@ export const apiSlice = createApi({
       query: () => `/todos`,
     }),
 
-    addTodo: builder.mutation<Todo, Todo>({
+    addTodo: builder.mutation<Todo, Omit<Todo, 'id'>>({
       query: (body) => ({
         url: `/todos`,
         method: 'POST',
@@ -38,7 +37,7 @@ export const apiSlice = createApi({
       })
     }),
 
-    deleteTodo: builder.mutation<Todo, Todo>({
+    deleteTodo: builder.mutation<Todo, Pick<Todo, 'id'>>({
       query: (body) => ({
         url: `/todos/${body.id}`,
         method: 'DELETE',
