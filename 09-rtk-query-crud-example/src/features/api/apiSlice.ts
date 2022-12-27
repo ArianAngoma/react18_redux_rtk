@@ -21,6 +21,7 @@ export const apiSlice = createApi({
 
     getTodos: builder.query<Todo[], void>({
       query: () => `/todos`,
+      transformResponse: (response: Todo[]) => response.sort((a, b) => b.id - a.id),
       providesTags: ['Todos'],
     }),
 
