@@ -19,8 +19,31 @@ export const apiSlice = createApi({
   endpoints: (builder) => ({
 
     getTodos: builder.query<Todo[], void>({
-      query: () => `/todsos`,
+      query: () => `/todos`,
     }),
+
+    addTodo: builder.mutation<Todo, Todo>({
+      query: (body) => ({
+        url: `/todos`,
+        method: 'POST',
+        body,
+      })
+    }),
+
+    updateTodo: builder.mutation<Todo, Todo>({
+      query: (body) => ({
+        url: `/todos/${body.id}`,
+        method: 'PATCH',
+        body,
+      })
+    }),
+
+    deleteTodo: builder.mutation<Todo, Todo>({
+      query: (body) => ({
+        url: `/todos/${body.id}`,
+        method: 'DELETE',
+      })
+    })
 
   })
 })
@@ -38,4 +61,9 @@ export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) =>
   return next(action)
 }
 
-export const { useGetTodosQuery } = apiSlice
+export const {
+  useGetTodosQuery,
+  useAddTodoMutation,
+  useUpdateTodoMutation,
+  useDeleteTodoMutation
+} = apiSlice
