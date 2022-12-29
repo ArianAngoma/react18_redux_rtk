@@ -77,12 +77,50 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
             id: 'LIST'
           }]
 
+    }),
+
+    getPostsByUserId: builder.query<EntityState<Post>, number>({
+
+      query: userId => `/posts/?userId=${userId}`,
+
+      transformResponse: (response: PostResponse[]) => {
+
+        let min = 1
+
+        const loadedPost: Post[] = response.map(post => ({
+          ...post,
+          date: post.date || sub(new Date(), { minutes: min++ }).toISOString(),
+          reactions: post.reactions || {
+            thumbUp: 0,
+            wow: 0,
+            heart: 0,
+            rocket: 0,
+            coffee: 0
+          }
+        }))
+
+        return postsAdapter.setAll(initialState, loadedPost)
+
+      },
+
+      providesTags: (result, error, arg) =>
+        result
+          ? [...result.ids.map(id => ({
+            type: 'Post' as const,
+            id
+          }))] : [{
+            type: 'Post',
+            id: 'POSTS_BY_USER_ID'
+          }]
+
     })
+
   })
 })
 
 export const {
-  useGetPostsQuery
+  useGetPostsQuery,
+  useGetPostsByUserIdQuery
 } = extendedApiSlice
 
 // Returns the query result object
