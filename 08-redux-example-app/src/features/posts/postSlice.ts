@@ -158,6 +158,23 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         id: arg.id
       }]
 
+    }),
+
+    deletePost: builder.mutation<Post, Pick<Post, 'id'>>({
+
+      query: ({ id }) => ({
+        url: `/posts/${id}`,
+        method: 'DELETE',
+        body: {
+          id
+        }
+      }),
+
+      invalidatesTags: (result, error, arg) => [{
+        type: 'Post',
+        id: arg.id
+      }]
+
     })
 
   })
@@ -167,7 +184,8 @@ export const {
   useGetPostsQuery,
   useGetPostsByUserIdQuery,
   useAddNewPostMutation,
-  useUpdatePostMutation
+  useUpdatePostMutation,
+  useDeletePostMutation
 } = extendedApiSlice
 
 // Returns the query result object
