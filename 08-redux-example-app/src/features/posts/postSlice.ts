@@ -142,7 +142,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
 
     }),
 
-    updatePost: builder.mutation<Post, Omit<Post, 'date'>>({
+    updatePost: builder.mutation<Post, Omit<Post, 'date' | 'reactions'>>({
 
       query: post => ({
         url: `/posts/${post.id}`,

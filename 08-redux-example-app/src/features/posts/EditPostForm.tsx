@@ -2,23 +2,18 @@ import { ChangeEvent, FC, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { useAppSelector } from '../hooks/useAppSelector'
-import { useAppDispatch } from '../hooks/useAppDispatch'
-import { deletePost, selectPostById, updatePost } from './postSlice'
+import { selectPostById, useDeletePostMutation, useUpdatePostMutation } from './postSlice'
 
 const EditPostForm: FC = () => {
 
   const { postId } = useParams()
   const navigate = useNavigate()
 
+  const [updatePost, { isLoading }] = useUpdatePostMutation()
+  const [deletePost] = useDeletePostMutation()
+
   const post = useAppSelector(state => selectPostById(state, Number(postId)))
   const users = useAppSelector(state => state.users)
-
-  const [title, setTitle] = useState<string | undefined>(post?.title)
-  const [body, setBody] = useState<string | undefined>(post?.body)
-  const [userId, setUserId] = useState<number | undefined>(post?.userId)
-  const [requestStatus, setRequestStatus] = useState<'idle' | 'pending'>('idle')
-
-  const dispatch = useAppDispatch()
 
   if (!post) {
     return (
@@ -28,11 +23,15 @@ const EditPostForm: FC = () => {
     )
   }
 
+  const [title, setTitle] = useState<string>(post.title)
+  const [body, setBody] = useState<string>(post.body)
+  const [userId, setUserId] = useState<number>(post.userId)
+
   const onTitleChanged = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)
   const onBodyChanged = (e: ChangeEvent<HTMLTextAreaElement>) => setBody(e.target.value)
   const onAuthorChanged = (e: ChangeEvent<HTMLSelectElement>) => setUserId(Number(e.target.value))
 
-  const canSave = [title, body, userId].every(Boolean) && requestStatus === 'idle'
+  const canSave = [title, body, userId].every(Boolean) && !isLoading
 
   const onSavePostClicked = async () => {
 
@@ -40,26 +39,22 @@ const EditPostForm: FC = () => {
 
       try {
 
-        setRequestStatus('pending')
-
-        await dispatch(
-          updatePost({
+        await updatePost(
+          {
             id: post.id,
             title,
             body,
-            userId,
-          })
+            userId
+          }
         ).unwrap()
 
         setTitle('')
         setBody('')
-        setUserId(undefined)
+        setUserId(0)
         navigate(`/post/${postId}`)
 
       } catch (err) {
         console.error('Failed to save the post: ', err)
-      } finally {
-        setRequestStatus('idle')
       }
 
     }
@@ -79,24 +74,19 @@ const EditPostForm: FC = () => {
 
     try {
 
-      setRequestStatus('pending')
 
-      await dispatch(
-        deletePost({
-          id: post.id,
-        })
-      ).unwrap()
+      await deletePost({
+        id: post.id
+      }).unwrap()
 
       setTitle('')
       setBody('')
-      setUserId(undefined)
+      setUserId(0)
 
       navigate('/')
 
     } catch (err) {
       console.error('Failed to delete the post: ', err)
-    } finally {
-      setRequestStatus('idle')
     }
 
   }
