@@ -140,6 +140,24 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         }
       ]
 
+    }),
+
+    updatePost: builder.mutation<Post, Omit<Post, 'date'>>({
+
+      query: post => ({
+        url: `/posts/${post.id}`,
+        method: 'PUT',
+        body: {
+          ...post,
+          date: new Date().toISOString(),
+        }
+      }),
+
+      invalidatesTags: (result, error, arg) => [{
+        type: 'Post',
+        id: arg.id
+      }]
+
     })
 
   })
@@ -148,7 +166,8 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetPostsQuery,
   useGetPostsByUserIdQuery,
-  useAddNewPostMutation
+  useAddNewPostMutation,
+  useUpdatePostMutation
 } = extendedApiSlice
 
 // Returns the query result object
