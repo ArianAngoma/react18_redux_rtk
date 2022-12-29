@@ -5,24 +5,23 @@ import { useAppSelector } from '../hooks/useAppSelector'
 import PostAuthor from './PostAuthor'
 import TimeAgo from './TimeAgo'
 import ReactionButtons from './ReactionButtons'
-import { selectPostById } from './postSlice'
+import { selectGetPostsIsLoading, selectPostById } from './postSlice'
 
 const SinglePostPage: FC = () => {
 
   const { postId } = useParams()
 
+  const isLoadingPosts = useAppSelector(selectGetPostsIsLoading)
   const post = useAppSelector(state => selectPostById(state, Number(postId)))
 
-  if (!post) {
-    return (
-      <section>
-        <h2>Post not found!</h2>
-      </section>
-    )
-  }
+  let content
+  if (isLoadingPosts) {
 
-  return (
-    <article>
+    content = <p>Loading...</p>
+
+  } else if (post) {
+
+    content = <article>
 
       <h2>{post.title}</h2>
 
@@ -41,8 +40,16 @@ const SinglePostPage: FC = () => {
       <ReactionButtons post={post}/>
 
     </article>
-  )
 
+  } else {
+    content = <p>Post not found!</p>
+  }
+
+  return (
+    <section>
+      {content}
+    </section>
+  )
 }
 
 export default SinglePostPage

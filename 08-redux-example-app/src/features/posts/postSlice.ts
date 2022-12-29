@@ -236,6 +236,11 @@ const selectPostsData = createDraftSafeSelector(
   postsResult => postsResult.data // normalized state object with ids and entities
 )
 
+export const selectGetPostsIsLoading = createDraftSafeSelector(
+  [selectPostsResult],
+  postsResult => postsResult.isLoading
+)
+
 // getSelectors creates these selectors, and we rename them with aliases using destructuring
 export const {
   selectAll: selectAllPosts,
