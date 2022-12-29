@@ -1,7 +1,7 @@
 import { FC, memo } from 'react'
 import { Link } from 'react-router-dom'
 
-import { Post, selectPostById } from './postSlice'
+import { selectPostById } from './postSlice'
 import PostAuthor from './PostAuthor'
 import TimeAgo from './TimeAgo'
 import ReactionButtons from './ReactionButtons'

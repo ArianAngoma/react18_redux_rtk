@@ -1,6 +1,5 @@
 import { FC } from 'react'
-import { Post, reactionAdded } from './postSlice'
-import { useAppDispatch } from '../hooks/useAppDispatch'
+import { Post, useAddReactionMutation } from './postSlice'
 
 const reactionEmoji = {
   thumbUp: '👍',
@@ -16,7 +15,7 @@ interface ReactionButtonsProps {
 
 const ReactionButtons: FC<ReactionButtonsProps> = ({ post }) => {
 
-  const dispatch = useAppDispatch()
+  const [addReaction] = useAddReactionMutation()
 
   const reactionButtons = Object.entries(reactionEmoji).map(([name, emoji]) => {
     return (
@@ -25,12 +24,15 @@ const ReactionButtons: FC<ReactionButtonsProps> = ({ post }) => {
         type="button"
         className="reactionButton"
         onClick={() => {
-          dispatch(
-            reactionAdded({
-              postId: post.id,
-              reaction: name as keyof typeof reactionEmoji
-            })
-          )
+          // @ts-ignore
+          const newValue = post.reactions[name] + 1
+          addReaction({
+            postId: post.id,
+            reactions: {
+              ...post.reactions,
+              [name]: newValue
+            }
+          })
         }}
       >
         {emoji} {post.reactions[name as keyof typeof reactionEmoji]}
