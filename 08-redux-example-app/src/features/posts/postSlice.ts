@@ -11,8 +11,9 @@ import axios, { AxiosError } from 'axios'
 import { sub } from 'date-fns'
 
 import { RootState } from '../../app/store'
+import { apiSlice } from '../api/apiSlice'
 
-const POSTS_URL = 'https://jsonplaceholder.typicode.com/posts'
+// const POSTS_URL = 'https://jsonplaceholder.typicode.com/posts'
 
 export interface Reaction {
   thumbUp: number
@@ -31,28 +32,25 @@ export interface Post {
   reactions: Reaction
 }
 
-type PostResponse = Omit<Post, 'reactions' | 'date'>
+type PostResponse = Omit<Post, 'reactions' | 'date'> & {
+  date?: string
+  reactions?: Reaction
+}
 
-export interface PostState {
+/* export interface PostState {
   // posts: Post[]
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
   error: string | undefined
   count: number
-
-}
+} */
 
 const postsAdapter = createEntityAdapter<Post>({
   sortComparer: (a, b) => b.date.localeCompare(a.date)
 })
 
-const initialState: EntityState<Post> & PostState = postsAdapter.getInitialState({
-  // posts: [],
-  status: 'idle',
-  error: undefined,
-  count: 0
-})
+const initialState: EntityState<Post> = postsAdapter.getInitialState()
 
-export const fetchPosts = createAsyncThunk<
+/* export const fetchPosts = createAsyncThunk<
   PostResponse[],
   void,
   { rejectValue: string }
@@ -128,16 +126,61 @@ export const deletePost = createAsyncThunk<
       return rejectWithValue('Something went wrong')
     }
   }
-)
+) */
 
-const postsSlice = createSlice({
+export const extendedApiSlice = apiSlice.injectEndpoints({
+  endpoints: builder => ({
+
+    getPosts: builder.query<EntityState<Post>, void>({
+
+      query: () => '/posts',
+
+      transformResponse: (response: PostResponse[]) => {
+
+        let min = 1
+
+        const loadedPost: Post[] = response.map(post => ({
+          ...post,
+          date: post.date || sub(new Date(), { minutes: min++ }).toISOString(),
+          reactions: post.reactions || {
+            thumbUp: 0,
+            wow: 0,
+            heart: 0,
+            rocket: 0,
+            coffee: 0
+          }
+        }))
+
+        return postsAdapter.setAll(initialState, loadedPost)
+
+      },
+
+      providesTags: (result, error, arg) =>
+        result
+          ? [...result.ids.map(id => ({
+            type: 'Post' as const,
+            id
+          })), {
+            type: 'Post',
+            id: 'LIST'
+          }]
+          : [{
+            type: 'Post',
+            id: 'LIST'
+          }]
+
+    })
+  })
+})
+
+/* const postsSlice = createSlice({
 
   name: 'posts',
 
   initialState,
 
   reducers: {
-    /* postAdded: {
+    /!* postAdded: {
       reducer (state, action: PayloadAction<Post>) {
         state.posts.push(action.payload)
       },
@@ -163,7 +206,7 @@ const postsSlice = createSlice({
           }
         }
       }
-    }, */
+    }, *!/
     reactionAdded (state, action: PayloadAction<{ postId: string | number; reaction: keyof Reaction }>) {
 
       const {
@@ -220,7 +263,7 @@ const postsSlice = createSlice({
     })
     builder.addCase(addNewPost.fulfilled, (state, action) => {
 
-      /* state.posts.push({
+      /!* state.posts.push({
         ...action.payload,
         date: new Date().toISOString(),
         reactions: {
@@ -230,7 +273,7 @@ const postsSlice = createSlice({
           rocket: 0,
           coffee: 0
         }
-      }) */
+      }) *!/
 
       postsAdapter.addOne(state, {
         ...action.payload,
@@ -251,13 +294,13 @@ const postsSlice = createSlice({
 
       const { id } = action.payload
 
-      /* const existingPost = state.posts.find(post => post.id === id)
+      /!* const existingPost = state.posts.find(post => post.id === id)
 
       if (existingPost) {
         existingPost.title = action.payload.title
         existingPost.body = action.payload.body
         existingPost.date = new Date().toISOString()
-      } */
+      } *!/
 
       postsAdapter.updateOne(state, {
         id,
@@ -280,12 +323,16 @@ const postsSlice = createSlice({
 
   }
 
-})
+}) */
 
 /*
 * This is the best way to obtain some state since we only get the specific state we want, and we don't worry if another state changes and will render the component.
 *  */
 // export const selectAllPosts = (state: RootState) => state.posts.posts
+
+export const {
+  useGetPostsQuery
+} = extendedApiSlice
 
 export const {
   selectAll: selectAllPosts,
