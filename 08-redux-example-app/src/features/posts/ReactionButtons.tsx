@@ -1,7 +1,7 @@
 import { FC } from 'react'
-import { Post, useAddReactionMutation } from './postSlice'
+import { Post, Reaction, useAddReactionMutation } from './postSlice'
 
-const reactionEmoji = {
+const reactionEmoji: Record<keyof Reaction, string> = {
   thumbUp: '👍',
   wow: '😮',
   heart: '❤️',
