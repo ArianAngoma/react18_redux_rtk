@@ -1,61 +1,45 @@
-import { FC, useEffect, useMemo } from 'react'
+import { FC } from 'react'
 
 import { useAppSelector } from '../hooks/useAppSelector'
-import { useAppDispatch } from '../hooks/useAppDispatch'
-import { fetchPosts, getPostsError, getPostsStatus, selectAllPosts, selectPostIds } from './postSlice'
+import { selectPostIds, useGetPostsQuery } from './postSlice'
 import PostExcerpt from './PostExcerpt'
-import { useSelector } from 'react-redux'
 
 const PostList: FC = () => {
 
-  /*
-  * This is the best way to obtain some state since we only get the specific state we want, and we don't worry if another state changes and will render the component.
-  *  */
-  // const posts = useAppSelector(selectAllPosts)
-  const orderedPostsIds = useSelector(selectPostIds)
+  const {
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetPostsQuery()
 
-  const status = useAppSelector(getPostsStatus)
+  const orderedPostsIds = useAppSelector(selectPostIds)
 
-  const error = useAppSelector(getPostsError)
+  let content
 
-  /* const {
-    posts,
-    status,
-    error
-  } = useAppSelector(state => state.posts)
-  const dispatch = useAppDispatch()
+  if (isLoading) {
 
-  useEffect(() => {
+    content = <p>Loading...</p>
 
-    if (status === 'idle') {
-      dispatch(fetchPosts())
+  } else if (isSuccess) {
+
+    content = orderedPostsIds.map(postId => (
+      <PostExcerpt
+        key={postId}
+        postId={Number(postId)}
+      />
+    ))
+
+  } else if (isError) {
+
+    if ('status' in error) {
+      const errMessage = 'error' in error ? error.error : JSON.stringify(error)
+      content = <p>{errMessage}</p>
+    } else {
+      content = <p>{error.message}</p>
     }
 
-  }, [status]) */
-
-  const content = useMemo(() => {
-
-    if (status === 'loading') {
-
-      return <p>Loading...</p>
-
-    } else if (status === 'succeeded') {
-
-      return orderedPostsIds.map(postId => (
-        <PostExcerpt
-          key={postId}
-          // post={post}
-          postId={Number(postId)}
-        />
-      ))
-
-    } else if (status === 'failed') {
-
-      return <p>{error}</p>
-
-    }
-
-  }, [status, orderedPostsIds, error])
+  }
 
   return (
     <section>
