@@ -1,8 +1,7 @@
 import { FC, useState, ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useAppDispatch } from '../hooks/useAppDispatch'
-import { addNewPost } from './postSlice'
+import { useAddNewPostMutation } from './postSlice'
 import { useAppSelector } from '../hooks/useAppSelector'
 
 const AddPostForm: FC = () => {
@@ -10,9 +9,8 @@ const AddPostForm: FC = () => {
   const [title, setTitle] = useState<string>('')
   const [body, setBody] = useState<string>('')
   const [userId, setUserId] = useState<string>('')
-  const [addRequestStatus, setAddRequestStatus] = useState<'idle' | 'pending'>('idle')
 
-  const dispatch = useAppDispatch()
+  const [addNewPost, { isLoading }] = useAddNewPostMutation()
   const users = useAppSelector(state => state.users)
 
   const navigate = useNavigate()
@@ -21,24 +19,19 @@ const AddPostForm: FC = () => {
   const onBodyChanged = (e: ChangeEvent<HTMLTextAreaElement>) => setBody(e.target.value)
   const onAuthorChanged = (e: ChangeEvent<HTMLSelectElement>) => setUserId(e.target.value)
 
-  const canSave = [title, body, userId].every(Boolean) && addRequestStatus === 'idle'
+  const canSave = [title, body, userId].every(Boolean) && !isLoading
 
-  const onSavePostClicked = () => {
+  const onSavePostClicked = async () => {
 
     if (canSave) {
 
       try {
 
-        setAddRequestStatus('pending')
-
-        // If we want we can set await
-        dispatch(
-          addNewPost({
-            userId: Number(userId),
-            title,
-            body
-          })
-        ).unwrap()
+        await addNewPost({
+          title,
+          body,
+          userId: Number(userId),
+        }).unwrap()
 
         setTitle('')
         setBody('')
@@ -48,8 +41,6 @@ const AddPostForm: FC = () => {
 
       } catch (err) {
         console.error('Failed to save the post: ', err)
-      } finally {
-        setAddRequestStatus('idle')
       }
 
     }
