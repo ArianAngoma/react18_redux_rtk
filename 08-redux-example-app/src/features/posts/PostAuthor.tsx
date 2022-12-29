@@ -1,4 +1,6 @@
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
+
 import { useAppSelector } from '../hooks/useAppSelector'
 
 interface PostAuthorProps {
@@ -12,7 +14,14 @@ const PostAuthor: FC<PostAuthorProps> = ({ userId }) => {
   const author = users.find(user => user.id === userId)
 
   return (
-    <span>by {author ? author.name : 'Unknown author'}</span>
+    <span>
+      by
+      {
+        author
+          ? <Link to={`/user/${userId}`}>{author.name}</Link>
+          : 'Unknown author'
+      }
+    </span>
   )
 
 }
