@@ -113,6 +113,33 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
             id: 'POSTS_BY_USER_ID'
           }]
 
+    }),
+
+    addNewPost: builder.mutation<Post, Omit<Post, 'id' | 'date' | 'reactions'>>({
+
+      query: initialPost => ({
+        url: '/posts',
+        method: 'POST',
+        body: {
+          ...initialPost,
+          date: new Date().toISOString(),
+          reactions: {
+            thumbUp: 0,
+            wow: 0,
+            heart: 0,
+            rocket: 0,
+            coffee: 0
+          }
+        }
+      }),
+
+      invalidatesTags: [
+        {
+          type: 'Post',
+          id: 'LIST'
+        }
+      ]
+
     })
 
   })
@@ -120,7 +147,8 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetPostsQuery,
-  useGetPostsByUserIdQuery
+  useGetPostsByUserIdQuery,
+  useAddNewPostMutation
 } = extendedApiSlice
 
 // Returns the query result object
