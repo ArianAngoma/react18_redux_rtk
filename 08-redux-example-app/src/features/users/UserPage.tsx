@@ -3,26 +3,51 @@ import { Link, useParams } from 'react-router-dom'
 
 import { useAppSelector } from '../hooks/useAppSelector'
 import { selectUserById } from './usersSlice'
-import { selectPostsByUser } from '../posts/postSlice'
+import { useGetPostsByUserIdQuery } from '../posts/postSlice'
 
 const UserPage: FC = () => {
 
   const { userId } = useParams()
   const user = useAppSelector(state => selectUserById(state, Number(userId)))
 
-  /* const postsForUser = useAppSelector(state => {
-    return state.posts.posts.filter(post => post.userId === user?.id)
-  }) */
+  const {
+    data: postsForUser,
+    isLoading,
+    isSuccess,
+    isError,
+    error
+  } = useGetPostsByUserIdQuery(Number(userId))
 
-  const postsForUser = useAppSelector(state => selectPostsByUser(state, Number(userId)))
+  let content
+  if (isLoading) {
 
-  const postTitles = postsForUser.map(post => (
-    <li key={post.id}>
-      <Link to={`/post/${post.id}`}>
-        {post.title}
-      </Link>
-    </li>
-  ))
+    content = <p>Loading...</p>
+
+  } else if (isSuccess) {
+
+    const {
+      ids,
+      entities
+    } = postsForUser
+
+    content = ids.map(id => (
+      <li key={id}>
+        <Link to={`/post/${id}`}>
+          {entities[id]?.title}
+        </Link>
+      </li>
+    ))
+
+  } else if (isError) {
+
+    if ('status' in error) {
+      const errMessage = 'error' in error ? error.error : JSON.stringify(error)
+      content = <p>{errMessage}</p>
+    } else {
+      content = <p>{error.message}</p>
+    }
+
+  }
 
   return (
     <section>
@@ -30,7 +55,7 @@ const UserPage: FC = () => {
       <h2>{user?.name}</h2>
 
       <ol>
-        {postTitles}
+        {content}
       </ol>
 
     </section>
