@@ -15,12 +15,7 @@ const PostAuthor: FC<PostAuthorProps> = ({ userId }) => {
 
   return (
     <span>
-      by
-      {
-        author
-          ? <Link to={`/user/${userId}`}>{author.name}</Link>
-          : 'Unknown author'
-      }
+      by {author ? <Link to={`/user/${userId}`}>{author.name}</Link> : 'Unknown author'}
     </span>
   )
 
