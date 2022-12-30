@@ -108,7 +108,10 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
           ? [...result.ids.map(id => ({
             type: 'Post' as const,
             id
-          }))] : [{
+          })), {
+            type: 'Post',
+            id: 'LIST'
+          }] : [{
             type: 'Post',
             id: 'POSTS_BY_USER_ID'
           }]
@@ -246,4 +249,4 @@ export const {
   selectAll: selectAllPosts,
   selectById: selectPostById,
   selectIds: selectPostIds,
-} = postsAdapter.getSelectors((state: RootState) => selectPostsData(state) ?? initialState)
+} = postsAdapter.getSelectors<RootState>((state) => selectPostsData(state) ?? initialState)

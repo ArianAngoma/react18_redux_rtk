@@ -2,7 +2,12 @@ import { ChangeEvent, FC, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { useAppSelector } from '../hooks/useAppSelector'
-import { selectPostById, useDeletePostMutation, useUpdatePostMutation } from './postSlice'
+import {
+  selectGetPostsIsLoading,
+  selectPostById,
+  useDeletePostMutation,
+  useUpdatePostMutation
+} from './postSlice'
 
 const EditPostForm: FC = () => {
 
@@ -12,20 +17,13 @@ const EditPostForm: FC = () => {
   const [updatePost, { isLoading }] = useUpdatePostMutation()
   const [deletePost] = useDeletePostMutation()
 
+  const isLoadingPosts = useAppSelector(selectGetPostsIsLoading)
   const post = useAppSelector(state => selectPostById(state, Number(postId)))
   const users = useAppSelector(state => state.users)
 
-  if (!post) {
-    return (
-      <section>
-        <h2>Post not found!</h2>
-      </section>
-    )
-  }
-
-  const [title, setTitle] = useState<string>(post.title)
-  const [body, setBody] = useState<string>(post.body)
-  const [userId, setUserId] = useState<number>(post.userId)
+  const [title, setTitle] = useState<string>(post?.title ?? '')
+  const [body, setBody] = useState<string>(post?.body ?? '')
+  const [userId, setUserId] = useState<number>(post?.userId ?? 0)
 
   const onTitleChanged = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)
   const onBodyChanged = (e: ChangeEvent<HTMLTextAreaElement>) => setBody(e.target.value)
@@ -41,7 +39,7 @@ const EditPostForm: FC = () => {
 
         await updatePost(
           {
-            id: post.id,
+            id: Number(postId),
             title,
             body,
             userId
@@ -74,9 +72,8 @@ const EditPostForm: FC = () => {
 
     try {
 
-
       await deletePost({
-        id: post.id
+        id: Number(postId)
       }).unwrap()
 
       setTitle('')
@@ -91,61 +88,83 @@ const EditPostForm: FC = () => {
 
   }
 
-  return (
-    <section>
+  if (isLoadingPosts) {
 
-      <h2>Edit Post</h2>
+    return (
+      <section>
+        <h2>Loading...</h2>
+      </section>
+    )
 
-      <form>
+  } else if (!post) {
 
-        <label htmlFor="postTitle">Post Title:</label>
-        <input
-          type="text"
-          id="postTitle"
-          name="postTitle"
-          value={title}
-          onChange={onTitleChanged}
-        />
+    return (
+      <section>
+        <h2>Post not found!</h2>
+      </section>
+    )
 
-        <label htmlFor="postAuthor">Author:</label>
-        <select
-          id="postAuthor"
-          name="postAuthor"
-          value={userId}
-          onChange={onAuthorChanged}
-        >
-          <option value=""></option>
-          {usersOptions}
-        </select>
+  } else {
 
-        <label htmlFor="postBody">Content:</label>
-        <textarea
-          id="postBody"
-          name="postBody"
-          value={body}
-          onChange={onBodyChanged}
-        />
+    console.log(post)
 
-        <button
-          type="button"
-          onClick={onSavePostClicked}
-          disabled={!canSave}
-        >
-          Save Post
-        </button>
+    return (
+      <section>
 
-        <button
-          className="deleteButton"
-          type="button"
-          onClick={onDeletePicClicked}
-        >
-          Delete Post
-        </button>
+        <h2>Edit Post</h2>
 
-      </form>
+        <form>
 
-    </section>
-  )
+          <label htmlFor="postTitle">Post Title:</label>
+          <input
+            type="text"
+            id="postTitle"
+            name="postTitle"
+            value={title}
+            onChange={onTitleChanged}
+          />
+
+          <label htmlFor="postAuthor">Author:</label>
+          <select
+            id="postAuthor"
+            name="postAuthor"
+            value={userId}
+            onChange={onAuthorChanged}
+          >
+            <option value=""></option>
+            {usersOptions}
+          </select>
+
+          <label htmlFor="postBody">Content:</label>
+          <textarea
+            id="postBody"
+            name="postBody"
+            value={body}
+            onChange={onBodyChanged}
+          />
+
+          <button
+            type="button"
+            onClick={onSavePostClicked}
+            disabled={!canSave}
+          >
+            Save Post
+          </button>
+
+          <button
+            className="deleteButton"
+            type="button"
+            onClick={onDeletePicClicked}
+          >
+            Delete Post
+          </button>
+
+        </form>
+
+      </section>
+    )
+
+  }
 
 }
 
