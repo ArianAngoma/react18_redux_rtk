@@ -120,7 +120,7 @@ const EditPostForm: FC = () => {
             type="text"
             id="postTitle"
             name="postTitle"
-            value={title}
+            value={!title ? post.title : title}
             onChange={onTitleChanged}
           />
 
@@ -128,7 +128,7 @@ const EditPostForm: FC = () => {
           <select
             id="postAuthor"
             name="postAuthor"
-            value={userId}
+            value={!userId ? post.userId : userId}
             onChange={onAuthorChanged}
           >
             <option value=""></option>
@@ -139,7 +139,7 @@ const EditPostForm: FC = () => {
           <textarea
             id="postBody"
             name="postBody"
-            value={body}
+            value={!body ? post.body : body}
             onChange={onBodyChanged}
           />
 
