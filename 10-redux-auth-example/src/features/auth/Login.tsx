@@ -42,7 +42,7 @@ const Login: FC = () => {
       }).unwrap()
 
       dispatch(setCredentials({
-        ...userData,
+        token: userData.accessToken,
         user,
       }))
 
@@ -52,6 +52,8 @@ const Login: FC = () => {
       navigate('/welcome')
 
     } catch (err) {
+
+      console.log(err)
 
       if (isFetchBaseQueryError(err)) {
 

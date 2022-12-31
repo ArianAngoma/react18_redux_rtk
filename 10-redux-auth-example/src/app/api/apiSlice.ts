@@ -1,4 +1,4 @@
-import { BaseQueryApi, BaseQueryFn, createApi, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 import { logOut, setCredentials } from '../../features/auth/authSlice'
 import { RootState } from '../store'
@@ -8,6 +8,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:3500',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
+    console.log('prepareHeaders')
     const token = (getState() as RootState).auth.token
 
     if (token) {
@@ -15,7 +16,7 @@ const baseQuery = fetchBaseQuery({
     }
 
     return headers
-  }
+  },
 })
 
 const baseQueryWithReAuth: BaseQueryFn<
