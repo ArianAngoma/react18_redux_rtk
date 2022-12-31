@@ -5,6 +5,7 @@ import Public from '../components/Public'
 import Login from '../features/auth/Login'
 import RequiredAuth from '../features/auth/RequiredAuth'
 import Welcome from '../features/auth/Welcome'
+import UsersList from '../features/users/UsersList'
 
 export const routerObject: RouteObject[] = [
   {
@@ -26,6 +27,10 @@ export const routerObject: RouteObject[] = [
       {
         path: 'welcome',
         element: <Welcome/>,
+      },
+      {
+        path: 'userslist',
+        element: <UsersList/>,
       }
     ]
   }
