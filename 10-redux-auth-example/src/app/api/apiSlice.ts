@@ -8,7 +8,6 @@ const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:3500',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
-    console.log('prepareHeaders')
     const token = (getState() as RootState).auth.token
 
     if (token) {
@@ -26,12 +25,14 @@ const baseQueryWithReAuth: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions)
 
-  if (result?.error?.status === 403) {
-
-    console.log('Re-authenticating...')
+  // ToDo: View TypeScript error here:
+  if (result?.error?.originalStatus === 403) {
 
     // Send refresh token to get new access token
-    const refreshTokenResult = await baseQuery('/refresh', api, extraOptions)
+    const refreshTokenResult = await baseQuery({
+        url: '/refresh',
+        method: 'GET'
+    }, api, extraOptions)
     console.log('refreshTokenResult', refreshTokenResult)
 
     if (refreshTokenResult.data) {
@@ -40,7 +41,7 @@ const baseQueryWithReAuth: BaseQueryFn<
       // Store the new token
 
       api.dispatch(setCredentials({
-        ...refreshTokenResult.data,
+        token: refreshTokenResult.data.accessToken,
         user,
       }))
 
