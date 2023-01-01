@@ -9,8 +9,8 @@ const handleLogin = async (req, res) => {
     if (!user || !pwd) return res.status(400).json({ 'message': 'Username and password are required.' });
 
     const foundUser = await User.findOne({ username: user }).exec();
-    if (!foundUser) return res.sendStatus(401); //Unauthorized 
-    // evaluate password 
+    if (!foundUser) return res.sendStatus(401); //Unauthorized
+    // evaluate password
     const match = await bcrypt.compare(pwd, foundUser.password);
     if (match) {
         const roles = Object.values(foundUser.roles).filter(Boolean);
@@ -39,9 +39,9 @@ const handleLogin = async (req, res) => {
 
         if (cookies?.jwt) {
 
-            /* 
-            Scenario added here: 
-                1) User logs in but never uses RT and does not logout 
+            /*
+            Scenario added here:
+                1) User logs in but never uses RT and does not logout
                 2) RT is stolen
                 3) If 1 & 2, reuse detection is needed to clear all RTs when user logs in
             */
