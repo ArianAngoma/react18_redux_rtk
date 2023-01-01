@@ -53,18 +53,32 @@ const Login: FC = () => {
 
     } catch (err) {
 
-      console.log(err)
-
       if (isFetchBaseQueryError(err)) {
 
-        if (!err.data) {
-          setErrMsg('No Server Response')
-        } else if (err.status === 400) {
-          setErrMsg('Missing Username or Password')
-        } else if (err.status === 401) {
-          setErrMsg('Unauthorized')
+        if ('originalStatus' in err) {
+
+          if (!err.data) {
+            setErrMsg('No Server Response')
+          } else if (err.originalStatus === 400) {
+            setErrMsg('Missing Username or Password')
+          } else if (err.originalStatus === 401) {
+            setErrMsg('Unauthorized')
+          } else {
+            setErrMsg('Login Failed')
+          }
+
         } else {
-          setErrMsg('Login Failed')
+
+          if (!err.data) {
+            setErrMsg('No Server Response')
+          } else if (err.status === 400) {
+            setErrMsg('Missing Username or Password')
+          } else if (err.status === 401) {
+            setErrMsg('Unauthorized')
+          } else {
+            setErrMsg('Login Failed')
+          }
+
         }
 
       } else if (isErrorWithMessage(err)) {

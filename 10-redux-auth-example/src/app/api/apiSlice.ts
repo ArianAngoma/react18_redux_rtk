@@ -25,8 +25,7 @@ const baseQueryWithReAuth: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions)
 
-  // ToDo: View TypeScript error here:
-  if (result?.error?.originalStatus === 403) {
+  if (result.error?.status === 403) {
 
     // Send refresh token to get new access token
     const refreshTokenResult = await baseQuery({
@@ -39,8 +38,8 @@ const baseQueryWithReAuth: BaseQueryFn<
       const user = (api.getState() as RootState).auth.user
 
       // Store the new token
-
       api.dispatch(setCredentials({
+        // @ts-ignore
         token: refreshTokenResult.data.accessToken,
         user,
       }))
