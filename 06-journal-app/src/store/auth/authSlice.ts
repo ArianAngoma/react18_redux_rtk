@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { checkingAuthentication, startGoogleSignIn } from './thunks'
 
 interface InitialState {
   status: 'checking' | 'authenticated' | 'not-authenticated'
@@ -10,7 +11,7 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  status: 'checking',
+  status: 'not-authenticated',
   uid: null,
   email: null,
   displayName: null,
@@ -31,6 +32,15 @@ export const authSlice = createSlice({
     checkingCredentials: (state) => {
 
     }
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(checkingAuthentication.pending, (state) => {
+        state.status = 'checking'
+      })
+      .addCase(startGoogleSignIn.pending, (state) => {
+        state.status = 'checking'
+      })
   }
 })
 

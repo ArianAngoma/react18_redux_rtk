@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, FormEvent } from 'react'
 
 import { Link as RouterLink } from 'react-router-dom'
 
@@ -6,12 +6,45 @@ import { TextField, Typography, Grid, Button, Link } from '@mui/material'
 import { Google } from '@mui/icons-material'
 
 import { AuthLayout } from '../layout'
+import { useAppDispatch, useForm } from '../../hooks'
+import { checkingAuthentication, startGoogleSignIn } from '../../store'
+
+interface FormState {
+  email: string
+  password: string
+}
 
 const LoginPage: FC = () => {
 
+  const dispatch = useAppDispatch()
+
+  const {
+    email,
+    password,
+    onInputChange
+  } = useForm<FormState>({
+    email: 'arian.angoma.js@gmail.com',
+    password: '123123'
+  })
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+
+    e.preventDefault()
+
+    dispatch(checkingAuthentication({
+      email,
+      password
+    }))
+
+  }
+
+  const onGoogleSignIn = () => {
+    dispatch(startGoogleSignIn())
+  }
+
   return (
     <AuthLayout title="Login">
-      <form>
+      <form onSubmit={onSubmit}>
 
         <Grid container>
 
@@ -27,6 +60,9 @@ const LoginPage: FC = () => {
               type="email"
               placeholder="Email"
               fullWidth
+              name="email"
+              value={email}
+              onChange={onInputChange}
             />
           </Grid>
 
@@ -42,6 +78,9 @@ const LoginPage: FC = () => {
               type="password"
               placeholder="Password"
               fullWidth
+              name="password"
+              value={password}
+              onChange={onInputChange}
             />
           </Grid>
 
@@ -62,6 +101,7 @@ const LoginPage: FC = () => {
               <Button
                 variant="contained"
                 fullWidth
+                type="submit"
               >
                 Login
               </Button>
@@ -75,6 +115,7 @@ const LoginPage: FC = () => {
               <Button
                 variant="contained"
                 fullWidth
+                onClick={onGoogleSignIn}
               >
 
                 <Google/>
