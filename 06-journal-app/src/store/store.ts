@@ -1,7 +1,11 @@
 import { AnyAction, configureStore, ThunkAction } from '@reduxjs/toolkit'
 
+import { authSlice } from './auth'
+
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    auth: authSlice.reducer
+  },
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
