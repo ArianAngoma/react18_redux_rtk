@@ -1,16 +1,42 @@
-import { FC } from 'react'
+import { FC, FormEvent } from 'react'
 
 import { Link as RouterLink } from 'react-router-dom'
 
 import { TextField, Typography, Grid, Button, Link } from '@mui/material'
 
 import { AuthLayout } from '../layout'
+import { useForm } from '../../hooks'
+
+interface RegisterForm {
+  displayName: string
+  email: string
+  password: string
+}
+
+const formData: RegisterForm = {
+  displayName: 'Arian Angoma',
+  email: 'arian.angoma.js@gmail.com',
+  password: '123123'
+}
 
 const RegisterPage: FC = () => {
 
+  const {
+    displayName,
+    email,
+    password,
+    onInputChange
+  } = useForm<RegisterForm>(formData)
+
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log({ displayName, email, password })
+  }
+
   return (
     <AuthLayout title="Register">
-      <form>
+      <form onSubmit={onSubmit}>
 
         <Grid container>
 
@@ -26,6 +52,9 @@ const RegisterPage: FC = () => {
               type="text"
               placeholder="Name"
               fullWidth
+              name="displayName"
+              value={displayName}
+              onChange={onInputChange}
             />
           </Grid>
 
@@ -41,6 +70,9 @@ const RegisterPage: FC = () => {
               type="email"
               placeholder="Email"
               fullWidth
+              name="email"
+              value={email}
+              onChange={onInputChange}
             />
           </Grid>
 
@@ -56,6 +88,9 @@ const RegisterPage: FC = () => {
               type="password"
               placeholder="Password"
               fullWidth
+              name="password"
+              value={password}
+              onChange={onInputChange}
             />
           </Grid>
 
@@ -75,6 +110,7 @@ const RegisterPage: FC = () => {
               <Button
                 variant="contained"
                 fullWidth
+                type="submit"
               >
                 Register
               </Button>
