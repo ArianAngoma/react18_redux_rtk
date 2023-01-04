@@ -11,12 +11,17 @@ type UseFormResponse<T> = FormState<T> & {
   onResetForm: () => void;
 }
 
+
 /* interface UseFormResponse<T> {
   formState: T;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 } */
 
-const useForm = <T> (initialForm: T): UseFormResponse<T> => {
+type FormValidations<T> = {
+  [K in keyof T]?: [(value: T[K]) => boolean, string]
+}
+
+const useForm = <T> (initialForm: T, formValidations: FormValidations<T>): UseFormResponse<T> => {
 
   const [formState, setFormState] = useState<T>(initialForm)
 

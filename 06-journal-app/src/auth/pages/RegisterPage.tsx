@@ -19,6 +19,16 @@ const formData: RegisterForm = {
   password: '123123'
 }
 
+type FormValidations = {
+  [key in keyof RegisterForm]?: [(value: typeof formData[key]) => boolean, string]
+}
+
+const formValidations: FormValidations = {
+  email: [(value) => value.includes('@'), 'Email is not valid'],
+  displayName: [(value) => value.length > 1, 'Name is required'],
+  password: [(value) => value.length >= 6, 'Password must be at least 6 characters'],
+}
+
 const RegisterPage: FC = () => {
 
   const {
@@ -26,8 +36,7 @@ const RegisterPage: FC = () => {
     email,
     password,
     onInputChange
-  } = useForm<RegisterForm>(formData)
-
+  } = useForm<RegisterForm>(formData, formValidations)
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -55,6 +64,8 @@ const RegisterPage: FC = () => {
               name="displayName"
               value={displayName}
               onChange={onInputChange}
+              error
+              helperText="Name is requireds"
             />
           </Grid>
 
