@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { ResponseSignInWithGoogle, signInWithGoogle } from '../../firebase/providers'
+import { ResponseSignInWithGoogle, ResponseSignInWithGoogleFulfilled, signInWithGoogle } from '../../firebase/providers'
 
 export const checkingAuthentication = createAsyncThunk<
   any,
@@ -8,9 +8,9 @@ export const checkingAuthentication = createAsyncThunk<
 >(
   'auth/checkingAuthentication',
   async ({
-      email,
-      password
-    },
+    email,
+    password
+  },
     { rejectWithValue }
   ) => {
 
@@ -27,19 +27,19 @@ export const checkingAuthentication = createAsyncThunk<
 )
 
 export const startGoogleSignIn = createAsyncThunk<
-  ResponseSignInWithGoogle,
+  ResponseSignInWithGoogleFulfilled,
   void,
   { rejectValue: string }
 >(
   'auth/startGoogleSignIn',
-  async (
-    _,
-    { rejectWithValue }
-  ) => {
+  async (_, { rejectWithValue }) => {
 
     try {
 
-      return await signInWithGoogle()
+      const result = await signInWithGoogle()
+
+      if (result.ok) return result
+      else return rejectWithValue(result.errorMessage)
 
     } catch (err) {
 

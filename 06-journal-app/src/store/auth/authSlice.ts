@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
 import { checkingAuthentication, startGoogleSignIn } from './thunks'
 
 interface InitialState {
@@ -26,7 +27,12 @@ export const authSlice = createSlice({
     login: (state, action) => {
 
     },
-    logout: (state) => {
+    logout: (state, action: PayloadAction<Pick<InitialState, 'errorMessage'>>) => {
+
+      state = {
+        ...initialState,
+        errorMessage: action.payload.errorMessage
+      }
 
     },
     checkingCredentials: (state) => {
@@ -40,6 +46,29 @@ export const authSlice = createSlice({
       })
       .addCase(startGoogleSignIn.pending, (state) => {
         state.status = 'checking'
+        state.errorMessage = null
+      })
+      .addCase(startGoogleSignIn.rejected, (state, action) => {
+
+        state.status = 'not-authenticated'
+        state.uid = null
+        state.email = null
+        state.displayName = null
+        state.photoURL = null
+        state.errorMessage = action.payload || 'Something went wrong'
+
+      })
+      .addCase(startGoogleSignIn.fulfilled, (state, action) => {
+
+        const { displayName, email, photoURL, uid } = action.payload
+
+        state.status = 'authenticated'
+        state.uid = uid
+        state.email = email
+        state.displayName = displayName
+        state.photoURL = photoURL
+        state.errorMessage = null
+
       })
   }
 })

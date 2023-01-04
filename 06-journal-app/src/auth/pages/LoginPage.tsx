@@ -1,4 +1,4 @@
-import { FC, FormEvent } from 'react'
+import { FC, FormEvent, useMemo } from 'react'
 
 import { Link as RouterLink } from 'react-router-dom'
 
@@ -6,7 +6,7 @@ import { TextField, Typography, Grid, Button, Link } from '@mui/material'
 import { Google } from '@mui/icons-material'
 
 import { AuthLayout } from '../layout'
-import { useAppDispatch, useForm } from '../../hooks'
+import { useAppDispatch, useAppSelector, useForm } from '../../hooks'
 import { checkingAuthentication, startGoogleSignIn } from '../../store'
 
 interface FormState {
@@ -16,6 +16,7 @@ interface FormState {
 
 const LoginPage: FC = () => {
 
+  const { status } = useAppSelector(state => state.auth)
   const dispatch = useAppDispatch()
 
   const {
@@ -26,6 +27,8 @@ const LoginPage: FC = () => {
     email: 'arian.angoma.js@gmail.com',
     password: '123123'
   })
+
+  const isAuthenticating = useMemo(() => status === "checking", [status])
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
 
@@ -102,6 +105,7 @@ const LoginPage: FC = () => {
                 variant="contained"
                 fullWidth
                 type="submit"
+                disabled={isAuthenticating}
               >
                 Login
               </Button>
@@ -116,6 +120,7 @@ const LoginPage: FC = () => {
                 variant="contained"
                 fullWidth
                 onClick={onGoogleSignIn}
+                disabled={isAuthenticating}
               >
 
                 <Google/>

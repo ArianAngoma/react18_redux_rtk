@@ -3,7 +3,7 @@ import { FirebaseError } from '@firebase/util'
 
 import { firebaseAuth } from './config'
 
-interface ResponseSignInWithGoogleFulfilled {
+export interface ResponseSignInWithGoogleFulfilled {
   ok: true
   displayName: string | null
   email: string | null
