@@ -35,8 +35,13 @@ const RegisterPage: FC = () => {
     displayName,
     email,
     password,
-    onInputChange
+    onInputChange,
+    displayNameValid,
+    emailValid,
+    passwordValid
   } = useForm<RegisterForm>(formData, formValidations)
+
+  console.log({ displayNameValid, emailValid, passwordValid })
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
