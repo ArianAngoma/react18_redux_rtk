@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 /* type UseFormResponse<T> = T & {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -11,7 +11,9 @@ type FormCheckedValues<T> = Record<`${string & keyof T}Valid`, string | null>
 type UseFormResponse<T> = FormState<T> & {
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onResetForm: () => void;
-} & FormCheckedValues<T>
+} & FormCheckedValues<T> & {
+  isFormValid: boolean
+}
 
 /* interface UseFormResponse<T> {
   formState: T;
@@ -30,6 +32,22 @@ const useForm = <T> (initialForm: T, formValidations?: FormValidations<T>): UseF
   useEffect(() => {
     createValidators()
   }, [formState])
+
+  const isFormValid = useMemo(() => {
+
+    for (const formField in formValidation) {
+
+      if (formValidation.hasOwnProperty(formField)) {
+
+        if (formValidation[formField as keyof FormCheckedValues<T>] !== null) return false
+
+      }
+      
+    }
+
+    return true
+
+  }, [formValidation])
 
   const onInputChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -76,7 +94,8 @@ const useForm = <T> (initialForm: T, formValidations?: FormValidations<T>): UseF
     ...formState,
     onInputChange,
     onResetForm,
-    ...formValidation
+    ...formValidation,
+    isFormValid
   }
 
 }

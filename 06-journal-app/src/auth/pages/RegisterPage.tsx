@@ -1,4 +1,4 @@
-import { FC, FormEvent } from 'react'
+import { FC, FormEvent, useState } from 'react'
 
 import { Link as RouterLink } from 'react-router-dom'
 
@@ -14,9 +14,9 @@ interface RegisterForm {
 }
 
 const formData: RegisterForm = {
-  displayName: 'Arian Angoma',
-  email: 'arian.angoma.js@gmail.com',
-  password: '123123'
+  displayName: '',
+  email: '',
+  password: ''
 }
 
 type FormValidations = {
@@ -31,6 +31,8 @@ const formValidations: FormValidations = {
 
 const RegisterPage: FC = () => {
 
+  const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false)
+
   const {
     displayName,
     email,
@@ -38,14 +40,18 @@ const RegisterPage: FC = () => {
     onInputChange,
     displayNameValid,
     emailValid,
-    passwordValid
+    passwordValid,
+    isFormValid
   } = useForm<RegisterForm>(formData, formValidations)
 
-  console.log({ displayNameValid, emailValid, passwordValid })
-
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+
     e.preventDefault()
+
+    setIsFormSubmitted(true)
+  
     console.log({ displayName, email, password })
+
   }
 
   return (
@@ -69,8 +75,8 @@ const RegisterPage: FC = () => {
               name="displayName"
               value={displayName}
               onChange={onInputChange}
-              error
-              helperText="Name is requireds"
+              error={Boolean(displayNameValid && isFormSubmitted)}
+              helperText={isFormSubmitted && displayNameValid}
             />
           </Grid>
 
@@ -89,6 +95,8 @@ const RegisterPage: FC = () => {
               name="email"
               value={email}
               onChange={onInputChange}
+              error={Boolean(emailValid && isFormSubmitted)}
+              helperText={isFormSubmitted && emailValid}
             />
           </Grid>
 
@@ -107,6 +115,8 @@ const RegisterPage: FC = () => {
               name="password"
               value={password}
               onChange={onInputChange}
+              error={Boolean(passwordValid && isFormSubmitted)}
+              helperText={isFormSubmitted && passwordValid}
             />
           </Grid>
 
