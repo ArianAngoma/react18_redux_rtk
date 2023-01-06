@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { checkingAuthentication, startGoogleSignIn } from './thunks'
+import { checkingAuthentication, startCreatingUserWithEmailPassowrd, startGoogleSignIn } from './thunks'
 
 interface InitialState {
   status: 'checking' | 'authenticated' | 'not-authenticated'
@@ -69,6 +69,10 @@ export const authSlice = createSlice({
         state.photoURL = photoURL
         state.errorMessage = null
 
+      })
+      .addCase(startCreatingUserWithEmailPassowrd.pending, (state) => {
+        state.status = 'checking'
+        state.errorMessage = null
       })
   }
 })

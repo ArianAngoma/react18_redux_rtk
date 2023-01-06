@@ -5,7 +5,8 @@ import { Link as RouterLink } from 'react-router-dom'
 import { TextField, Typography, Grid, Button, Link } from '@mui/material'
 
 import { AuthLayout } from '../layout'
-import { useForm } from '../../hooks'
+import { useAppDispatch, useForm } from '../../hooks'
+import { startCreatingUserWithEmailPassowrd } from '../../store'
 
 interface RegisterForm {
   displayName: string
@@ -33,6 +34,8 @@ const RegisterPage: FC = () => {
 
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false)
 
+  const dispatch = useAppDispatch()
+
   const {
     displayName,
     email,
@@ -49,8 +52,14 @@ const RegisterPage: FC = () => {
     e.preventDefault()
 
     setIsFormSubmitted(true)
+
+    if (!isFormValid) return
   
-    console.log({ displayName, email, password })
+    dispatch(startCreatingUserWithEmailPassowrd({
+      displayName,
+      email,
+      password
+    }))
 
   }
 
