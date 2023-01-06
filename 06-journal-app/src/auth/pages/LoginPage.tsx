@@ -2,12 +2,12 @@ import { FC, FormEvent, useMemo } from 'react'
 
 import { Link as RouterLink } from 'react-router-dom'
 
-import { TextField, Typography, Grid, Button, Link } from '@mui/material'
+import { TextField, Typography, Grid, Button, Link, Alert } from '@mui/material'
 import { Google } from '@mui/icons-material'
 
 import { AuthLayout } from '../layout'
 import { useAppDispatch, useAppSelector, useForm } from '../../hooks'
-import { checkingAuthentication, startGoogleSignIn } from '../../store'
+import { startLoginWithEmailPassword, startGoogleSignIn } from '../../store'
 
 interface FormState {
   email: string
@@ -16,7 +16,7 @@ interface FormState {
 
 const LoginPage: FC = () => {
 
-  const { status } = useAppSelector(state => state.auth)
+  const { status, errorMessage } = useAppSelector(state => state.auth)
   const dispatch = useAppDispatch()
 
   const {
@@ -34,17 +34,15 @@ const LoginPage: FC = () => {
 
     e.preventDefault()
 
-    dispatch(checkingAuthentication({
+    dispatch(startLoginWithEmailPassword({
       email,
       password
     }))
 
   }
 
-  const onGoogleSignIn = () => {
-    dispatch(startGoogleSignIn())
-  }
-
+  const onGoogleSignIn = () => dispatch(startGoogleSignIn())
+  
   return (
     <AuthLayout title="Login">
       <form onSubmit={onSubmit}>
@@ -95,6 +93,16 @@ const LoginPage: FC = () => {
               mt: 1
             }}
           >
+
+            <Grid
+              item
+              xs={12}
+              display={Boolean(errorMessage) ? 'block' : 'none'}
+            >
+              <Alert severity="error">
+                {errorMessage}
+              </Alert>
+            </Grid>
 
             <Grid
               item

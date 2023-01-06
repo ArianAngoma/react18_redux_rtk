@@ -6,7 +6,7 @@ import { TextField, Typography, Grid, Button, Link, Alert } from '@mui/material'
 
 import { AuthLayout } from '../layout'
 import { useAppDispatch, useAppSelector, useForm } from '../../hooks'
-import { startCreatingUserWithEmailPassowrd } from '../../store'
+import { startCreatingUserWithEmailPassword } from '../../store'
 
 interface RegisterForm {
   displayName: string
@@ -37,7 +37,7 @@ const RegisterPage: FC = () => {
   const { status, errorMessage } = useAppSelector(state => state.auth)
   const dispatch = useAppDispatch()
 
-  const isChekingAuthentication = useMemo(() => status === 'checking', [status])
+  const isCheckingAuthentication = useMemo(() => status === 'checking', [status])
 
   const {
     displayName,
@@ -58,7 +58,7 @@ const RegisterPage: FC = () => {
 
     if (!isFormValid) return
   
-    dispatch(startCreatingUserWithEmailPassowrd({
+    dispatch(startCreatingUserWithEmailPassword({
       displayName,
       email,
       password
@@ -159,7 +159,7 @@ const RegisterPage: FC = () => {
                 variant="contained"
                 fullWidth
                 type="submit"
-                disabled={isChekingAuthentication}
+                disabled={isCheckingAuthentication}
               >
                 Register
               </Button>

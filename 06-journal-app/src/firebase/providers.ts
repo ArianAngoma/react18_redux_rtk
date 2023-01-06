@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth'
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth'
 import { FirebaseError } from '@firebase/util'
 
 import { firebaseAuth } from './config'
@@ -102,6 +102,46 @@ export const registerWithEmailPassword = async ({
     }
 
     throw new Error('Error registering with email and password', {
+      cause: err
+    })
+
+  }
+
+}
+
+export interface LoginWithEmailPasswordParams {
+  email: string
+  password: string
+}
+
+export const loginWithEmailPassword = async ({
+  email,
+  password
+}: LoginWithEmailPasswordParams): Promise<ResponseSignIn> => {
+
+  try {
+
+    const response = await signInWithEmailAndPassword(firebaseAuth, email, password)
+    const { displayName, photoURL, uid } = response.user
+
+    return {
+      ok: true,
+      displayName,
+      email,
+      photoURL,
+      uid
+    }
+
+  } catch (err) {
+
+    if (err instanceof FirebaseError) {
+      return {
+        ok: false,
+        errorMessage: err.message
+      }
+    }
+
+    throw new Error('Error logging in with email and password', {
       cause: err
     })
 

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { checkingAuthentication, startCreatingUserWithEmailPassowrd, startGoogleSignIn } from './thunks'
+import { startLoginWithEmailPassword, startCreatingUserWithEmailPassword, startGoogleSignIn } from './thunks'
 
 interface InitialState {
   status: 'checking' | 'authenticated' | 'not-authenticated'
@@ -24,28 +24,44 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state, action) => {
-
-    },
     logout: (state, action: PayloadAction<Pick<InitialState, 'errorMessage'>>) => {
-
       state.status = 'not-authenticated'
       state.uid = null
       state.email = null
       state.displayName = null
       state.photoURL = null
       state.errorMessage = action.payload.errorMessage
-
-    },
-    checkingCredentials: (state) => {
-
     }
   },
   extraReducers: builder => {
     builder
-      .addCase(checkingAuthentication.pending, (state) => {
+      .addCase(startLoginWithEmailPassword.pending, (state) => {
         state.status = 'checking'
+        state.uid = null
+        state.email = null
+        state.displayName = null
+        state.photoURL = null
+        state.errorMessage = null
       })
+      .addCase(startLoginWithEmailPassword.rejected, (state, action) => {
+        state.status = 'not-authenticated'
+        state.uid = null
+        state.email = null
+        state.displayName = null
+        state.photoURL = null
+        state.errorMessage = action.payload || 'Something went wrong'
+      })
+      .addCase(startLoginWithEmailPassword.fulfilled, (state, action) => {
+        const { displayName, email, photoURL, uid } = action.payload
+
+        state.status = 'authenticated'
+        state.uid = uid
+        state.email = email
+        state.displayName = displayName
+        state.photoURL = photoURL
+        state.errorMessage = null
+      })
+
       .addCase(startGoogleSignIn.pending, (state) => {
         state.status = 'checking'
         state.uid = null
@@ -55,28 +71,24 @@ export const authSlice = createSlice({
         state.errorMessage = null
       })
       .addCase(startGoogleSignIn.rejected, (state, action) => {
-
         state.status = 'not-authenticated'
         state.uid = null
         state.email = null
         state.displayName = null
         state.photoURL = null
         state.errorMessage = action.payload || 'Something went wrong'
-
       })
       .addCase(startGoogleSignIn.fulfilled, (state, action) => {
-
         const { displayName, email, photoURL, uid } = action.payload
-
         state.status = 'authenticated'
         state.uid = uid
         state.email = email
         state.displayName = displayName
         state.photoURL = photoURL
         state.errorMessage = null
-
       })
-      .addCase(startCreatingUserWithEmailPassowrd.pending, (state) => {
+
+      .addCase(startCreatingUserWithEmailPassword.pending, (state) => {
         state.status = 'checking'
         state.uid = null
         state.email = null
@@ -84,8 +96,7 @@ export const authSlice = createSlice({
         state.photoURL = null
         state.errorMessage = null
       })
-      .addCase(startCreatingUserWithEmailPassowrd.rejected, (state, action) => {
-
+      .addCase(startCreatingUserWithEmailPassword.rejected, (state, action) => {
         state.status = 'not-authenticated'
         state.uid = null
         state.email = null
@@ -93,9 +104,10 @@ export const authSlice = createSlice({
         state.photoURL = null
         state.errorMessage = action.payload || 'Something went wrong'
 
+        // dispatch logout to clear the state
+        // dispatch(logout({ errorMessage: action.payload || 'Something went wrong' }))
       })
-      .addCase(startCreatingUserWithEmailPassowrd.fulfilled, (state, action) => {
-
+      .addCase(startCreatingUserWithEmailPassword.fulfilled, (state, action) => {
         const { displayName, email, photoURL, uid } = action.payload
 
         state.status = 'authenticated'
@@ -104,13 +116,10 @@ export const authSlice = createSlice({
         state.displayName = displayName
         state.photoURL = photoURL
         state.errorMessage = null
-
       })
   }
 })
 
 export const {
-  login,
   logout,
-  checkingCredentials
 } = authSlice.actions

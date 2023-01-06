@@ -1,13 +1,18 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-import { RegisterWithEmailPasswordParams, ResponseSignInFulfilled, registerWithEmailPassword, signInWithGoogle } from '../../firebase/providers'
+import {
+  LoginWithEmailPasswordParams,
+  RegisterWithEmailPasswordParams,
+  ResponseSignInFulfilled, loginWithEmailPassword, registerWithEmailPassword,
+  signInWithGoogle
+} from '../../firebase/providers'
 
-export const checkingAuthentication = createAsyncThunk<
-  any,
-  { email: string, password: string },
+export const startLoginWithEmailPassword = createAsyncThunk<
+  ResponseSignInFulfilled,
+  LoginWithEmailPasswordParams,
   { rejectValue: string }
 >(
-  'auth/checkingAuthentication',
+  'auth/startLoginWithEmailPassword',
   async ({
     email,
     password
@@ -16,6 +21,14 @@ export const checkingAuthentication = createAsyncThunk<
   ) => {
 
     try {
+
+      const result = await loginWithEmailPassword({
+        email,
+        password
+      })
+
+      if (result.ok) return result
+      else return rejectWithValue(result.errorMessage)
 
     } catch (err) {
       if (err instanceof Error) {
@@ -55,19 +68,19 @@ export const startGoogleSignIn = createAsyncThunk<
   }
 )
 
-export const startCreatingUserWithEmailPassowrd = createAsyncThunk<
+export const startCreatingUserWithEmailPassword = createAsyncThunk<
   ResponseSignInFulfilled,
   RegisterWithEmailPasswordParams,
   { rejectValue: string }
 >(
-  'auth/startCreatingUserWithEmailPassowrd',
+  'auth/startCreatingUserWithEmailPassword',
   async (
     {
       email,
       password,
       displayName
     },
-    { rejectWithValue }
+    { rejectWithValue, dispatch }
   ) => {
 
     try {
