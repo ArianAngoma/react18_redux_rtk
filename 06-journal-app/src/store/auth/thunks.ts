@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-import { RegisterWithEmailPasswordParams, ResponseSignInWithGoogleFulfilled, registerWithEmailPassword, signInWithGoogle } from '../../firebase/providers'
+import { RegisterWithEmailPasswordParams, ResponseSignInFulfilled, registerWithEmailPassword, signInWithGoogle } from '../../firebase/providers'
 
 export const checkingAuthentication = createAsyncThunk<
   any,
@@ -28,7 +28,7 @@ export const checkingAuthentication = createAsyncThunk<
 )
 
 export const startGoogleSignIn = createAsyncThunk<
-  ResponseSignInWithGoogleFulfilled,
+  ResponseSignInFulfilled,
   void,
   { rejectValue: string }
 >(
@@ -56,7 +56,7 @@ export const startGoogleSignIn = createAsyncThunk<
 )
 
 export const startCreatingUserWithEmailPassowrd = createAsyncThunk<
-  any,
+  ResponseSignInFulfilled,
   RegisterWithEmailPasswordParams,
   { rejectValue: string }
 >(

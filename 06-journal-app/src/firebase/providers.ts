@@ -1,9 +1,9 @@
-import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth'
 import { FirebaseError } from '@firebase/util'
 
 import { firebaseAuth } from './config'
 
-export interface ResponseSignInWithGoogleFulfilled {
+export interface ResponseSignInFulfilled {
   ok: true
   displayName: string | null
   email: string | null
@@ -11,16 +11,16 @@ export interface ResponseSignInWithGoogleFulfilled {
   uid: string
 }
 
-interface ResponseSignInWithGoogleRejected {
+interface ResponseSignInRejected {
   ok: false
   errorMessage: string
 }
 
-export type ResponseSignInWithGoogle = ResponseSignInWithGoogleFulfilled | ResponseSignInWithGoogleRejected
+export type ResponseSignIn = ResponseSignInFulfilled | ResponseSignInRejected
 
 const googleProvider = new GoogleAuthProvider
 
-export const signInWithGoogle = async (): Promise<ResponseSignInWithGoogle> => {
+export const signInWithGoogle = async (): Promise<ResponseSignIn> => {
 
   try {
 
@@ -70,12 +70,19 @@ export const registerWithEmailPassword = async ({
   displayName,
   email,
   password
-}: RegisterWithEmailPasswordParams): Promise<ResponseSignInWithGoogle> => {
+}: RegisterWithEmailPasswordParams): Promise<ResponseSignIn> => {
 
   try {
 
     const response = await createUserWithEmailAndPassword(firebaseAuth, email, password)
     const { uid, photoURL } = response.user
+
+    if (!firebaseAuth.currentUser) return {
+      ok: false,
+      errorMessage: 'No user found'
+    }
+
+    await updateProfile(firebaseAuth.currentUser, { displayName })
 
     return {
       ok: true,
