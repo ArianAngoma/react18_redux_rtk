@@ -1,11 +1,11 @@
-import { FC, FormEvent, useState } from 'react'
+import { FC, FormEvent, useMemo, useState } from 'react'
 
 import { Link as RouterLink } from 'react-router-dom'
 
-import { TextField, Typography, Grid, Button, Link } from '@mui/material'
+import { TextField, Typography, Grid, Button, Link, Alert } from '@mui/material'
 
 import { AuthLayout } from '../layout'
-import { useAppDispatch, useForm } from '../../hooks'
+import { useAppDispatch, useAppSelector, useForm } from '../../hooks'
 import { startCreatingUserWithEmailPassowrd } from '../../store'
 
 interface RegisterForm {
@@ -34,7 +34,10 @@ const RegisterPage: FC = () => {
 
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false)
 
+  const { status, errorMessage } = useAppSelector(state => state.auth)
   const dispatch = useAppDispatch()
+
+  const isChekingAuthentication = useMemo(() => status === 'checking', [status])
 
   const {
     displayName,
@@ -141,11 +144,22 @@ const RegisterPage: FC = () => {
             <Grid
               item
               xs={12}
+              display={Boolean(errorMessage) ? 'block' : 'none'}
+            >
+              <Alert severity="error">
+                {errorMessage}
+              </Alert>
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
             >
               <Button
                 variant="contained"
                 fullWidth
                 type="submit"
+                disabled={isChekingAuthentication}
               >
                 Register
               </Button>
