@@ -39,33 +39,20 @@ export const authSlice = createSlice({
       state.photoURL = photoURL
       state.errorMessage = null
     },
-    logout: (state, action: PayloadAction<Pick<InitialState, 'errorMessage'>>) => {
-      state.status = 'not-authenticated'
-      state.uid = null
-      state.email = null
-      state.displayName = null
-      state.photoURL = null
-      state.errorMessage = action.payload.errorMessage
-    }
+    logout: (_, action: PayloadAction<Pick<InitialState, 'errorMessage'>>) => ({
+      ...initialState,
+      status: 'not-authenticated',
+      errorMessage: action.payload.errorMessage
+    })
   },
   extraReducers: builder => {
     builder
-      .addCase(startLoginWithEmailPassword.pending, (state) => {
-        state.status = 'checking'
-        state.uid = null
-        state.email = null
-        state.displayName = null
-        state.photoURL = null
-        state.errorMessage = null
-      })
-      .addCase(startLoginWithEmailPassword.rejected, (state, action) => {
-        state.status = 'not-authenticated'
-        state.uid = null
-        state.email = null
-        state.displayName = null
-        state.photoURL = null
-        state.errorMessage = action.payload || 'Something went wrong'
-      })
+      .addCase(startLoginWithEmailPassword.pending, () => initialState)
+      .addCase(startLoginWithEmailPassword.rejected, (_, action) => ({
+        ...initialState,
+        status: 'not-authenticated',
+        errorMessage: action.payload || 'Something went wrong'
+      }))
       .addCase(startLoginWithEmailPassword.fulfilled, (state, action) => {
         const { displayName, email, photoURL, uid } = action.payload
 
@@ -77,22 +64,12 @@ export const authSlice = createSlice({
         state.errorMessage = null
       })
 
-      .addCase(startGoogleSignIn.pending, (state) => {
-        state.status = 'checking'
-        state.uid = null
-        state.email = null
-        state.displayName = null
-        state.photoURL = null
-        state.errorMessage = null
-      })
-      .addCase(startGoogleSignIn.rejected, (state, action) => {
-        state.status = 'not-authenticated'
-        state.uid = null
-        state.email = null
-        state.displayName = null
-        state.photoURL = null
-        state.errorMessage = action.payload || 'Something went wrong'
-      })
+      .addCase(startGoogleSignIn.pending, () => initialState)
+      .addCase(startGoogleSignIn.rejected, (_, action) => ({
+        ...initialState,
+        status: 'not-authenticated',
+        errorMessage: action.payload || 'Something went wrong'
+      }))
       .addCase(startGoogleSignIn.fulfilled, (state, action) => {
         const { displayName, email, photoURL, uid } = action.payload
         state.status = 'authenticated'
@@ -103,22 +80,12 @@ export const authSlice = createSlice({
         state.errorMessage = null
       })
 
-      .addCase(startCreatingUserWithEmailPassword.pending, (state) => {
-        state.status = 'checking'
-        state.uid = null
-        state.email = null
-        state.displayName = null
-        state.photoURL = null
-        state.errorMessage = null
-      })
-      .addCase(startCreatingUserWithEmailPassword.rejected, (state, action) => {
-        state.status = 'not-authenticated'
-        state.uid = null
-        state.email = null
-        state.displayName = null
-        state.photoURL = null
-        state.errorMessage = action.payload || 'Something went wrong'
-      })
+      .addCase(startCreatingUserWithEmailPassword.pending, () => initialState)
+      .addCase(startCreatingUserWithEmailPassword.rejected, (_, action) => ({
+        ...initialState,
+        status: 'not-authenticated',
+        errorMessage: action.payload || 'Something went wrong'
+      }))
       .addCase(startCreatingUserWithEmailPassword.fulfilled, (state, action) => {
         const { displayName, email, photoURL, uid } = action.payload
 
