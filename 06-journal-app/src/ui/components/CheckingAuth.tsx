@@ -16,7 +16,7 @@ const CheckingAuth: FC = () => {
       }}
     >
       <Grid 
-        item
+        container
         direction="row"
         justifyContent="center"
        >
