@@ -7,8 +7,14 @@ import '@fontsource/roboto/700.css'
 
 import AppRouter from './router/AppRouter'
 import { AppTheme } from './theme'
+import { useAppSelector } from './hooks'
+import { CheckingAuth } from './ui'
 
 const JournalApp: FC = () => {
+
+  const { status } = useAppSelector(state => state.auth)
+
+  if (status === 'checking') return <CheckingAuth/>
 
   return (
     <AppTheme>

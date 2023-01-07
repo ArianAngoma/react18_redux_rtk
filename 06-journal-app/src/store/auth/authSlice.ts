@@ -12,7 +12,7 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  status: 'not-authenticated',
+  status: 'checking',
   uid: null,
   email: null,
   displayName: null,
