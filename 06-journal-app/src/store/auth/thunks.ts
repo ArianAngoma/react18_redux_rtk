@@ -3,7 +3,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
   LoginWithEmailPasswordParams,
   RegisterWithEmailPasswordParams,
-  ResponseSignInFulfilled, loginWithEmailPassword, registerWithEmailPassword,
+  ResponseSignInFulfilled,
+  loginWithEmailPassword,
+  logoutFirebase,
+  registerWithEmailPassword,
   signInWithGoogle
 } from '../../firebase/providers'
 
@@ -93,6 +96,31 @@ export const startCreatingUserWithEmailPassword = createAsyncThunk<
 
       if (result.ok) return result
       else return rejectWithValue(result.errorMessage)
+
+    } catch (err) {
+
+      if (err instanceof Error) {
+        return rejectWithValue(err.message)
+      }
+
+      return rejectWithValue('Something went wrong')
+
+    }
+
+  }
+)
+
+export const startLogout = createAsyncThunk<
+  void,
+  void,
+  { rejectValue: string }
+>(
+  'auth/startLogout',
+  async (_, { rejectWithValue }) => {
+
+    try {
+
+      await logoutFirebase()
 
     } catch (err) {
 

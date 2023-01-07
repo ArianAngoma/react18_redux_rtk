@@ -14,11 +14,15 @@ import {
 } from '@mui/material'
 import { TurnedInNot } from '@mui/icons-material'
 
+import { useAppSelector } from '../../hooks'
+
 interface SidebarProps {
   drawerWidth: number
 }
 
 const Sidebar: FC<SidebarProps> = ({ drawerWidth }) => {
+
+  const { displayName } = useAppSelector(state => state.auth)
 
   return (
     <Box
@@ -47,7 +51,7 @@ const Sidebar: FC<SidebarProps> = ({ drawerWidth }) => {
             noWrap
             component="div"
           >
-            Arian Angoma
+            {displayName}
           </Typography>
         </Toolbar>
 

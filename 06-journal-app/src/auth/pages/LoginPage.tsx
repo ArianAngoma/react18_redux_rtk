@@ -24,8 +24,8 @@ const LoginPage: FC = () => {
     password,
     onInputChange
   } = useForm<FormState>({
-    email: 'arian.angoma.js@gmail.com',
-    password: '123123'
+    email: '',
+    password: ''
   })
 
   const isAuthenticating = useMemo(() => status === "checking", [status])

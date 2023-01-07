@@ -9,7 +9,7 @@ const PrivateRoute: FC = () => {
 
   return (status === 'authenticated')
     ? <Outlet/>
-    : <Navigate to={'/login'} replace={true}/>
+    : <Navigate to={'/auth/login'} replace={true}/>
 
 }
 

@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { startLoginWithEmailPassword, startCreatingUserWithEmailPassword, startGoogleSignIn } from './thunks'
+import {
+  startLoginWithEmailPassword,
+  startCreatingUserWithEmailPassword,
+  startGoogleSignIn,
+  startLogout
+} from './thunks'
 
 interface InitialState {
   status: 'checking' | 'authenticated' | 'not-authenticated'
@@ -113,9 +118,6 @@ export const authSlice = createSlice({
         state.displayName = null
         state.photoURL = null
         state.errorMessage = action.payload || 'Something went wrong'
-
-        // dispatch logout to clear the state
-        // dispatch(logout({ errorMessage: action.payload || 'Something went wrong' }))
       })
       .addCase(startCreatingUserWithEmailPassword.fulfilled, (state, action) => {
         const { displayName, email, photoURL, uid } = action.payload
@@ -127,6 +129,17 @@ export const authSlice = createSlice({
         state.photoURL = photoURL
         state.errorMessage = null
       })
+      
+      .addCase(startLogout.pending, () => initialState)
+      .addCase(startLogout.rejected, (_, action) => ({
+        ...initialState,
+        status: 'not-authenticated',
+        errorMessage: action.payload || 'Something went wrong',
+      }))
+      .addCase(startLogout.fulfilled, () => ({
+        ...initialState,
+        status: 'not-authenticated',
+      }))
   }
 })
 

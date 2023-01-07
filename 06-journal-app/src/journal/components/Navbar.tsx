@@ -3,11 +3,18 @@ import { FC } from 'react'
 import { AppBar, IconButton, Toolbar, Grid, Typography } from '@mui/material'
 import { LogoutOutlined, MenuOutlined } from '@mui/icons-material'
 
+import { useAppDispatch } from '../../hooks'
+import { startLogout } from '../../store'
+
 interface NavbarProps {
   drawerWidth: number
 }
 
 const Navbar: FC<NavbarProps> = ({ drawerWidth }) => {
+
+  const dispatch = useAppDispatch()
+
+  const onLogout = () => dispatch(startLogout())
 
   return (
     <AppBar
@@ -45,7 +52,10 @@ const Navbar: FC<NavbarProps> = ({ drawerWidth }) => {
             Journal App
           </Typography>
 
-          <IconButton color="error">
+          <IconButton
+           color="error"
+           onClick={onLogout}
+          >
             <LogoutOutlined/>
           </IconButton>
 

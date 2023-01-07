@@ -15,7 +15,7 @@ const useCheckAuth = () => {
   
       onAuthStateChanged(firebaseAuth, async (user) => {
         
-        if (!user) return dispatch(logout({errorMessage: 'No user'}))
+        if (!user) return dispatch(logout({ errorMessage: null }))
   
         dispatch(login({
           uid: user.uid,
