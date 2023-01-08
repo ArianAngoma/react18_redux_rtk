@@ -13,14 +13,7 @@ const JournalPage: FC = () => {
   const { isSaving, activeNote } = useAppSelector(state => state.journal)
   const dispatch = useAppDispatch()
 
-  const onCLickNewNote = () => {
-
-    dispatch(startNewNote({
-      body: '',
-      title: '',
-    }))
-
-  }
+  const onCLickNewNote = () => dispatch(startNewNote())
 
   return (
     <JournalLayout>

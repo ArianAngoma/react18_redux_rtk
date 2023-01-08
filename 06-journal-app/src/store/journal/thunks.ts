@@ -8,14 +8,11 @@ import { firebaseDB } from '../../firebase/config'
 
 export const startNewNote = createAsyncThunk<
   Note,
-  Pick<Note, 'title' | 'body'>,
+  void,
   { rejectValue: string }
 >(
   'journal/startNewNote',
-  async ({
-    body,
-    title
-  }, {
+  async (_, {
     rejectWithValue,
     getState
   }) => {
@@ -25,8 +22,8 @@ export const startNewNote = createAsyncThunk<
       const { uid } = (getState() as RootState).auth
 
       const newNote = {
-        title,
-        body,
+        title: '',
+        body: '',
         date: new Date().getTime()
       } as Note
 
