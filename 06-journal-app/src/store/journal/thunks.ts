@@ -1,16 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { collection, doc, setDoc } from 'firebase/firestore/lite'
+import { FirebaseError } from '@firebase/util'
 
 import { Note } from './journalSlice'
 import { RootState } from '../store'
 import { firebaseDB } from '../../firebase/config'
 
-export const startNewNate = createAsyncThunk<
-  any,
+export const startNewNote = createAsyncThunk<
+  Note,
   Pick<Note, 'title' | 'body'>,
   { rejectValue: string }
 >(
-  'journal/startNewNate',
+  'journal/startNewNote',
   async ({
     body,
     title
@@ -23,17 +24,26 @@ export const startNewNate = createAsyncThunk<
 
       const { uid } = (getState() as RootState).auth
 
-      const newDocument = doc(collection(firebaseDB, `${uid}/journal/notes`))
-
-      const setDocResponse = await setDoc(newDocument, {
+      const newNote = {
         title,
         body,
         date: new Date().getTime()
-      })
+      } as Note
 
-      console.log({ setDocResponse, newDocument })
+      const newDocument = doc(collection(firebaseDB, `${uid}/journal/notes`))
+
+      await setDoc(newDocument, newNote)
+
+      newNote.id = newDocument.id
+
+      return newNote
 
     } catch (err) {
+
+      if (err instanceof FirebaseError) {
+        return rejectWithValue(err.message)
+      }
+      return rejectWithValue('Error while saving the note')
 
     }
 

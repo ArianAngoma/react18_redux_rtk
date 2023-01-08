@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { startNewNote } from './thunks'
 
 export interface Note {
   id: string
@@ -12,14 +13,14 @@ interface InitialState {
   isSaving: boolean
   messageSaved: string
   notes: Note[],
-  activeNode: Note | null
+  activeNote: Note | null
 }
 
 const initialState: InitialState = {
-  isSaving: true,
+  isSaving: false,
   messageSaved: '',
   notes: [],
-  activeNode: null
+  activeNote: null
 }
 
 export const journalSlice = createSlice({
@@ -32,6 +33,18 @@ export const journalSlice = createSlice({
     setSavingNote: (state, action) => {},
     updateNote: (state, action) => {},
     deleteNoteById: (state, action) => {}
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(startNewNote.pending, (state) => {
+        state.isSaving = true
+      })
+      .addCase(startNewNote.fulfilled, (state, action) => {
+        state.isSaving = false
+        state.messageSaved = 'Saved'
+        state.notes.push(action.payload)
+        state.activeNote = action.payload
+      })
   }
 })
 
