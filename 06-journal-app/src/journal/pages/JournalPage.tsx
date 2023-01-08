@@ -5,8 +5,21 @@ import { AddOutlined } from '@mui/icons-material'
 
 import { JournalLayout } from '../layout'
 import { NothingSelectedView } from '../../views'
+import { useAppDispatch } from '../../hooks'
+import { startNewNate } from '../../store'
 
 const JournalPage: FC = () => {
+
+  const dispatch = useAppDispatch()
+
+  const onCLickNewNote = () => {
+
+    dispatch(startNewNate({
+      body: '',
+      title: '',
+    }))
+
+  }
 
   return (
     <JournalLayout>
@@ -16,6 +29,7 @@ const JournalPage: FC = () => {
       {/* <NoteView/> */}
 
       <IconButton
+        onClick={onCLickNewNote}
         size="large"
         sx={{
           color: 'white',

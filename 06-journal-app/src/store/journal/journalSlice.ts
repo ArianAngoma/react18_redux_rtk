@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-interface Note {
+export interface Note {
   id: string
   title: string
   body: string
-  date: Date
+  date: number
   imagesURLs: string[]
 }
 
