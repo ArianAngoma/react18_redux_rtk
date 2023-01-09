@@ -44,4 +44,4 @@ const SideBarItem: FC<SideBarItemProp> = ({ id, title, body }: SideBarItemProp) 
 
 }
 
-export default SideBarItem;
+export default SideBarItem
