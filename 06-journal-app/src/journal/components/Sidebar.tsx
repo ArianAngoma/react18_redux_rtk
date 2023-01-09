@@ -5,16 +5,12 @@ import {
   Divider,
   Drawer,
   List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
   Toolbar,
   Typography,
-  Grid, ListItemText
 } from '@mui/material'
-import { TurnedInNot } from '@mui/icons-material'
 
 import { useAppSelector } from '../../hooks'
+import SideBarItem from './SideBarItem'
 
 interface SidebarProps {
   drawerWidth: number
@@ -23,6 +19,7 @@ interface SidebarProps {
 const Sidebar: FC<SidebarProps> = ({ drawerWidth }) => {
 
   const { displayName } = useAppSelector(state => state.auth)
+  const { notes } = useAppSelector(state => state.journal)
 
   return (
     <Box
@@ -60,27 +57,13 @@ const Sidebar: FC<SidebarProps> = ({ drawerWidth }) => {
         <List>
 
           {
-            ['Notes', 'Tags'].map((text) => (
-              <ListItem
-                key={text}
-                disablePadding
-              >
-                <ListItemButton>
-
-                  <ListItemIcon>
-                    <TurnedInNot/>
-                  </ListItemIcon>
-
-                  <Grid container>
-
-                    <ListItemText primary={text}/>
-
-                    <ListItemText secondary={`Lorem ipsum dolor sit amet, consectetur adipisicing elit.`}/>
-
-                  </Grid>
-
-                </ListItemButton>
-              </ListItem>
+            notes.map(note => (
+              <SideBarItem 
+                key={note.id} 
+                id={note.id}
+                title={note.title}
+                body={note.body}
+              /> 
             ))
           }
 
