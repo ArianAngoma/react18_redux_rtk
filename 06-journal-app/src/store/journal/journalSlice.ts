@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { startLoadingNotes, startNewNote } from './thunks'
 
@@ -29,7 +29,9 @@ export const journalSlice = createSlice({
   initialState,
   reducers: {
     addNewEmptyNote: (state) => {},
-    setActiveNote: (state, action) => {},
+    setActiveNote: (state, action: PayloadAction<Note>) => {
+      state.activeNote = action.payload
+    },
     setNotes: (state, action) => {},
     setSavingNote: (state, action) => {},
     updateNote: (state, action) => {},

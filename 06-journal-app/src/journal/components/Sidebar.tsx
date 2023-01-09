@@ -63,6 +63,8 @@ const Sidebar: FC<SidebarProps> = ({ drawerWidth }) => {
                 id={note.id}
                 title={note.title}
                 body={note.body}
+                imagesURLs={note.imagesURLs}
+                date={note.date}
               /> 
             ))
           }

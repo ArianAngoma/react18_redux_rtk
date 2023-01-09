@@ -8,11 +8,18 @@ import {
 } from '@mui/material'
 import { TurnedInNot } from '@mui/icons-material'
 
-import { Note } from '../../store';
+import { Note, setActiveNote } from '../../store';
+import { useAppDispatch } from '../../hooks';
 
-type SideBarItemProp = Pick<Note, 'id' | 'title' | 'body'>
+type SideBarItemProp = Note
 
-const SideBarItem: FC<SideBarItemProp> = ({ id, title, body }: SideBarItemProp) => {
+const SideBarItem: FC<SideBarItemProp> = ({ 
+  id, 
+  title, 
+  body, 
+  imagesURLs, 
+  date 
+}: SideBarItemProp) => {
 
   const newTitle = useMemo(() => {
     return title.length > 17
@@ -20,10 +27,20 @@ const SideBarItem: FC<SideBarItemProp> = ({ id, title, body }: SideBarItemProp) 
       : title
   }, [title])
 
+  const dispatch = useAppDispatch()
+
+  const onActiveNote = () => dispatch(setActiveNote({ 
+    id, 
+    title, 
+    body, 
+    imagesURLs, 
+    date
+  }))
+
   return (
     <ListItem disablePadding>
 
-      <ListItemButton>
+      <ListItemButton onClick={onActiveNote}>
 
         <ListItemIcon>
           <TurnedInNot />
