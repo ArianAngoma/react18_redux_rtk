@@ -5,6 +5,7 @@ import { FirebaseError } from '@firebase/util'
 import { Note } from './journalSlice'
 import { RootState } from '../store'
 import { firebaseDB } from '../../firebase/config'
+import { loadNotes } from '../../helpers'
 
 export const startNewNote = createAsyncThunk<
   Note,
@@ -45,4 +46,36 @@ export const startNewNote = createAsyncThunk<
     }
 
   }
+)
+
+export const startLoadingNotes = createAsyncThunk<
+  Note[],
+  void,
+  { rejectValue: string }
+>(
+  'journal/startLoadingNotes',
+  async (_, {
+    rejectWithValue,
+    getState
+  }) => {
+
+    try {
+
+      const { uid } = (getState() as RootState).auth
+
+      if (!uid) return rejectWithValue('You must be logged in')
+      
+      return await loadNotes(uid)
+
+    } catch (err) {
+
+      if (err instanceof FirebaseError) {
+        return rejectWithValue(err.message)
+      }
+      return rejectWithValue('Error while loading notes')
+
+    }
+
+  }
+
 )
