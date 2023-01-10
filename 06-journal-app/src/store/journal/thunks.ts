@@ -64,7 +64,7 @@ export const startLoadingNotes = createAsyncThunk<
       const { uid } = (getState() as RootState).auth
 
       if (!uid) return rejectWithValue('You must be logged in')
-      
+
       return await loadNotes(uid)
 
     } catch (err) {
@@ -78,4 +78,41 @@ export const startLoadingNotes = createAsyncThunk<
 
   }
 
+)
+
+export const startSaveNote = createAsyncThunk<
+  Note,
+  Note,
+  { rejectValue: string }
+>(
+  'journal/startSaveNote',
+  async (
+    note,
+    {
+      rejectWithValue,
+      getState
+    }
+  ) => {
+
+    try {
+
+      const { uid } = (getState() as RootState).auth
+
+      const { id, imagesURLs, ...noteToSave } = note
+
+      const documentRef = doc(firebaseDB, `${uid}/journal/notes/${id}`)
+      await setDoc(documentRef, noteToSave, { merge: true })
+
+      return note
+
+    } catch (err) {      
+
+      if (err instanceof FirebaseError) {
+        return rejectWithValue(err.message)
+      }
+      return rejectWithValue('Error while saving the note')
+
+    }
+
+  }
 )

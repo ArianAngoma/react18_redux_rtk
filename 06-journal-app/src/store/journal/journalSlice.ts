@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { startLoadingNotes, startNewNote } from './thunks'
+import { startLoadingNotes, startNewNote, startSaveNote } from './thunks'
 
 export interface Note {
   id: string
@@ -51,6 +51,20 @@ export const journalSlice = createSlice({
 
       .addCase(startLoadingNotes.fulfilled, (state, action) => {
         state.notes = action.payload
+      })
+
+      .addCase(startSaveNote.pending, (state) => {
+        state.isSaving = true
+      })
+      .addCase(startSaveNote.fulfilled, (state, action) => {
+        state.isSaving = false
+        state.messageSaved = 'Saved'
+        state.activeNote = action.payload
+        state.notes = state.notes.map(note => 
+          note.id === action.payload.id
+            ? action.payload
+            : note
+        )
       })
   }
 })

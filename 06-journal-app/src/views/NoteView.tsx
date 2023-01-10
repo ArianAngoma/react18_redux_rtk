@@ -4,14 +4,15 @@ import { Button, Grid, TextField, Typography } from '@mui/material'
 import { SaveOutlined } from '@mui/icons-material'
 
 import { ImageGallery } from '../journal'
-import { useAppSelector, useForm } from '../hooks'
-import { Note } from '../store'
+import { useAppDispatch, useAppSelector, useForm } from '../hooks'
+import { Note, startSaveNote } from '../store'
 
 const NoteView: FC = () => {
 
   const { activeNote } = useAppSelector(state => state.journal)
+  const dispatch = useAppDispatch()
 
-  const { title, body, date, onInputChange } = useForm<Note | null>(activeNote)
+  const { title, body, date, onInputChange, formState } = useForm<Note | null>(activeNote)
 
   const dateString = useMemo(() => {
 
@@ -23,6 +24,10 @@ const NoteView: FC = () => {
     return ''
 
   }, [date])
+
+  const onSaveNote = () => {
+    if (formState) dispatch(startSaveNote(formState)) 
+  }
 
   return (
     <Grid
@@ -51,6 +56,7 @@ const NoteView: FC = () => {
           sx={{
             padding: 2
           }}
+          onClick={onSaveNote}
         >
           <SaveOutlined
             sx={{

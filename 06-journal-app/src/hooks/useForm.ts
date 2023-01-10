@@ -11,6 +11,7 @@ type FormCheckedValues<T> = Record<`${string & keyof T}Valid`, string | null>
 type UseFormResponse<T> = FormState<T> & {
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onResetForm: () => void;
+  formState: T;
 } & FormCheckedValues<T> & {
   isFormValid: boolean
 }
@@ -97,6 +98,7 @@ const useForm = <T> (initialForm: T, formValidations?: FormValidations<T>): UseF
   } 
 
   return {
+    formState,
     ...formState,
     onInputChange,
     onResetForm,
