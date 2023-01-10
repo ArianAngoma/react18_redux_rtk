@@ -14,6 +14,11 @@ interface FormState {
   password: string
 }
 
+const formData: FormState = {
+  email: '',
+  password: ''
+}
+
 const LoginPage: FC = () => {
 
   const { status, errorMessage } = useAppSelector(state => state.auth)
@@ -23,10 +28,7 @@ const LoginPage: FC = () => {
     email,
     password,
     onInputChange
-  } = useForm<FormState>({
-    email: '',
-    password: ''
-  })
+  } = useForm<FormState>(formData)
 
   const isAuthenticating = useMemo(() => status === "checking", [status])
 

@@ -1,10 +1,28 @@
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 
 import { Button, Grid, TextField, Typography } from '@mui/material'
 import { SaveOutlined } from '@mui/icons-material'
+
 import { ImageGallery } from '../journal'
+import { useAppSelector, useForm } from '../hooks'
+import { Note } from '../store'
 
 const NoteView: FC = () => {
+
+  const { activeNote } = useAppSelector(state => state.journal)
+
+  const { title, body, date, onInputChange } = useForm<Note | null>(activeNote)
+
+  const dateString = useMemo(() => {
+
+    if (date) {
+      const dateObj = new Date(date)
+      return `${dateObj.getDate()}/${dateObj.getMonth() + 1}/${dateObj.getFullYear()}`
+    }
+    
+    return ''
+
+  }, [date])
 
   return (
     <Grid
@@ -23,7 +41,7 @@ const NoteView: FC = () => {
           fontSize={39}
           fontWeight="lighter"
         >
-          Ago 29, 2021
+          {dateString}
         </Typography>
       </Grid>
 
@@ -56,6 +74,9 @@ const NoteView: FC = () => {
             border: 'none',
             mb: 1
           }}
+          name="title"
+          value={title}
+          onChange={onInputChange}
         />
 
         <TextField
@@ -65,6 +86,9 @@ const NoteView: FC = () => {
           multiline
           placeholder="What happened today?"
           minRows={5}
+          name="body"
+          value={body}
+          onChange={onInputChange}
         />
 
       </Grid>

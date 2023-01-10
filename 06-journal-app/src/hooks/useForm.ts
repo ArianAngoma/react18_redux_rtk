@@ -33,6 +33,12 @@ const useForm = <T> (initialForm: T, formValidations?: FormValidations<T>): UseF
     createValidators()
   }, [formState])
 
+  useEffect(() => {
+
+    setFormState(initialForm)
+
+  }, [initialForm])
+
   const isFormValid = useMemo(() => {
 
     for (const formField in formValidation) {
