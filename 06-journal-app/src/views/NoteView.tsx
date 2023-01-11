@@ -1,15 +1,20 @@
-import { FC, useMemo } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 
 import { Button, Grid, TextField, Typography } from '@mui/material'
 import { SaveOutlined } from '@mui/icons-material'
+
+import Swal from 'sweetalert2'
+
+import 'sweetalert2/dist/sweetalert2.min.css'
 
 import { ImageGallery } from '../journal'
 import { useAppDispatch, useAppSelector, useForm } from '../hooks'
 import { Note, startSaveNote } from '../store'
 
+
 const NoteView: FC = () => {
 
-  const { activeNote } = useAppSelector(state => state.journal)
+  const { activeNote, messageSaved, isSaving } = useAppSelector(state => state.journal)
   const dispatch = useAppDispatch()
 
   const { title, body, date, onInputChange, formState } = useForm<Note | null>(activeNote)
@@ -24,6 +29,14 @@ const NoteView: FC = () => {
     return ''
 
   }, [date])
+
+  useEffect(() => {
+
+    if (messageSaved.length > 0) {
+      Swal.fire('Saved', messageSaved, 'success')
+    }
+
+  }, [messageSaved])
 
   const onSaveNote = () => {
     if (formState) dispatch(startSaveNote(formState)) 
@@ -57,6 +70,7 @@ const NoteView: FC = () => {
             padding: 2
           }}
           onClick={onSaveNote}
+          disabled={isSaving}
         >
           <SaveOutlined
             sx={{

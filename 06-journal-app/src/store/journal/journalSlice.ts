@@ -31,6 +31,7 @@ export const journalSlice = createSlice({
     addNewEmptyNote: (state) => {},
     setActiveNote: (state, action: PayloadAction<Note>) => {
       state.activeNote = action.payload
+      state.messageSaved = ''
     },
     setNotes: (state, action) => {},
     setSavingNote: (state, action) => {},
@@ -41,10 +42,11 @@ export const journalSlice = createSlice({
     builder
       .addCase(startNewNote.pending, (state) => {
         state.isSaving = true
+        state.messageSaved = ''
       })
       .addCase(startNewNote.fulfilled, (state, action) => {
         state.isSaving = false
-        state.messageSaved = 'Saved'
+        state.messageSaved = `Note created: ${action.payload.title}`
         state.notes.push(action.payload)
         state.activeNote = action.payload
       })
@@ -55,10 +57,11 @@ export const journalSlice = createSlice({
 
       .addCase(startSaveNote.pending, (state) => {
         state.isSaving = true
+        state.messageSaved = ''
       })
       .addCase(startSaveNote.fulfilled, (state, action) => {
         state.isSaving = false
-        state.messageSaved = 'Saved'
+        state.messageSaved = `Note saved: ${action.payload.title}`
         state.activeNote = action.payload
         state.notes = state.notes.map(note => 
           note.id === action.payload.id
