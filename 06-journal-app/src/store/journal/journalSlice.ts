@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { startLoadingNotes, startNewNote, startSaveNote } from './thunks'
+import {
+  startLoadingNotes,
+  startNewNote,
+  startSaveNote,
+  startUploadingFiles
+} from './thunks'
 
 export interface Note {
   id: string
@@ -68,6 +73,27 @@ export const journalSlice = createSlice({
             ? action.payload
             : note
         )
+      })
+
+      .addCase(startUploadingFiles.pending, (state) => {
+        state.isSaving = true
+        state.messageSaved = ''
+      })
+      .addCase(startUploadingFiles.fulfilled, (state, action) => {
+
+        if (state.activeNote) {
+
+          state.activeNote = {
+            ...state.activeNote,
+            imagesURLs: state.activeNote.imagesURLs 
+              ? [...state.activeNote.imagesURLs, ...action.payload] 
+              : action.payload
+          }
+
+        }
+
+        state.isSaving = false
+        
       })
   }
 })

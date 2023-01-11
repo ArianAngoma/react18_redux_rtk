@@ -9,7 +9,7 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 
 import { ImageGallery } from '../journal'
 import { useAppDispatch, useAppSelector, useForm } from '../hooks'
-import { Note, startSaveNote } from '../store'
+import { Note, startSaveNote, startUploadingFiles } from '../store'
 
 
 const NoteView: FC = () => {
@@ -46,7 +46,9 @@ const NoteView: FC = () => {
 
   const onFileInputChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
    
-    if (target.files?.length === 0) return
+    if (!target.files) return
+
+    dispatch(startUploadingFiles(target.files))
 
   }
 
