@@ -1,7 +1,7 @@
-import { FC, useEffect, useMemo } from 'react'
+import { ChangeEvent, FC, useEffect, useMemo, useRef } from 'react'
 
-import { Button, Grid, TextField, Typography } from '@mui/material'
-import { SaveOutlined } from '@mui/icons-material'
+import { Button, Grid, IconButton, TextField, Typography } from '@mui/material'
+import { SaveOutlined, UploadOutlined } from '@mui/icons-material'
 
 import Swal from 'sweetalert2'
 
@@ -18,6 +18,8 @@ const NoteView: FC = () => {
   const dispatch = useAppDispatch()
 
   const { title, body, date, onInputChange, formState } = useForm<Note | null>(activeNote)
+
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const dateString = useMemo(() => {
 
@@ -42,6 +44,12 @@ const NoteView: FC = () => {
     if (formState) dispatch(startSaveNote(formState)) 
   }
 
+  const onFileInputChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+   
+    if (target.files?.length === 0) return
+
+  }
+
   return (
     <Grid
       className="animate__animated animate__fadeIn animate__faster"
@@ -64,6 +72,25 @@ const NoteView: FC = () => {
       </Grid>
 
       <Grid item>
+
+        <input 
+          type="file"
+          multiple
+          onChange={onFileInputChange}
+          style={{
+            display: 'none'
+          }}
+          ref={fileInputRef}
+        />
+
+        <IconButton
+          color="primary"
+          disabled={isSaving}
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <UploadOutlined/>
+        </IconButton>
+
         <Button
           color="primary"
           sx={{
@@ -80,6 +107,7 @@ const NoteView: FC = () => {
           />
           Save
         </Button>
+
       </Grid>
 
       <Grid container>
