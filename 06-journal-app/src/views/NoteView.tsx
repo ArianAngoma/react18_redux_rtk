@@ -143,7 +143,7 @@ const NoteView: FC = () => {
 
       </Grid>
 
-      <ImageGallery/>
+      <ImageGallery images={activeNote?.imagesURLs}/>
 
     </Grid>
   )

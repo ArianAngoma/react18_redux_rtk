@@ -2,7 +2,13 @@ import { FC } from 'react'
 
 import { ImageList, ImageListItem } from '@mui/material'
 
-const ImageGallery: FC = () => {
+interface ImageGalleryProps {
+  images: string[] | undefined
+}
+
+const ImageGallery: FC<ImageGalleryProps> = ({ images }) => {
+
+  if  (!images) return null
 
   return (
     <ImageList
@@ -14,12 +20,12 @@ const ImageGallery: FC = () => {
       rowHeight={200}
     >
       {
-        itemData.map((item) => (
-          <ImageListItem key={item.img}>
+        images.map(image => (
+          <ImageListItem key={image}>
             <img
-              src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-              srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-              alt={item.title}
+              src={`${image}?w=164&h=164&fit=crop&auto=format`}
+              srcSet={`${image}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              alt="image"
               loading="lazy"
             />
           </ImageListItem>
