@@ -33,15 +33,11 @@ export const journalSlice = createSlice({
   name: 'journal',
   initialState,
   reducers: {
-    addNewEmptyNote: (state) => {},
     setActiveNote: (state, action: PayloadAction<Note>) => {
       state.activeNote = action.payload
       state.messageSaved = ''
     },
-    setNotes: (state, action) => {},
-    setSavingNote: (state, action) => {},
-    updateNote: (state, action) => {},
-    deleteNoteById: (state, action) => {}
+    clearStateLogout: () => initialState,
   },
   extraReducers: builder => {
     builder
@@ -99,10 +95,6 @@ export const journalSlice = createSlice({
 })
 
 export const { 
-  addNewEmptyNote, 
   setActiveNote,
-  setNotes,
-  setSavingNote,
-  updateNote,
-  deleteNoteById 
+  clearStateLogout
 } = journalSlice.actions

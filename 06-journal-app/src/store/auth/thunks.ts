@@ -9,6 +9,7 @@ import {
   registerWithEmailPassword,
   signInWithGoogle
 } from '../../firebase/providers'
+import { clearStateLogout } from '../journal'
 
 export const startLoginWithEmailPassword = createAsyncThunk<
   ResponseSignInFulfilled,
@@ -83,7 +84,7 @@ export const startCreatingUserWithEmailPassword = createAsyncThunk<
       password,
       displayName
     },
-    { rejectWithValue, dispatch }
+    { rejectWithValue }
   ) => {
 
     try {
@@ -116,11 +117,12 @@ export const startLogout = createAsyncThunk<
   { rejectValue: string }
 >(
   'auth/startLogout',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, dispatch }) => {
 
     try {
 
       await logoutFirebase()
+      dispatch(clearStateLogout())
 
     } catch (err) {
 
