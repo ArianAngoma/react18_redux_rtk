@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import {
+  startDeletingNote,
   startLoadingNotes,
   startNewNote,
   startSaveNote,
@@ -91,6 +92,20 @@ export const journalSlice = createSlice({
         state.isSaving = false
         
       })
+
+      .addCase(startDeletingNote.pending, (state) => {
+        state.isSaving = true
+        state.messageSaved = ''
+      })
+      .addCase(startDeletingNote.fulfilled, (state, action) => {
+          
+        state.isSaving = false
+        state.messageSaved = `Note deleted: ${action.payload.title}`
+        state.notes = state.notes.filter(note => note.id !== action.payload.id)
+        state.activeNote = null
+  
+      })
+
   }
 })
 

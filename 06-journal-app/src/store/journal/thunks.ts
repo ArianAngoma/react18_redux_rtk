@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { collection, doc, setDoc } from 'firebase/firestore/lite'
+import { collection, deleteDoc, doc, setDoc } from 'firebase/firestore/lite'
 import { FirebaseError } from '@firebase/util'
 
 import { Note } from './journalSlice'
@@ -147,6 +147,42 @@ export const startUploadingFiles = createAsyncThunk<
         return rejectWithValue(err.message)
       }
       return rejectWithValue('Error while uploading files')
+
+    }
+
+  }
+)
+
+export const startDeletingNote = createAsyncThunk<
+  Note,
+  void,
+  { rejectValue: string }
+>(
+  'journal/startDeletingNote',
+  async (_, {
+    rejectWithValue,
+    getState
+  }) => {
+
+    try {
+
+      const { uid } = (getState() as RootState).auth
+      const { activeNote } = (getState() as RootState).journal
+
+      if (!activeNote) return rejectWithValue('No active note')
+
+      const documentRef = doc(firebaseDB, `${uid}/journal/notes/${activeNote.id}`)
+
+      await deleteDoc(documentRef)
+
+      return activeNote
+
+    } catch (err) {
+
+      if (err instanceof FirebaseError) {
+        return rejectWithValue(err.message)
+      }
+      return rejectWithValue('Error while deleting the note')
 
     }
 

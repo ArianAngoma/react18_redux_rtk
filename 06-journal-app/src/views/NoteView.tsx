@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useEffect, useMemo, useRef } from 'react'
 
 import { Button, Grid, IconButton, TextField, Typography } from '@mui/material'
-import { SaveOutlined, UploadOutlined } from '@mui/icons-material'
+import { DeleteOutline, SaveOutlined, UploadOutlined } from '@mui/icons-material'
 
 import Swal from 'sweetalert2'
 
@@ -9,7 +9,7 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 
 import { ImageGallery } from '../journal'
 import { useAppDispatch, useAppSelector, useForm } from '../hooks'
-import { Note, startSaveNote, startUploadingFiles } from '../store'
+import { Note, startSaveNote, startUploadingFiles, startDeletingNote } from '../store'
 
 
 const NoteView: FC = () => {
@@ -51,6 +51,8 @@ const NoteView: FC = () => {
     dispatch(startUploadingFiles(target.files))
 
   }
+
+  const onDeleteActiveNote = () => dispatch(startDeletingNote())
 
   return (
     <Grid
@@ -141,6 +143,23 @@ const NoteView: FC = () => {
           onChange={onInputChange}
         />
 
+      </Grid>
+
+      <Grid 
+        container
+        justifyContent="end"
+      >
+        <Button
+          onClick={onDeleteActiveNote}
+          sx={{
+            mt: 2
+          }}
+          color="error"
+          disabled={isSaving}
+        >
+          <DeleteOutline/>
+          Delete
+        </Button>
       </Grid>
 
       <ImageGallery images={activeNote?.imagesURLs}/>
