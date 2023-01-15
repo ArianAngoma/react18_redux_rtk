@@ -7,7 +7,7 @@ import {
   startLogout
 } from './thunks'
 
-interface InitialState {
+export interface InitialState {
   status: 'checking' | 'authenticated' | 'not-authenticated'
   uid: string | null
   email: string | null
@@ -16,7 +16,7 @@ interface InitialState {
   errorMessage: string | null
 }
 
-const initialState: InitialState = {
+export const initialState: InitialState = {
   status: 'checking',
   uid: null,
   email: null,
