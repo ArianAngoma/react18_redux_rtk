@@ -11,7 +11,7 @@ export interface ResponseSignInFulfilled {
   uid: string
 }
 
-interface ResponseSignInRejected {
+export interface ResponseSignInRejected {
   ok: false
   errorMessage: string
 }

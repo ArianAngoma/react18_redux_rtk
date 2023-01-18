@@ -20,6 +20,29 @@ describe('Pruebas en los thunks de authSlice', () => {
       password: '123123'
     }))
 
+    expect(providers.loginWithEmailPassword).toHaveBeenCalled()
+    expect(providers.loginWithEmailPassword).toHaveBeenCalledWith({
+      email: 'arian.angoma.js@gmail.com',
+      password: '123123'
+    })
+    
+  })
+
+  test('Deberia dispararse startLoginWithEmailPassword - Fallido', async () => {
+
+    const user: providers.LoginWithEmailPasswordParams = {
+      email: 'arian.angoma.js@gmail.com',
+      password: '123123'
+    }
+
+    const response: providers.ResponseSignInRejected = {
+      ok: false,
+      errorMessage: 'Email no encontrado'
+    }
+
+    vi.spyOn(providers, 'loginWithEmailPassword').mockResolvedValue(response)
+
+    await startLoginWithEmailPassword(user)(store.dispatch, store.getState, null)
 
     expect(providers.loginWithEmailPassword).toHaveBeenCalled()
     expect(providers.loginWithEmailPassword).toHaveBeenCalledWith({
@@ -27,6 +50,11 @@ describe('Pruebas en los thunks de authSlice', () => {
       password: '123123'
     })
     
+    const state = store.getState()
+
+    expect(state.auth.errorMessage).toBe('Email no encontrado')
+    expect(state.auth.status).toBe('not-authenticated')
+
   })
 
 })
