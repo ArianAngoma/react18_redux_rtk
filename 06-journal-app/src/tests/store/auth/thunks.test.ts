@@ -1,5 +1,5 @@
 import * as providers from '../../../firebase/providers'
-import { startLoginWithEmailPassword, store } from '../../../store'
+import { clearStateLogout, startLoginWithEmailPassword, startLogout, store } from '../../../store'
 
 describe('Pruebas en los thunks de authSlice', () => {
 
@@ -54,6 +54,19 @@ describe('Pruebas en los thunks de authSlice', () => {
 
     expect(state.auth.errorMessage).toBe('Email no encontrado')
     expect(state.auth.status).toBe('not-authenticated')
+
+  })
+
+  test('startLogout debe de llamar logoutFirebase y clearStateLogout', async () => {
+
+    const dispatchMock = vi.fn()
+
+    vi.spyOn(providers, 'logoutFirebase')
+
+    await startLogout()(dispatchMock, store.getState, null)
+
+    expect(providers.logoutFirebase).toHaveBeenCalled()
+    expect(dispatchMock).toHaveBeenCalledWith(clearStateLogout())
 
   })
 
