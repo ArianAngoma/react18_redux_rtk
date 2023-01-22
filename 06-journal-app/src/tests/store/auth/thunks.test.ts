@@ -1,9 +1,12 @@
-import {reject} from '@reduxjs/toolkit/src/'
+import { miniSerializeError } from '@reduxjs/toolkit'
 
 import * as providers from '../../../firebase/providers'
-import { clearStateLogout, startLoginWithEmailPassword, startLogout, store } from '../../../store'
-import { display } from '@mui/system'
-import { miniSerializeError } from '@reduxjs/toolkit'
+import { 
+  clearStateLogout, 
+  startLoginWithEmailPassword,
+  startLogout, 
+  store 
+} from '../../../store'
 
 describe('Pruebas en los thunks de authSlice', () => {
 
