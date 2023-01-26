@@ -32,7 +32,7 @@ const LoginPage: FC = () => {
 
   const isAuthenticating = useMemo(() => status === "checking", [status])
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {    
 
     e.preventDefault()
 
@@ -49,6 +49,7 @@ const LoginPage: FC = () => {
     <AuthLayout title="Login">
       <form
         className="animate__animated animate__fadeIn animate__faster"
+        aria-label="login-form"
         onSubmit={onSubmit}
       >
 
@@ -85,6 +86,9 @@ const LoginPage: FC = () => {
               placeholder="Password"
               fullWidth
               name="password"
+              inputProps={{
+                'data-testid': 'password-input'
+              }}
               value={password}
               onChange={onInputChange}
             />
