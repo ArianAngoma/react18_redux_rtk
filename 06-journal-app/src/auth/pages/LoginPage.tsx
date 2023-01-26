@@ -132,6 +132,7 @@ const LoginPage: FC = () => {
               <Button
                 variant="contained"
                 fullWidth
+                aria-label="google-button"
                 onClick={onGoogleSignIn}
                 disabled={isAuthenticating}
               >
