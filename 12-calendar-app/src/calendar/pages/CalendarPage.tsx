@@ -1,9 +1,15 @@
 import { FC } from 'react'
 
+import { Navbar } from '../components'
+
 const CalendarPage: FC = () => {
 
   return (
-    <div>Calendar Page</div>
+    <>
+
+      <Navbar />
+
+    </>
   )
 
 }
