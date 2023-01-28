@@ -5,15 +5,15 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 import { addHours } from 'date-fns'
 
-import { Navbar } from '../components'
+import { Navbar, CalendarEventBox } from '../components'
 import { localizer } from '../helper'
 
-type CustomEvent = Event & { notes: string, bgColor: string, user: { _id: string, name: string } }
+export type CustomEvent = Event & { note: string, bgColor: string, user: { _id: string, name: string } }
 
 const events: CustomEvent[] = [
   {
     title: 'All Day Event very long title',
-    notes: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    note: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     start: new Date(),
     end: addHours(new Date(), 2),
     bgColor: 'blue',
@@ -53,6 +53,9 @@ const CalendarPage: FC = () => {
         endAccessor="end"
         style={{ height: 'calc(100vh - 80px)' }}
         eventPropGetter={eventStyleGetter}
+        components={{
+          event: CalendarEventBox
+        }}
       />
 
     </>
