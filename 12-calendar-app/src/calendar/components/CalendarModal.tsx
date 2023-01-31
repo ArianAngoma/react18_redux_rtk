@@ -82,6 +82,7 @@ const CalendarModal: FC = () => {
                 onChange={date => onDateChange(date, 'start')}
                 className='form-control'
                 dateFormat="Pp"
+                showTimeSelect
               />
           </div>
 
@@ -93,6 +94,7 @@ const CalendarModal: FC = () => {
                 onChange={date => onDateChange(date, 'end')}
                 className='form-control'
                 dateFormat="Pp"
+                showTimeSelect
               />
           </div>
 
