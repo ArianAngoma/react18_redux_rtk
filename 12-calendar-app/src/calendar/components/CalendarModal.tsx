@@ -1,9 +1,12 @@
-import { ChangeEvent, FC, useState } from 'react'
+import { ChangeEvent, FC, useMemo, useState } from 'react'
 
 import Modal from 'react-modal'
 
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+
+import Swal from 'sweetalert2'
+import 'sweetalert2/dist/sweetalert2.min.css'
 
 import { addHours, differenceInSeconds } from 'date-fns'
 
@@ -40,6 +43,13 @@ const CalendarModal: FC = () => {
 
   const [formValues, setFormValues] = useState<FormValues>(initFormValues)
 
+  const [isFormSubmitting, setIsFormSubmitting] = useState<boolean>(false)
+
+  const titleClass = useMemo(() => {
+    if (!isFormSubmitting) return ''
+    return formValues.title.length <= 0 ? 'is-invalid' : 'is-valid'
+  }, [formValues.title, isFormSubmitting])
+
   const onInputChange = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormValues({
       ...formValues,
@@ -63,10 +73,14 @@ const CalendarModal: FC = () => {
 
   const onSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
+
+    setIsFormSubmitting(true)
     
     const difference = differenceInSeconds(formValues.end, formValues.start)
 
-    if (isNaN(difference) || difference <= 0) return
+    if (isNaN(difference) || difference <= 0) {
+      return Swal.fire('Error', 'End date must be greater than start date', 'error')
+    }
 
     if (formValues.title.length <= 0) return
 
@@ -117,10 +131,10 @@ const CalendarModal: FC = () => {
 
           <hr />
           <div className="form-group mb-2">
-              <label>Tittle and note</label>
+              <label>Title and note</label>
               <input 
                   type="text" 
-                  className="form-control"
+                  className={`form-control ${titleClass}`}
                   placeholder="Título del evento"
                   name="title"
                   autoComplete="off"
