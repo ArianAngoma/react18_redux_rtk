@@ -5,7 +5,7 @@ import Modal from 'react-modal'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-import { addHours } from 'date-fns/esm'
+import { addHours, differenceInSeconds } from 'date-fns'
 
 const customStyles: Modal.Styles = {
   content: {
@@ -61,6 +61,20 @@ const CalendarModal: FC = () => {
     setIsModalOpen(false)
   }
 
+  const onSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    
+    const difference = differenceInSeconds(formValues.end, formValues.start)
+
+    if (isNaN(difference) || difference <= 0) return
+
+    if (formValues.title.length <= 0) return
+
+    console.log(formValues)
+    
+
+  }
+
   return (
     <Modal
       isOpen={isModalOpen}
@@ -73,7 +87,10 @@ const CalendarModal: FC = () => {
       
       <h1> New event </h1>
       <hr />
-      <form className="container">
+      <form
+        className="container"
+        onSubmit={onSubmit}
+      >
 
           <div className="form-group mb-2">
               <label>Start date and time</label>
