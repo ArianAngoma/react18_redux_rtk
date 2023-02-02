@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { AnyAction, ThunkAction, configureStore } from '@reduxjs/toolkit'
 
 import { uiSlice } from './ui'
 
@@ -7,3 +7,12 @@ export const store = configureStore({
     ui: uiSlice.reducer
   }
 })
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  AnyAction
+>

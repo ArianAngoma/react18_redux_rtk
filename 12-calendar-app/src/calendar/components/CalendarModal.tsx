@@ -10,6 +10,8 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 
 import { addHours, differenceInSeconds } from 'date-fns'
 
+import { useUIStore } from '../../hooks'
+
 const customStyles: Modal.Styles = {
   content: {
     top: '50%',
@@ -39,7 +41,7 @@ const initFormValues: FormValues = {
 
 const CalendarModal: FC = () => {
 
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(true)
+  const { isDateModalOpen, onCloseDateModal } = useUIStore()
 
   const [formValues, setFormValues] = useState<FormValues>(initFormValues)
 
@@ -64,12 +66,8 @@ const CalendarModal: FC = () => {
     if (!event) return
     setFormValues((prev) => ({ ...prev, [changing]: event }))
   }
-  
 
-  const onCloseModal = () => {
-    console.log('close modal')
-    setIsModalOpen(false)
-  }
+  const onCloseModal = () => onCloseDateModal()
 
   const onSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -86,12 +84,11 @@ const CalendarModal: FC = () => {
 
     console.log(formValues)
     
-
   }
 
   return (
     <Modal
-      isOpen={isModalOpen}
+      isOpen={isDateModalOpen}
       onRequestClose={onCloseModal}
       style={customStyles}
       className="modal"

@@ -11,6 +11,7 @@ import {
   CalendarModal 
 } from '../components'
 import { getMessages, localizer } from '../helper'
+import { useUIStore } from '../../hooks'
 
 export type CustomEvent = Event & { note: string, bgColor: string, user: { _id: string, name: string } }
 
@@ -30,6 +31,8 @@ const events: CustomEvent[] = [
 
 const CalendarPage: FC = () => {
 
+  const { onOpenDateModal } = useUIStore()
+
   const [lastView, setLastView] = useState<View>((localStorage.getItem('lastView') || 'month') as View)
 
   const eventStyleGetter = (event: CustomEvent, start: Date, end: Date, isSelected: boolean) => {
@@ -47,9 +50,7 @@ const CalendarPage: FC = () => {
 
   }
 
-  const onDoubleClick = (event: CustomEvent) => {
-    console.log({doubleCLick: event});
-  }
+  const onDoubleClick = (event: CustomEvent) => onOpenDateModal()
 
   const onSelect = (event: CustomEvent) => {
     console.log({click: event})
