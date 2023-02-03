@@ -2,9 +2,9 @@ import { FC, memo } from 'react'
 
 import { EventProps } from 'react-big-calendar'
 
-import { CustomEvent } from '../pages';
+import { Event } from '../../store'
 
-const CalendarEventBox: FC<EventProps<CustomEvent>> = ({
+const CalendarEventBox: FC<EventProps<Event>> = ({
   event
 }) => {
 

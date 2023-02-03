@@ -1,1 +1,1 @@
-export { type CustomEvent, default as CalendarPage } from './CalendarPage'
+export { default as CalendarPage } from './CalendarPage'

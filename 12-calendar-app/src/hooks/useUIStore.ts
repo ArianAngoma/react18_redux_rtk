@@ -1,18 +1,20 @@
-import { useAppDispatch } from './useAppDispatch'
 import { useAppSelector } from './useAppSelector'
-import { onOpenDateModalReducer, onCloseDateModalReducer } from '../store'
+import {
+  onOpenDateModalReducer,
+  onCloseDateModalReducer,
+  RootState,
+  store 
+} from '../store'
+
+const getIsDateModalOpen = (state: RootState) => state.ui.isDateModalOpen
+
+const onOpenDateModal = () => store.dispatch(onOpenDateModalReducer())
+
+const onCloseDateModal = () => store.dispatch(onCloseDateModalReducer())
 
 export const useUIStore = () => {
 
-  const dispatch = useAppDispatch()
-
-  const {
-    isDateModalOpen
-  } = useAppSelector(state => state.ui)
-
-  const onOpenDateModal = () => dispatch(onOpenDateModalReducer())
-
-  const onCloseDateModal = () => dispatch(onCloseDateModalReducer())
+  const isDateModalOpen = useAppSelector(getIsDateModalOpen)
 
   return {
     isDateModalOpen,

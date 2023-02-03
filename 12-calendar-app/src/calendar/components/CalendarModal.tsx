@@ -132,7 +132,7 @@ const CalendarModal: FC = () => {
               <input 
                   type="text" 
                   className={`form-control ${titleClass}`}
-                  placeholder="Título del evento"
+                  placeholder="Title"
                   name="title"
                   autoComplete="off"
                   value={formValues.title}
@@ -144,7 +144,7 @@ const CalendarModal: FC = () => {
           <div className="form-group mb-2">
               <textarea 
                   className="form-control"
-                  placeholder="Notas"
+                  placeholder="Note"
                   rows={5}
                   name="notes"
                   value={formValues.notes}
