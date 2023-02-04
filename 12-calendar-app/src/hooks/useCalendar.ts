@@ -28,7 +28,7 @@ export const useCalendar = () => {
 
   return {
     events,
-    selectEventById
+    selectEventById,
   }
 
 }

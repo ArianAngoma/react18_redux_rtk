@@ -11,6 +11,7 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 import { addHours, differenceInSeconds } from 'date-fns'
 
 import { useUIStore } from '../../hooks'
+import { useAddNewEventMutation } from '../../store'
 
 const customStyles: Modal.Styles = {
   content: {
@@ -42,6 +43,8 @@ const initFormValues: FormValues = {
 const CalendarModal: FC = () => {
 
   const { isDateModalOpen, activeEvent, onCloseDateModal } = useUIStore()
+
+  const [onAddNewEvent] = useAddNewEventMutation()
 
   const [formValues, setFormValues] = useState<FormValues>({...initFormValues})
 
@@ -84,7 +87,7 @@ const CalendarModal: FC = () => {
 
   const onCloseModal = () => onCloseDateModal()
 
-  const onSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     setIsFormSubmitting(true)
@@ -97,7 +100,17 @@ const CalendarModal: FC = () => {
 
     if (formValues.title.length <= 0) return
 
-    console.log(formValues)
+    await onAddNewEvent({
+      ...formValues,
+      bgColor: '#000',
+      user: {
+        id: '1',
+        name: 'Arian'
+      }
+    })
+
+    onCloseDateModal()
+    setIsFormSubmitting(false)
     
   }
 

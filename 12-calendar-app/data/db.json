@@ -32,6 +32,29 @@
         "id": "1",
         "name": "User 1"
       }
+    },
+    {
+      "title": "Neuav",
+      "note": "asdasdasda",
+      "start": "2023-02-04T20:03:36.013Z",
+      "end": "2023-02-04T21:00:00.013Z",
+      "user": {
+        "id": 1,
+        "name": "Arian"
+      },
+      "id": "XCvIA9W"
+    },
+    {
+      "title": "prueba",
+      "note": "qweqewqeqwewqeqweqweqweqweqw",
+      "start": "2023-02-04T20:08:29.700Z",
+      "end": "2023-02-04T22:00:00.700Z",
+      "bgColor": "#000",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "QwaFZTO"
     }
   ]
 }

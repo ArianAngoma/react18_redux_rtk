@@ -26,6 +26,9 @@ export const uiSlice = createSlice({
     },
     onSetActiveEventReducer: (state, action: PayloadAction<EventToModal>) => {
       state.activeEvent = action.payload
+    },
+    onClearActiveEventReducer: state => {
+      state.activeEvent = null
     }
   }
 })
@@ -33,5 +36,6 @@ export const uiSlice = createSlice({
 export const {
   onOpenDateModalReducer,
   onCloseDateModalReducer,
-  onSetActiveEventReducer
+  onSetActiveEventReducer,
+  onClearActiveEventReducer
 } = uiSlice.actions

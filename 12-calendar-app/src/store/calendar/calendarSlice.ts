@@ -56,6 +56,25 @@ export const extendedCalendarSlice = apiSlice.injectEndpoints({
              id: 'LIST' 
           }]
 
+    }),
+
+    addNewEvent: builder.mutation<Event, Omit<Event, 'id'>>({
+      
+      query: initialEvent => ({
+        url: '/events',
+        method: 'POST',
+        body: {
+          ...initialEvent
+        }
+      }),
+
+      invalidatesTags: [
+        {
+          type: 'Event',
+          id: 'LIST'
+        }
+      ]
+
     })
 
   })
@@ -63,5 +82,6 @@ export const extendedCalendarSlice = apiSlice.injectEndpoints({
 })
 
 export const {
-  useGetEventsQuery
+  useGetEventsQuery,
+  useAddNewEventMutation
 } = extendedCalendarSlice
