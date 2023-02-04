@@ -7,7 +7,8 @@ import {
   Navbar,
   CalendarEventBox,
   CalendarModal, 
-  Error
+  Error,
+  FabAddNew
 } from '../components'
 import { getMessages, localizer } from '../helper'
 import { useUIStore, useCalendar } from '../../hooks'
@@ -69,22 +70,28 @@ const CalendarPage: FC = () => {
 
       {
         isSuccess && (
+          <>
             <Calendar
-            localizer={localizer}
-            events={events}
-            defaultView={lastView}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: 'calc(100vh - 80px)' }}
-            eventPropGetter={eventStyleGetter}
-            messages={getMessages()}
-            components={{
-              event: CalendarEventBox
-            }}
-            onDoubleClickEvent={onDoubleClick}
-            onSelectEvent={onSelect}
-            onView={onViewChange}
-          />
+              localizer={localizer}
+              events={events}
+              defaultView={lastView}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: 'calc(100vh - 80px)' }}
+              eventPropGetter={eventStyleGetter}
+              messages={getMessages()}
+              components={{
+                event: CalendarEventBox
+              }}
+              onDoubleClickEvent={onDoubleClick}
+              onSelectEvent={onSelect}
+              onView={onViewChange}
+            />
+            
+            <CalendarModal />
+
+            <FabAddNew />
+          </>
         )
       }
 
@@ -93,8 +100,6 @@ const CalendarPage: FC = () => {
           <Error error={error} />
         )
       }
-
-      <CalendarModal />
 
     </>
   )

@@ -5,7 +5,7 @@ import {
   RootState,
   store, 
   onSetActiveEventReducer,
-  Event
+  EventToModal
 } from '../store'
 
 const getIsDateModalOpen = (state: RootState) => state.ui.isDateModalOpen
@@ -16,7 +16,7 @@ const onOpenDateModal = () => store.dispatch(onOpenDateModalReducer())
 
 const onCloseDateModal = () => store.dispatch(onCloseDateModalReducer())
 
-const onSetActiveEvent = (event: Event) => store.dispatch(onSetActiveEventReducer(event))
+const onSetActiveEvent = (event: EventToModal) => store.dispatch(onSetActiveEventReducer(event))
 
 export const useUIStore = () => {
 
