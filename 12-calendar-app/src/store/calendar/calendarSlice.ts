@@ -11,8 +11,8 @@ export interface Event {
   id: string,
   title: string,
   note: string,
-  start: string,
-  end: string,
+  start: Date,
+  end: Date,
   bgColor: string,
   user: User,
 }

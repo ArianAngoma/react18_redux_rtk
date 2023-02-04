@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useMemo, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useMemo, useState } from 'react'
 
 import Modal from 'react-modal'
 
@@ -27,23 +27,23 @@ Modal.setAppElement('#root')
 
 interface FormValues {
   title: string
-  notes: string
+  note: string
   start: Date
   end: Date
 }
 
 const initFormValues: FormValues = {
   title: '',
-  notes: '',
+  note: '',
   start: new Date(),
   end: addHours(new Date(), 2)
 }
 
 const CalendarModal: FC = () => {
 
-  const { isDateModalOpen, onCloseDateModal } = useUIStore()
+  const { isDateModalOpen, activeEvent, onCloseDateModal } = useUIStore()
 
-  const [formValues, setFormValues] = useState<FormValues>(initFormValues)
+  const [formValues, setFormValues] = useState<FormValues>({...initFormValues})
 
   const [isFormSubmitting, setIsFormSubmitting] = useState<boolean>(false)
 
@@ -52,7 +52,22 @@ const CalendarModal: FC = () => {
     return formValues.title.length <= 0 ? 'is-invalid' : 'is-valid'
   }, [formValues.title, isFormSubmitting])
 
-  const onInputChange = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  useEffect(() => {
+
+    if (activeEvent) {
+      setFormValues({
+        title: activeEvent.title,
+        note: activeEvent.note,
+        start: new Date(activeEvent.start),
+        end: new Date(activeEvent.end)
+      })
+    }
+
+  }, [activeEvent])
+
+  const onInputChange = ({
+    target
+  }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormValues({
       ...formValues,
       [target.name]: target.value
@@ -146,8 +161,8 @@ const CalendarModal: FC = () => {
                   className="form-control"
                   placeholder="Note"
                   rows={5}
-                  name="notes"
-                  value={formValues.notes}
+                  name="note"
+                  value={formValues.note}
                   onChange={onInputChange}
               ></textarea>
               <small id="emailHelp" className="form-text text-muted">Additional information</small>

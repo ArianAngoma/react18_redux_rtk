@@ -4,7 +4,7 @@ import {
   RootState,
   eventsAdapter,
   extendedCalendarSlice,
-  initialCalendarState
+  initialCalendarState,
 } from '../store'
 import { useAppSelector } from './useAppSelector'
 
@@ -17,14 +17,18 @@ const selectEventsData = createDraftSafeSelector(
 
 const {
   selectAll: selectAllEvents,
+  selectById
 } = eventsAdapter.getSelectors<RootState>(state => selectEventsData(state) ?? initialCalendarState)
 
 export const useCalendar = () => {
 
   const events = useAppSelector(selectAllEvents)
+  
+  const selectEventById = (id: string) => useAppSelector(state => selectById(state, id))
 
   return {
-    events
+    events,
+    selectEventById
   }
 
 }

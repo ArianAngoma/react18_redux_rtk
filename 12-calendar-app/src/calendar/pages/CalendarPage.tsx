@@ -16,7 +16,7 @@ import { Spinner } from '../../ui'
 
 const CalendarPage: FC = () => {
 
-  const { onOpenDateModal } = useUIStore()
+  const { onOpenDateModal, onSetActiveEvent } = useUIStore()
 
   const {
     isLoading,
@@ -44,11 +44,12 @@ const CalendarPage: FC = () => {
 
   }
 
-  const onDoubleClick = (event: Event) => onOpenDateModal()
+  const onDoubleClick = (event: Event) => {
 
-  const onSelect = (event: Event) => {
-    console.log({click: event})
+    onOpenDateModal()
   }
+
+  const onSelect = (event: Event) => onSetActiveEvent(event)
 
   const onViewChange = (event: View) => {
     localStorage.setItem('lastView', event)
