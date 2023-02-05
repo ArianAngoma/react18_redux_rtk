@@ -22,7 +22,11 @@ const {
 
 export const useCalendar = () => {
 
-  const events = useAppSelector(selectAllEvents)
+  const events = useAppSelector(selectAllEvents).map(event => ({
+    ...event,
+    start: new Date(event.start),
+    end: new Date(event.end)
+  }))
   
   const selectEventById = (id: string) => useAppSelector(state => selectById(state, id))
 

@@ -11,13 +11,11 @@ export interface Event {
   id: string,
   title: string,
   note: string,
-  start: Date,
-  end: Date,
+  start: Date | string,
+  end: Date | string,
   bgColor: string,
   user: User,
 }
-
-type EventResponse = Omit<Event, 'bgColor'>
 
 export const eventsAdapter = createEntityAdapter<Event>()
 
@@ -31,14 +29,9 @@ export const extendedCalendarSlice = apiSlice.injectEndpoints({
 
       query: () => '/events',
 
-      transformResponse: (response: EventResponse[]) => {
+      transformResponse: (response: Event[]) => {
 
-        const loadedEvents: Event[] = response.map(event => ({
-          ...event,
-          bgColor: '#A435F0'
-        }))
-
-        return eventsAdapter.setAll(initialCalendarState, loadedEvents)
+        return eventsAdapter.setAll(initialCalendarState, response)
 
       },
 

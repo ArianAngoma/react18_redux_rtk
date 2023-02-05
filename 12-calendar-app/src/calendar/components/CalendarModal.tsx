@@ -29,6 +29,7 @@ Modal.setAppElement('#root')
 interface FormValues {
   title: string
   note: string
+  bgColor: string
   start: Date
   end: Date
 }
@@ -36,6 +37,7 @@ interface FormValues {
 const initFormValues: FormValues = {
   title: '',
   note: '',
+  bgColor: '#fafafa',
   start: new Date(),
   end: addHours(new Date(), 2)
 }
@@ -44,7 +46,7 @@ const CalendarModal: FC = () => {
 
   const { isDateModalOpen, activeEvent, onCloseDateModal } = useUIStore()
 
-  const [onAddNewEvent] = useAddNewEventMutation()
+  const [ onAddNewEvent, { isLoading } ] = useAddNewEventMutation()
 
   const [formValues, setFormValues] = useState<FormValues>({...initFormValues})
 
@@ -62,7 +64,8 @@ const CalendarModal: FC = () => {
         title: activeEvent.title,
         note: activeEvent.note,
         start: new Date(activeEvent.start),
-        end: new Date(activeEvent.end)
+        end: new Date(activeEvent.end),
+        bgColor: activeEvent.bgColor
       })
     }
 
@@ -102,12 +105,14 @@ const CalendarModal: FC = () => {
 
     await onAddNewEvent({
       ...formValues,
-      bgColor: '#000',
+      start: formValues.start,
+      end: formValues.end,
+      bgColor: formValues.bgColor,
       user: {
         id: '1',
         name: 'Arian'
       }
-    })
+    }).unwrap()
 
     onCloseDateModal()
     setIsFormSubmitting(false)
@@ -132,58 +137,70 @@ const CalendarModal: FC = () => {
       >
 
           <div className="form-group mb-2">
-              <label>Start date and time</label>
-              <DatePicker
-                selected={formValues.start}
-                onChange={date => onDateChange(date, 'start')}
-                className='form-control'
-                dateFormat="Pp"
-                showTimeSelect
-              />
+            <label>Start date and time</label>
+            <DatePicker
+              selected={formValues.start}
+              onChange={date => onDateChange(date, 'start')}
+              className='form-control'
+              dateFormat="Pp"
+              showTimeSelect
+            />
           </div>
 
           <div className="form-group mb-2">
-              <label>End date and time</label>
-              <DatePicker
-                minDate={formValues.start}
-                selected={formValues.end}
-                onChange={date => onDateChange(date, 'end')}
-                className='form-control'
-                dateFormat="Pp"
-                showTimeSelect
-              />
+            <label>End date and time</label>
+            <DatePicker
+              minDate={formValues.start}
+              selected={formValues.end}
+              onChange={date => onDateChange(date, 'end')}
+              className='form-control'
+              dateFormat="Pp"
+              showTimeSelect
+            />
+          </div>
+
+          <div className="form-group mb-2">
+            <label>Color</label>
+            <input
+              type="color"
+              className="form-control form-control-color"
+              name="bgColor"
+              value={formValues.bgColor}
+              onChange={onInputChange}
+            />
           </div>
 
           <hr />
           <div className="form-group mb-2">
-              <label>Title and note</label>
-              <input 
-                  type="text" 
-                  className={`form-control ${titleClass}`}
-                  placeholder="Title"
-                  name="title"
-                  autoComplete="off"
-                  value={formValues.title}
-                  onChange={onInputChange}
-              />
-              <small id="emailHelp" className="form-text text-muted">A short description</small>
+            <label>Title and note</label>
+            <input 
+                type="text" 
+                className={`form-control ${titleClass}`}
+                placeholder="Title"
+                name="title"
+                autoComplete="off"
+                value={formValues.title}
+                onChange={onInputChange}
+            />
+            <small id="emailHelp" className="form-text text-muted">A short description</small>
           </div>
 
           <div className="form-group mb-2">
-              <textarea 
-                  className="form-control"
-                  placeholder="Note"
-                  rows={5}
-                  name="note"
-                  value={formValues.note}
-                  onChange={onInputChange}
-              ></textarea>
-              <small id="emailHelp" className="form-text text-muted">Additional information</small>
+            <textarea 
+                className="form-control"
+                placeholder="Note"
+                rows={5}
+                name="note"
+                value={formValues.note}
+                onChange={onInputChange}
+            ></textarea>
+            <small id="emailHelp" className="form-text text-muted">Additional information</small>
           </div>
 
           <button
               type="submit"
               className="btn btn-outline-primary btn-block"
+              disabled={isLoading}
           >
               <i className="far fa-save"></i>
               <span> Save</span>

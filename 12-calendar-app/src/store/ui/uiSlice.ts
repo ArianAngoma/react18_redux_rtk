@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 import { Event } from '../calendar'
 
-export type EventToModal = Omit<Event, 'id'> & {id?: string}
+export type EventToModal = Omit<Event, 'id'> & { id?: string }
 
 interface UIState {
   isDateModalOpen: boolean

@@ -45,12 +45,13 @@ const CalendarPage: FC = () => {
 
   }
 
-  const onDoubleClick = (event: Event) => {
+  const onDoubleClick = (event: Event) => onOpenDateModal()
 
-    onOpenDateModal()
-  }
-
-  const onSelect = (event: Event) => onSetActiveEvent(event)
+  const onSelect = (event: Event) => onSetActiveEvent({
+    ...event,
+    start: event.start.toString(),
+    end: event.end.toString()
+  })
 
   const onViewChange = (event: View) => {
     localStorage.setItem('lastView', event)

@@ -1,5 +1,7 @@
 import { FC } from 'react'
 
+import { addHours } from 'date-fns'
+
 import { useUIStore } from '../../hooks'
 
 const FabAddNew: FC = () => {
@@ -10,13 +12,13 @@ const FabAddNew: FC = () => {
     onSetActiveEvent({
       title: '',
       note: '',
-      start: new Date(),
-      end: new Date(),
-      bgColor: '#000',
+      start: new Date().toString(),
+      end: addHours(new Date(), 2).toString(),
+      bgColor: '#fafafa',
       user: {
         id: '',
         name: ''
-      }
+      },
     })
     onOpenDateModal()
   }

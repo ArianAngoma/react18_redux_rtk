@@ -1,60 +1,196 @@
 {
   "events": [
     {
-      "id": "1",
-      "title": "Event 1",
-      "note": "Note 1",
-      "start": "2017-01-01 00:00:00",
-      "end": "2017-01-01 00:00:00",
-      "user": {
-        "id": "1",
-        "name": "User 1"
-      }
-    },
-    {
-      "id": "2",
-      "title": "Event 2",
-      "note": "Note 2",
-      "start": "2023-02-02 01:00:00",
-      "end": "2023-02-02 12:00:00",
-      "user": {
-        "id": "1",
-        "name": "User 1"
-      }
-    },
-    {
-      "id": "3",
-      "title": "Event 3",
-      "note": "Note 3",
-      "start": "2017-01-01 00:00:00",
-      "end": "2017-01-01 00:00:00",
-      "user": {
-        "id": "1",
-        "name": "User 1"
-      }
-    },
-    {
-      "title": "Neuav",
-      "note": "asdasdasda",
-      "start": "2023-02-04T20:03:36.013Z",
-      "end": "2023-02-04T21:00:00.013Z",
-      "user": {
-        "id": 1,
-        "name": "Arian"
-      },
-      "id": "XCvIA9W"
-    },
-    {
-      "title": "prueba",
-      "note": "qweqewqeqwewqeqweqweqweqweqw",
-      "start": "2023-02-04T20:08:29.700Z",
-      "end": "2023-02-04T22:00:00.700Z",
-      "bgColor": "#000",
+      "title": "ik",
+      "note": "ikk",
+      "start": "2023-02-04T23:36:24.052Z",
+      "end": "2023-02-05T01:36:24.052Z",
+      "bgColor": "#4d3082",
       "user": {
         "id": "1",
         "name": "Arian"
       },
-      "id": "QwaFZTO"
+      "id": "2"
+    },
+    {
+      "title": "qw",
+      "note": "qwq",
+      "start": "2023-02-04T23:54:00.748Z",
+      "end": "2023-02-05T00:00:00.748Z",
+      "bgColor": "#7d2121",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "KQZisiD"
+    },
+    {
+      "title": "new title",
+      "note": "otro jeje",
+      "start": "2023-02-05T01:45:46.807Z",
+      "end": "2023-02-05T03:45:46.807Z",
+      "bgColor": "#9730ab",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "64qXlGc"
+    },
+    {
+      "title": "asdasdasdasd",
+      "note": "asdsadsa",
+      "start": "2023-02-05T01:46:05.867Z",
+      "end": "2023-02-05T04:30:00.867Z",
+      "bgColor": "#7d4b1c",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "ylr_djN"
+    },
+    {
+      "title": "juuj",
+      "note": "jujujujujujujuuj",
+      "start": "2023-02-05T02:00:00.642Z",
+      "end": "2023-02-05T04:00:00.642Z",
+      "bgColor": "#243fc6",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "mYp1ei8"
+    },
+    {
+      "title": "rf",
+      "note": "rfrfrfrfr",
+      "start": "2023-02-05T03:23:29.000Z",
+      "end": "2023-02-05T05:23:29.000Z",
+      "bgColor": "#5f6416",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "XCyr42r"
+    },
+    {
+      "title": "qwe",
+      "note": "qwe",
+      "start": "2023-02-05T03:25:04.000Z",
+      "end": "2023-02-05T05:25:04.000Z",
+      "bgColor": "#5e4040",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "7-pII2r"
+    },
+    {
+      "title": "qwewqe",
+      "note": "qwewqqwe",
+      "start": "2023-02-05T03:36:42.000Z",
+      "end": "2023-02-05T05:36:42.000Z",
+      "bgColor": "#b77171",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "j24b--Y"
+    },
+    {
+      "title": "asdsadas",
+      "note": "frfrfrf",
+      "start": "2023-02-05T03:38:25.000Z",
+      "end": "2023-02-05T05:38:25.000Z",
+      "bgColor": "#783030",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "xTiWHev"
+    },
+    {
+      "title": "789",
+      "note": "789",
+      "start": "2023-02-05T03:40:49.000Z",
+      "end": "2023-02-05T05:40:49.000Z",
+      "bgColor": "#f50062",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "eBTw9I-"
+    },
+    {
+      "title": "789",
+      "note": "789",
+      "start": "2023-02-05T03:40:49.000Z",
+      "end": "2023-02-05T05:40:49.000Z",
+      "bgColor": "#f50062",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "_d1y7z_"
+    },
+    {
+      "title": "gtrgtr",
+      "note": "rtgrg",
+      "start": "2023-02-05T03:41:39.000Z",
+      "end": "2023-02-05T05:41:39.000Z",
+      "bgColor": "#5f3a3a",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "0Gyqod1"
+    },
+    {
+      "title": "gtrgtr",
+      "note": "rtgrg",
+      "start": "2023-02-05T03:41:39.000Z",
+      "end": "2023-02-05T05:41:39.000Z",
+      "bgColor": "#5f3a3a",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "N7pVXDD"
+    },
+    {
+      "title": "hn",
+      "note": "hn",
+      "start": "2023-02-05T03:42:43.000Z",
+      "end": "2023-02-05T05:42:43.000Z",
+      "bgColor": "#4d3777",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "R-uoFwS"
+    },
+    {
+      "title": "iuiyuiyui",
+      "note": "nyu",
+      "start": "2023-02-05T03:43:29.000Z",
+      "end": "2023-02-05T05:43:29.000Z",
+      "bgColor": "#1f0f0f",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "_Irg6dc"
+    },
+    {
+      "title": "ertert",
+      "note": "ger",
+      "start": "2023-02-05T03:46:10.000Z",
+      "end": "2023-02-05T05:46:10.000Z",
+      "bgColor": "#af2c2c",
+      "user": {
+        "id": "1",
+        "name": "Arian"
+      },
+      "id": "iNAYfx1"
     }
   ]
 }
