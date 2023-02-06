@@ -11,7 +11,7 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 import { addHours, differenceInSeconds } from 'date-fns'
 
 import { useUIStore } from '../../hooks'
-import { useAddNewEventMutation } from '../../store'
+import { useAddNewEventMutation, useUpdateEventMutation } from '../../store'
 
 const customStyles: Modal.Styles = {
   content: {
@@ -46,7 +46,14 @@ const CalendarModal: FC = () => {
 
   const { isDateModalOpen, activeEvent, onCloseDateModal } = useUIStore()
 
-  const [ onAddNewEvent, { isLoading } ] = useAddNewEventMutation()
+  const [ 
+    onAddNewEvent, 
+    { isLoading: isLoadingAddNewEvent } 
+  ] = useAddNewEventMutation()
+  const [ 
+    onEditEvent, 
+    { isLoading: isLoadingUpdateEvent } 
+  ] = useUpdateEventMutation()
 
   const [formValues, setFormValues] = useState<FormValues>({...initFormValues})
 
@@ -103,16 +110,34 @@ const CalendarModal: FC = () => {
 
     if (formValues.title.length <= 0) return
 
-    await onAddNewEvent({
-      ...formValues,
-      start: formValues.start,
-      end: formValues.end,
-      bgColor: formValues.bgColor,
-      user: {
-        id: '1',
-        name: 'Arian'
-      }
-    }).unwrap()
+    if (!activeEvent?.id) {
+
+      await onAddNewEvent({
+        ...formValues,
+        start: formValues.start,
+        end: formValues.end,
+        bgColor: formValues.bgColor,
+        user: {
+          id: '1',
+          name: 'Arian'
+        }
+      }).unwrap()
+
+    } else {
+
+      await onEditEvent({
+        ...formValues,
+        id: activeEvent.id,
+        start: formValues.start,
+        end: formValues.end,
+        bgColor: formValues.bgColor,
+        user: {
+          id: '1',
+          name: 'Arian'
+        }
+      }).unwrap()
+
+    }
 
     onCloseDateModal()
     setIsFormSubmitting(false)
@@ -200,7 +225,7 @@ const CalendarModal: FC = () => {
           <button
               type="submit"
               className="btn btn-outline-primary btn-block"
-              disabled={isLoading}
+              disabled={isLoadingAddNewEvent || isLoadingUpdateEvent}
           >
               <i className="far fa-save"></i>
               <span> Save</span>
