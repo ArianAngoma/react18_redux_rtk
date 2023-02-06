@@ -8,7 +8,8 @@ import {
   CalendarEventBox,
   CalendarModal, 
   Error,
-  FabAddNew
+  FabAddNew,
+  FabDelete
 } from '../components'
 import { getMessages, localizer } from '../helper'
 import { useUIStore, useCalendar } from '../../hooks'
@@ -92,6 +93,8 @@ const CalendarPage: FC = () => {
             <CalendarModal />
 
             <FabAddNew />
+
+            <FabDelete />
           </>
         )
       }
