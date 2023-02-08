@@ -12,7 +12,7 @@ import {
   FabDelete
 } from '../components'
 import { getMessages, localizer } from '../helper'
-import { useUIStore, useCalendar } from '../../hooks'
+import { useUIStore, useCalendarApiStore } from '../../hooks'
 import { useGetEventsQuery, Event } from '../../store'
 import { Spinner } from '../../ui'
 
@@ -27,7 +27,7 @@ const CalendarPage: FC = () => {
     error
   } = useGetEventsQuery()
 
-  const { events } = useCalendar()
+  const { events } = useCalendarApiStore()
 
   const [lastView, setLastView] = useState<View>((localStorage.getItem('lastView') || 'month') as View)
 

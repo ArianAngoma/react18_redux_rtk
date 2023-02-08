@@ -20,7 +20,7 @@ const {
   selectById
 } = eventsAdapter.getSelectors<RootState>(state => selectEventsData(state) ?? initialCalendarState)
 
-export const useCalendar = () => {
+export const useCalendarApiStore = () => {
 
   const events = useAppSelector(selectAllEvents).map(event => ({
     ...event,

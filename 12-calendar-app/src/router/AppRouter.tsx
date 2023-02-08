@@ -2,15 +2,27 @@ import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router-d
 
 import { LoginPage } from '../auth'
 import { CalendarPage } from '../calendar'
+import PublicRoute from './PublicRoute'
+import PrivateRoute from './PrivateRoute'
 
 export const routeObject: RouteObject[] = [
   {
-    path: 'auth',
-    element: <LoginPage />
+    element: <PublicRoute />,
+    children: [
+      {
+        path: 'auth',
+        element: <LoginPage />
+      }
+    ]
   },
   {
-    path: '*',
-    element: <CalendarPage />
+    element: <PrivateRoute />,
+    children: [
+      {
+        path: '*',
+        element: <CalendarPage />
+      }
+    ]
   }
 ]
 
