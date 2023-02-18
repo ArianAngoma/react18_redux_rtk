@@ -1,14 +1,18 @@
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 
 import { AppRouter } from './router'
 
-import { store } from './store'
+import { persistor, store } from './store'
+import { Spinner } from './ui'
 
 const CalendarApp = () => {
 
   return (
     <Provider store={store}>
-      <AppRouter />
+      <PersistGate loading={<Spinner/>} persistor={persistor}>
+        <AppRouter />
+      </PersistGate>
     </Provider>
   )
 

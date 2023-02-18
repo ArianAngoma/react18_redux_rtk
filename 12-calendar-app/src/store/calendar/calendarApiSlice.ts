@@ -3,7 +3,7 @@ import { EntityState, createEntityAdapter } from '@reduxjs/toolkit'
 import { apiSlice } from '../../api'
 
 export interface User {
-  id: string,
+  uid: string,
   name: string,
 }
 
@@ -14,10 +14,17 @@ export interface Event {
   start: Date | string,
   end: Date | string,
   bgColor: string,
-  user: User,
+  user: User
 }
 
-export const eventsAdapter = createEntityAdapter<Event>()
+interface EventResponse {
+  ok: boolean,
+  events: Event[]
+}
+
+export const eventsAdapter = createEntityAdapter<Event>({
+  selectId: event => event.id,
+})
 
 export const initialCalendarState: EntityState<Event> = eventsAdapter.getInitialState()
 
@@ -29,9 +36,9 @@ export const extendedCalendarSlice = apiSlice.injectEndpoints({
 
       query: () => '/events',
 
-      transformResponse: (response: Event[]) => {
-
-        return eventsAdapter.setAll(initialCalendarState, response)
+      transformResponse: (response: EventResponse) => {
+        
+        return eventsAdapter.setAll(initialCalendarState, response.events)
 
       },
 

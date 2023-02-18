@@ -4,23 +4,29 @@ import { LoginPage } from '../auth'
 import { CalendarPage } from '../calendar'
 import PublicRoute from './PublicRoute'
 import PrivateRoute from './PrivateRoute'
+import ValidateAuth from './ValidateAuth'
 
 export const routeObject: RouteObject[] = [
   {
-    element: <PublicRoute />,
+    element: <ValidateAuth />,
     children: [
       {
-        path: 'auth',
-        element: <LoginPage />
-      }
-    ]
-  },
-  {
-    element: <PrivateRoute />,
-    children: [
+        element: <PublicRoute />,
+        children: [
+          {
+            path: 'auth',
+            element: <LoginPage />
+          }
+        ]
+      },
       {
-        path: '*',
-        element: <CalendarPage />
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: '*',
+            element: <CalendarPage />
+          }
+        ]
       }
     ]
   }

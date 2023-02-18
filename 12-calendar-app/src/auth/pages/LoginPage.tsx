@@ -1,8 +1,11 @@
 import { FC, FormEvent } from 'react'
 
+import Swal from 'sweetalert2'
+
 import './LoginPage.css'
 
-import { useForm } from '../../hooks'
+import { useForm, useAuthStore } from '../../hooks'
+import { isCustomError, useLoginMutation, useRegisterMutation } from '../../store'
 
 interface LoginFields {
   loginEmail: string
@@ -44,16 +47,67 @@ const LoginPage: FC = () => {
     onInputChange: onRegisterInputChange
   } = useForm<RegisterFields>(registerFormFields)
 
-  const onLoginSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [ onLogin, { isLoading: isLoginLoading } ] = useLoginMutation()
+  const [ onRegister, { isLoading: isRegisterLoading } ] = useRegisterMutation()
+
+  const { onSetCredentials, onLogout } = useAuthStore()
+
+  const onLoginSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    console.log({ loginEmail, loginPassword })
+    try {
+
+      const response = await onLogin({
+        email: loginEmail,
+        password: loginPassword
+      }).unwrap()
+
+      onSetCredentials({
+        user: {
+          uid: response.uid,
+          name: response.name
+        },
+        token: response.token
+      })
+
+    } catch (err) {
+      onLogout()
+
+      if(isCustomError(err)) Swal.fire('Error', err.errorMessage, 'error')
+      else Swal.fire('Error', 'Ha ocurrido un error', 'error')
+     
+    }
+    
   }
 
-  const onRegisterSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onRegisterSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    console.log({ registerEmail, registerName, registerPassword, registerPassword2 })
+    if (registerPassword !== registerPassword2) return Swal.fire('Error', 'Las contraseñas deben ser iguales', 'error')
+
+    try {
+
+      const response = await onRegister({
+        name: registerName,
+        email: registerEmail,
+        password: registerPassword
+      }).unwrap()
+
+      onSetCredentials({
+        user: {
+          uid: response.uid,
+          name: response.name
+        },
+        token: response.token
+      })
+
+    } catch (err) {
+        onLogout()
+  
+        if(isCustomError(err)) Swal.fire('Error', err.errorMessage, 'error')
+        else Swal.fire('Error', 'Ha ocurrido un error', 'error')
+    }
+      
   }
 
   return (
@@ -87,6 +141,7 @@ const LoginPage: FC = () => {
                 type="submit"
                 className="btnSubmit"
                 value="Login"
+                disabled={isLoginLoading || isRegisterLoading}
               />
             </div>
           </form>
@@ -142,6 +197,7 @@ const LoginPage: FC = () => {
                 type="submit"
                 className="btnSubmit"
                 value="Crear cuenta"
+                disabled={isLoginLoading || isRegisterLoading}
               />
             </div>
           </form>

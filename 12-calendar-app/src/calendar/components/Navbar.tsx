@@ -1,6 +1,10 @@
 import { FC } from 'react'
 
+import { useAuthStore } from '../../hooks'
+
 const Navbar: FC = () => {
+
+  const { onLogout, user } = useAuthStore()
 
   return (
     <div className="navbar navbar-dark bg-dark mb-4 px-4">
@@ -8,11 +12,15 @@ const Navbar: FC = () => {
       <span className="navbar-brand">
         <i className="fas fa-calendar-alt"></i>
         &nbsp;
-        Arian
+        {user?.name}
       </span>
 
-      <button className="btn btn-outline-danger">
+      <button
+        className="btn btn-outline-danger"
+        onClick={onLogout}
+      >
         <i className="fas fa-sign-out-alt"></i>
+        &nbsp;
         <span>Logout</span>
       </button>
 

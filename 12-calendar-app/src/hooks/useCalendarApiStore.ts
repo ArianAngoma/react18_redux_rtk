@@ -27,12 +27,9 @@ export const useCalendarApiStore = () => {
     start: new Date(event.start),
     end: new Date(event.end)
   }))
-  
-  const selectEventById = (id: string) => useAppSelector(state => selectById(state, id))
 
   return {
-    events,
-    selectEventById,
+    events
   }
 
 }

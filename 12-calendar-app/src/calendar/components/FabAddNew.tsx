@@ -16,7 +16,7 @@ const FabAddNew: FC = () => {
       end: addHours(new Date(), 2).toString(),
       bgColor: '#fafafa',
       user: {
-        id: '',
+        uid: '',
         name: ''
       },
     })

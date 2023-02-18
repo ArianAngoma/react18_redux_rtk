@@ -118,7 +118,7 @@ const CalendarModal: FC = () => {
         end: formValues.end,
         bgColor: formValues.bgColor,
         user: {
-          id: '1',
+          uid: '1',
           name: 'Arian'
         }
       }).unwrap()
@@ -132,7 +132,7 @@ const CalendarModal: FC = () => {
         end: formValues.end,
         bgColor: formValues.bgColor,
         user: {
-          id: '1',
+          uid: '1',
           name: 'Arian'
         }
       }).unwrap()
