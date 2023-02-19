@@ -1,7 +1,6 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
+
 import { apiSlice } from '../../api'
-import { store } from '../store'
-import { onLogoutReducer, onSetCredentialsReducer } from './authSlice'
 
 interface AuthLoginParams {
   email: string,
@@ -129,12 +128,6 @@ export const extendedAuthApiSlice = apiSlice.injectEndpoints({
 
       transformResponse: (response: AuthRenewTokenSuccessResponse) => {
         const { ok, uid, name, token } = response
-
-        store.dispatch(onSetCredentialsReducer({
-          user: { uid, name },
-          token
-        }))
-
         return { ok, uid, name, token }
       },
 
@@ -145,8 +138,6 @@ export const extendedAuthApiSlice = apiSlice.injectEndpoints({
         let errorMessage = msg
 
         if (errors) errorMessage = Object.values(errors).map(error => error.msg).join(' ')
-
-        store.dispatch(onLogoutReducer())
         
         return {
           ok,

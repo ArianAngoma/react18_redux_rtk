@@ -1,4 +1,11 @@
-import { RootState, User, onLogoutReducer, onSetCredentialsReducer, store } from '../store'
+import {
+  RootState,
+  User,
+  onLogoutReducer,
+  onResetUIReducer,
+  onSetCredentialsReducer,
+  store
+} from '../store'
 import { useAppSelector } from './useAppSelector'
 
 interface OnSetCredentialsParams {
@@ -8,12 +15,16 @@ interface OnSetCredentialsParams {
 
 const getUser = (state: RootState) => state.auth.user
 
-const onSetCredentials = ({ user, token }: OnSetCredentialsParams) => store.dispatch(onSetCredentialsReducer({
+export const onSetCredentials = ({ user, token }: OnSetCredentialsParams) => store.dispatch(onSetCredentialsReducer({
   user,
   token
 }))
 
-const onLogout = () => store.dispatch(onLogoutReducer())
+export const onLogout = () => {
+  store.dispatch(onResetUIReducer())
+  store.dispatch(onLogoutReducer())
+  // store.dispatch(apiSlice.util.resetApiState())
+}
 
 export const useAuthStore = () => {
   

@@ -15,10 +15,6 @@ const FabAddNew: FC = () => {
       start: new Date().toString(),
       end: addHours(new Date(), 2).toString(),
       bgColor: '#fafafa',
-      user: {
-        uid: '',
-        name: ''
-      },
     })
     onOpenDateModal()
   }

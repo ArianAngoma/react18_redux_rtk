@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 import { Event } from '../calendar'
 
-export type EventToModal = Omit<Event, 'id'> & { id?: string }
+export type EventToModal = Omit<Event, 'id' | 'user'> & { id?: string }
 
 interface UIState {
   isDateModalOpen: boolean
@@ -29,7 +29,8 @@ export const uiSlice = createSlice({
     },
     onClearActiveEventReducer: state => {
       state.activeEvent = null
-    }
+    },
+    onResetUIReducer: () => initialState
   }
 })
 
@@ -37,5 +38,6 @@ export const {
   onOpenDateModalReducer,
   onCloseDateModalReducer,
   onSetActiveEventReducer,
-  onClearActiveEventReducer
+  onClearActiveEventReducer,
+  onResetUIReducer
 } = uiSlice.actions

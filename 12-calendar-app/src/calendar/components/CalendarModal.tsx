@@ -117,10 +117,6 @@ const CalendarModal: FC = () => {
         start: formValues.start,
         end: formValues.end,
         bgColor: formValues.bgColor,
-        user: {
-          uid: '1',
-          name: 'Arian'
-        }
       }).unwrap()
 
     } else {
@@ -131,10 +127,6 @@ const CalendarModal: FC = () => {
         start: formValues.start,
         end: formValues.end,
         bgColor: formValues.bgColor,
-        user: {
-          uid: '1',
-          name: 'Arian'
-        }
       }).unwrap()
 
     }
