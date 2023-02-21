@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import persistReducer from 'redux-persist/es/persistReducer'
+import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 import { User } from '../calendar'
@@ -32,8 +32,8 @@ export const authSlice = createSlice({
 })
 
 export const authSliceReducer = persistReducer({
-  key: 'auth',
-  version: 1,
+  key: 'user',
+  // version: 1,
   storage,
   // whitelist: ['token']
 }, authSlice.reducer)

@@ -28,7 +28,7 @@ const appReducer = combineReducers({
 
 const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
   if (action.type === authSlice.actions.onLogoutReducer.type) {
-    storage.removeItem('persist:auth')
+    storage.removeItem('persist:user')
 
     state = {} as RootState
   }
