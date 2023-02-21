@@ -67,8 +67,6 @@ const AppRouter = () => {
 
   }, [isError])
 
-  console.log({isLoading})
-
   if (isLoading) return <Spinner />
 
   return (
